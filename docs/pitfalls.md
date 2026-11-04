@@ -81,6 +81,8 @@ matching text from prose without URL tokens, keep visible link labels, and test 
 queries, fragments and named engines while preserving explicit targets and saved stacks.
 Include scheme-less domains and relative Markdown destinations, with titles and nested
 parentheses; keep known dotted stack names such as `Next.js` rather than treating them as hosts.
+Also preserve prose before attached URLs and trim sentence punctuation from bare hosts:
+`site:https://…` and `site.example.com!` need opposite classifications.
 
 **A test started a real download on a contributor's machine.** A test called `engines_install` for
 Unity; a later change made that download the vendor installer and open it on Windows. It also
