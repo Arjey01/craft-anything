@@ -56,6 +56,8 @@ are excluded regardless of scheme. Known dotted stack names such as `Next.js` re
 Original requests and explicit targets are preserved.
 Prose before an attached URL (such as `site:https://…`) remains available, and sentence
 punctuation after a bare domain does not turn its host into a project-kind phrase.
+The outer address is recognized before inspecting punctuation, so an absolute URL inside a
+bare or relative URL's query cannot expose its host/path as prose.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 

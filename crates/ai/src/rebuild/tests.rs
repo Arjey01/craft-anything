@@ -196,6 +196,15 @@ fn url_terms_do_not_choose_project_kind() {
         "site.example.com?",
         "“site.example.com!”",
         "{site.example.com}",
+        "example.com/site?next=https://example.org",
+        "example.com/jogo?next=https://example.org",
+        "site.example.com?redirect=http://example.org",
+        "/site?next=https://example.org",
+        "./site?next=https://example.org",
+        "../site?next=ftp://example.org",
+        "//example.com/site?next=https://example.org",
+        "https://example.com/site?next=https://example.org",
+        "[referência](/site?next=https://example.org)",
     ] {
         let app = format!("Crie um aplicativo de desktop que monitore {url}");
         assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
@@ -223,6 +232,8 @@ fn url_terms_do_not_choose_named_stacks() {
         "[referência](/no/Godot)",
         "[referência](/ref \"in Godot\")",
         "[referência](#in-Godot)",
+        "example.com/no/Godot?next=https://example.org",
+        "/no/Godot?next=https://example.org",
     ] {
         let request = format!("Crie um jogo inspirado em {url}");
         assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");
@@ -249,8 +260,10 @@ fn detection_prose_keeps_words_and_versions() {
 /// A URL attached after punctuation must not consume the preceding requested kind or engine.
 #[test]
 fn attached_urls_keep_preceding_prose() {
-    for address in ["https://example.com/game", "example.com/game", "www.example.com/game"] {
-        for separator in [":", "("] {
+    for address in
+        ["https://example.com/game", "example.com/game", "www.example.com/game", "example.com/game?next=https://example.org", "/game?next=https://example.org"]
+    {
+        for separator in [":", "(", "：", ";"] {
             let site = format!("Crie um site{separator}{address}");
             assert_eq!(choose(&site, &TargetRef::None).0, "website", "{site}");
             let game = format!("Crie um jogo{separator}{address}");

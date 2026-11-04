@@ -83,6 +83,8 @@ Include scheme-less domains and relative Markdown destinations, with titles and 
 parentheses; keep known dotted stack names such as `Next.js` rather than treating them as hosts.
 Also preserve prose before attached URLs and trim sentence punctuation from bare hosts:
 `site:https://…` and `site.example.com!` need opposite classifications.
+Recognize the outer address before any embedded scheme: a redirect URL inside a query must
+not expose the outer host/path as prose.
 
 **A test started a real download on a contributor's machine.** A test called `engines_install` for
 Unity; a later change made that download the vendor installer and open it on Windows. It also
