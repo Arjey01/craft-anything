@@ -117,11 +117,22 @@ fn url_token(token: &str) -> bool {
     if authority.parse::<std::net::IpAddr>().is_ok() {
         return true;
     }
-    let host = authority.rsplit('@').next().unwrap_or_default().split(':').next().unwrap_or_default();
+    let host_port = authority.rsplit('@').next().unwrap_or_default();
+    let host = if let Some((host, port)) = host_port.split_once(':') {
+        if port.is_empty() && catalog_stack_word(host) {
+            return false;
+        }
+        if !port.is_empty() && (!port.bytes().all(|c| c.is_ascii_digit()) || port.parse::<u16>().is_err()) {
+            return false;
+        }
+        host
+    } else {
+        host_port
+    };
     if host.parse::<std::net::IpAddr>().is_ok() || (host == "localhost" && address != host) {
         return true;
     }
-    if address == host && stacks::catalogue().iter().any(|stack| stack.name.split_whitespace().any(|word| word.eq_ignore_ascii_case(host))) {
+    if address == host && catalog_stack_word(host) {
         return false;
     }
     let Some((_, suffix)) = host.rsplit_once('.') else { return false };
@@ -130,6 +141,11 @@ fn url_token(token: &str) -> bool {
         && host
             .split('.')
             .all(|label| !label.is_empty() && !label.starts_with('-') && !label.ends_with('-') && label.chars().all(|c| c.is_alphanumeric() || c == '-'))
+}
+
+/// Dotted names in the existing stack catalog remain prose, including before `:/relative-link`.
+fn catalog_stack_word(word: &str) -> bool {
+    stacks::catalogue().iter().any(|stack| stack.name.split_whitespace().any(|name| name.eq_ignore_ascii_case(word)))
 }
 
 /// What the brief is written from.
