@@ -89,16 +89,12 @@ fn detection_prose(request: &str) -> String {
 
 /// Preserve prose before an attached URL, such as `site:https://…` or `jogo(example.com/…)`.
 fn token_prose(token: &str) -> &str {
-    if let Some(before) = token.find("://").and_then(|at| token.get(..at)) {
-        let scheme = before.rsplit(|c: char| !c.is_ascii_alphanumeric() && !matches!(c, '+' | '-' | '.')).next().unwrap_or_default();
-        return before.get(..before.len().saturating_sub(scheme.len())).unwrap_or_default();
-    }
     if url_token(token) {
         return "";
     }
     // Bound suffix comparisons on punctuation-heavy requests.
     const MAX_URL_PREFIXES: usize = 32;
-    for (at, c) in token.char_indices().filter(|(_, c)| matches!(c, ':' | '(' | '<' | '"' | '\'')).take(MAX_URL_PREFIXES) {
+    for (at, c) in token.char_indices().filter(|(_, c)| !c.is_alphanumeric() && !matches!(c, '-' | '_' | '.' | '+')).take(MAX_URL_PREFIXES) {
         let Some(suffix) = token.get(at..).and_then(|s| s.strip_prefix(c)) else { continue };
         if url_token(suffix) {
             return token.get(..at).unwrap_or_default();
@@ -111,7 +107,10 @@ fn token_prose(token: &str) -> &str {
 /// host/path/query/fragment as prose. Dotted numeric versions and ordinary words are not domains.
 fn url_token(token: &str) -> bool {
     let address = token.trim_matches(['(', ')', '<', '>', '"', '\'', '`', ',', ';', '.', '!', '…', '“', '”', '‘', '’', '{', '}']);
-    if address.contains("://") || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
+    let absolute = address.split_once("://").is_some_and(|(scheme, _)| {
+        scheme.starts_with(|c: char| c.is_ascii_alphabetic()) && scheme.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '+' | '-' | '.'))
+    });
+    if absolute || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
         return true;
     }
     let authority = address.split(['/', '?', '#']).next().unwrap_or_default();
