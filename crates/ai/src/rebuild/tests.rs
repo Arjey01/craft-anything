@@ -84,6 +84,25 @@ fn chinese_requests_keep_their_project_kind() {
 }
 
 #[test]
+fn brazilian_portuguese_requests_keep_their_project_kind() {
+    for request in ["Um jogo simples da cobrinha", "Recrie a jogabilidade deste jogo", "Um mini-jogo em Rust"] {
+        assert_eq!(choose(request, &TargetRef::None).0, "game", "{request}");
+    }
+    for request in ["Um site para minha padaria", "Uma página web para meu projeto", "Uma página da web com um formulário"] {
+        assert_eq!(choose(request, &TargetRef::None), ("website", stacks::BUILDERS_CHOICE), "{request}");
+    }
+    assert_eq!(choose("Um aplicativo de notas", &TargetRef::None).0, "app");
+    for (request, stack) in [
+        ("Um jogo da cobrinha em Rust", "Rust + macroquad"),
+        ("Um jogo com Godot", "Godot"),
+        ("Um jogo usando Unity", "Unity"),
+        ("Recrie este jogo em Unreal Engine 5", "Unreal Engine"),
+    ] {
+        assert_eq!(choose(request, &TargetRef::None), ("game", stack), "{request}");
+    }
+}
+
+#[test]
 fn site_dir_prefers_build_output() {
     let d = tempfile::tempdir().unwrap();
     assert!(site_dir(d.path()).is_none());

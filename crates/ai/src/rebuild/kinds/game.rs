@@ -33,7 +33,22 @@ impl TargetKind for GameKind {
         // say ("Clone <its title> 1:1" never says "game").
         if game::Builder::from_stack(cx.stack).is_some() {
             Some(200)
-        } else if cx.says(&["game", "gameplay", "steam", "level", "player", "游戏", "遊戲", "玩法", " spiel", "-spiel"]) {
+        } else if cx.says(&[
+            "game",
+            "gameplay",
+            "steam",
+            "level",
+            "player",
+            "游戏",
+            "遊戲",
+            "玩法",
+            " spiel",
+            "-spiel",
+            " jogo",
+            "-jogo",
+            "jogabilidade",
+            "cobrinha",
+        ]) {
             Some(60)
         } else {
             None
@@ -58,7 +73,7 @@ impl TargetKind for GameKind {
             .find(|b| {
                 let n = b.name().to_lowercase();
                 let short = n.split(' ').next().unwrap_or(&n).to_string();
-                [&n, &short].iter().any(|w| ["in", "with", "using"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
+                [&n, &short].iter().any(|w| ["in", "with", "using", "em", "com", "usando"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
             })
             .map(game::Builder::stack)
     }

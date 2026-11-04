@@ -1,7 +1,7 @@
 # UI localisation
 
 The desktop app offers **Čeština** (`cs`), **Deutsch** (`de`), **한국어** (`ko`), **Русский** (`ru`), **简体中文** (`zh-hans`)
-and **繁體中文** (`zh-hant`), alongside English, French and Japanese, in **Settings → General → Language**. The choice is saved in the
+and **繁體中文** (`zh-hant`), alongside English, French, Japanese and **Português (Brasil)** (`pt-br`), in **Settings → General → Language**. The choice is saved in the
 existing `language` setting. **System** uses the operating system's preferred
 supported language; if none matches, it uses English. An explicit choice takes
 precedence over the system language.
@@ -21,9 +21,30 @@ Product and technology names, tool ids and shortcuts keep their spelling. The ki
 a request ("a game", "a website") also knows the German words *Spiel*, *Webseite* and *Internetseite*,
 so a translated suggestion keeps its project kind.
 
+## Brazilian Portuguese
+
+**Português (Brasil)** (`pt-br`) uses plain Brazilian Portuguese. `pt`, `pt-BR`, POSIX tags such as
+`pt_BR.UTF-8` and other Portuguese regions select this catalog until another Portuguese locale is
+available. The system-language choice follows the same resolution.
+
+`crates/ui-egui/src/i18n/pt-br.tsv` has the same keys as the maintained reference catalogs.
+It is an AI-assisted draft written from the English meaning; complete line-by-line native-speaker
+review is still pending. Automated UI checks cover startup, switching between English and
+Portuguese, saved selection, translated-title search, number formatting and translated suggestions.
+Interactive native-window checks across platforms remain pending.
+
+Terms include *Sala limpa* (Clean room), *Profundo* (Deep), *evidências* (evidence), *criações*
+(builds) and *agente de programação* (coding agent). Product names, tool identifiers and
+placeholders keep their spelling. USD usage estimates use a decimal comma without changing stored
+numeric values. Requests containing *jogo*, *jogabilidade* or *página web*, including the translated
+home suggestions, keep their intended project kind. Game requests also accept *em*, *com* and
+*usando* before an engine name, including the Rust example in [`README.pt.md`](../README.pt.md).
+That README translates the English documentation and preserves executable names, flags, API/tool
+identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
+
 ## Scope and format
 
-`crates/ui-egui/src/i18n/cs.tsv`, `de.tsv`, `ko.tsv`, `ru.tsv`, `zh-hans.tsv` and `zh-hant.tsv` contain original
+`crates/ui-egui/src/i18n/cs.tsv`, `de.tsv`, `ko.tsv`, `pt-br.tsv`, `ru.tsv`, `zh-hans.tsv` and `zh-hant.tsv` contain original
 translations under the repository's MIT OR Apache-2.0 licence. Each UTF-8 line
 has two columns: `English source<TAB>translation`. Comments begin with `#`;
 `\n` represents a newline. The language registry in `i18n.rs` embeds the catalogs.
@@ -39,7 +60,7 @@ descriptions, logs and exported reports retain their original text. The CLI,
 MCP, tool IDs, stored project data and the separate browser viewer are unchanged.
 
 Keep placeholders such as `{name}` and `{n}` intact, along with command IDs,
-shortcuts, escapes and trailing `…`. Update every catalog (`cs`, `de`, `ko`, `ru`, `zh-hans`, `zh-hant`)
+shortcuts, escapes and trailing `…`. Update every catalog (`cs`, `de`, `ko`, `pt-br`, `ru`, `zh-hans`, `zh-hant`)
 when English source keys change; the tests require matching key sets. Common terms include 净室 / 淨室 (Clean room), 深度 (Deep),
 构建 / 建置 (Build), 证据 / 證據 (Evidence), and 项目 / 專案 (Project).
 The Korean catalog `ko.tsv` uses 클린룸 (Clean room), 심층 (Deep), 분석 / 만들기 / 검사 / 완성

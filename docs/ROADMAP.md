@@ -658,9 +658,10 @@ Owner: maintainers · Status: in progress
 ### R2.9 Everyday use: typing, projects, settings
 Owner: maintainers · Status: in progress
 Gaps found while using the app for real projects.
-- [ ] Port and validate a Brazilian Portuguese (`pt-br`) interface catalog against the current
-      locale keys, with locale selection and translated request-routing checks — claimed:
+- [x] Port and validate a Brazilian Portuguese (`pt-br`) interface catalog against the current
+      locale keys, with locale selection, translated request-routing checks and `README.pt.md` — claimed:
       Arjey01, branch feature/r2.9-pt-br-translation
+- [ ] Review the Brazilian Portuguese catalog and `README.pt.md` line by line with a native speaker.
 - [x] Agent paragraphs with glossary terms and long file links wrap together without pushing
       their card or later messages under the sidebar (#523); Project and Ask bounds checked at two sizes
       — claimed: carl-dourado, branch hotfix/r2.9-523-message-width

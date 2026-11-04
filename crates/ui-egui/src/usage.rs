@@ -42,7 +42,9 @@ impl ProjectClock {
 
 /// "about $3.20".
 pub fn cost_words(usd: f64) -> String {
-    trf("about ${n}", &[("n", &format!("{usd:.2}"))])
+    let amount = format!("{usd:.2}");
+    let amount = if crate::i18n::language() == "pt-br" { amount.replace('.', ",") } else { amount };
+    trf("about ${n}", &[("n", &amount)])
 }
 
 /// Below this, a difference between two amounts is rounding, not money.
