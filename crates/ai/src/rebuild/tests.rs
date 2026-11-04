@@ -126,12 +126,32 @@ fn portuguese_game_topics_do_not_override_website_requests() {
         "Uma página web com dicas de jogabilidade",
         "Uma página da web sobre o jogo da cobrinha",
         "Um site sobre jogos, com React",
+        "Crie um site sobre o jogo de plataforma que roda em uma página web",
+        "Crie uma página web sobre mini-jogos",
+        "Crie um site: jogos de tabuleiro",
     ] {
         assert_eq!(choose(request, &TargetRef::None).0, "website", "{request}");
         assert_eq!(kind_of(request, &TargetRef::None, "Godot"), "game", "saved stack: {request}");
     }
     assert_eq!(choose("Um site sobre jogos de tabuleiro", &TargetRef::None).1, stacks::BUILDERS_CHOICE);
     assert_eq!(choose("Um jogo de tabuleiro", &TargetRef::None), ("game", "Unity"));
+}
+
+/// Mentioning where a game will run does not turn the requested game into a website.
+#[test]
+fn portuguese_games_for_web_pages_keep_their_project_kind() {
+    for request in [
+        "Faça um jogo de plataforma para rodar em uma página web",
+        "Crie um jogo da cobrinha para meu site",
+        "Faça um mini-jogo para uma página da web",
+        "FAÇA UM JOGO: ELE DEVE RODAR EM UMA PÁGINA WEB!",
+    ] {
+        assert_eq!(choose(request, &TargetRef::None), ("game", "Unity"), "{request}");
+    }
+    assert_eq!(choose("Faça um jogo no Godot para uma página web", &TargetRef::None), ("game", "Godot"));
+    let web = TargetRef::Website { url: "https://example.com".into() };
+    assert_eq!(choose("Um jogo para uma página web", &web).0, "website", "an existing website target still wins");
+    assert_eq!(kind_of("Um jogo para uma página web", &TargetRef::None, "React + TypeScript (Vite)"), "website", "a saved website stack still wins");
 }
 
 #[test]

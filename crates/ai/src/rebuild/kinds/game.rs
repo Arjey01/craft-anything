@@ -12,6 +12,16 @@ pub struct GameKind;
 
 impl GameKind {
     pub const ID: &'static str = "game";
+
+    /// Use the first project-kind phrase to distinguish a Portuguese game for a web page
+    /// from a website about games. An existing website target or stack still takes precedence.
+    fn portuguese_request(cx: &DetectCx) -> bool {
+        let Some(at) = [" jogo ", " jogos ", " jogabilidade ", " cobrinha "].iter().filter_map(|word| cx.words.find(word)).min() else {
+            return false;
+        };
+        let Some(before) = cx.words.get(..at) else { return false };
+        WebsiteKind.detect(&DetectCx::new(before, cx.target, cx.stack)).is_none()
+    }
 }
 
 impl TargetKind for GameKind {
@@ -28,16 +38,14 @@ impl TargetKind for GameKind {
         }
     }
 
-    /// Score game requests while keeping Portuguese game topics subordinate to a website request.
+    /// Score game requests while distinguishing Portuguese game topics from the requested kind.
     /// A saved game-engine stack remains authoritative, regardless of the request's wording.
     fn detect(&self, cx: &DetectCx) -> Option<u32> {
         // Built with a game engine (the person picked a game on Make): a game whatever its words
         // say ("Clone <its title> 1:1" never says "game").
         if game::Builder::from_stack(cx.stack).is_some() {
             Some(200)
-        } else if cx.says(&["game", "gameplay", "steam", "level", "player", "游戏", "遊戲", "玩法", " spiel", "-spiel"])
-            || (cx.says(&[" jogo", "-jogo", "jogabilidade", "cobrinha"]) && WebsiteKind.detect(cx).is_none())
-        {
+        } else if cx.says(&["game", "gameplay", "steam", "level", "player", "游戏", "遊戲", "玩法", " spiel", "-spiel"]) || Self::portuguese_request(cx) {
             Some(60)
         } else {
             None

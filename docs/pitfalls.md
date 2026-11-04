@@ -71,6 +71,10 @@ names (`git merge-base --is-ancestor <fix> <release tag>`), and check the messag
 
 ## Tests
 
+**A Portuguese website-topic guard also suppressed games intended for web pages.** Checking for
+any website mention lost the requested kind. Compare the first project-kind phrase, preserve
+existing targets and stacks, and test both a site about games and a game for a web page.
+
 **A test started a real download on a contributor's machine.** A test called `engines_install` for
 Unity; a later change made that download the vendor installer and open it on Windows. It also
 created folders in the real config directory (`Session::default()` uses it).

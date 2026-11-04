@@ -45,7 +45,9 @@ numeric values. Requests containing *jogo*, *jogabilidade* or *página web*, inc
 home suggestions, keep their intended project kind. Game requests also accept *em*, *com*,
 *usando*, *no* and *na* before an engine name, including the Rust example in
 [`README.pt.md`](../README.pt.md). A Portuguese game-related topic, such as *um site sobre jogos*,
-does not change an explicitly requested website into a game; a saved game-engine stack still wins.
+does not change an explicitly requested website into a game. When both kinds appear, their
+first whole-word phrase distinguishes a site about games from a game intended for a web page.
+Existing website targets and saved stacks retain their precedence.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 
