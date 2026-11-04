@@ -154,6 +154,53 @@ fn portuguese_games_for_web_pages_keep_their_project_kind() {
     assert_eq!(kind_of("Um jogo para uma página web", &TargetRef::None, "React + TypeScript (Vite)"), "website", "a saved website stack still wins");
 }
 
+/// URL hosts, paths, queries and fragments describe references, not the requested project kind.
+#[test]
+fn url_terms_do_not_choose_project_kind() {
+    for url in [
+        "https://example.com/site",
+        "https://site.example.com/",
+        "https://example.com/?kind=site",
+        "https://example.com/#site",
+        "HTTPS://EXAMPLE.COM/SITE",
+        "(https://example.com/site)",
+        "<https://example.com/site>",
+        "[referência](https://example.com/site)",
+        "www.example.com/site",
+        "(WWW.EXAMPLE.COM/site)",
+        "https://example.com/jogo",
+        "https://example.com/game",
+        "https://example.com/website",
+        "https://example.com/游戏",
+    ] {
+        let app = format!("Crie um aplicativo de desktop que monitore {url}");
+        assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
+        let site = format!("Crie um site: use {url} como referência");
+        assert_eq!(choose(&site, &TargetRef::None), ("website", stacks::BUILDERS_CHOICE), "{site}");
+        let game = format!("Crie um jogo para uma página web, usando {url} como referência");
+        assert_eq!(choose(&game, &TargetRef::None), ("game", "Unity"), "{game}");
+        let topic = format!("Consulte {url} e crie um site sobre jogos de tabuleiro");
+        assert_eq!(choose(&topic, &TargetRef::None).0, "website", "{topic}");
+        assert_eq!(kind_of(&app, &TargetRef::None, "Godot"), "game", "saved stack: {app}");
+        let web = TargetRef::Website { url: url.into() };
+        assert_eq!(choose(&app, &web).0, "website", "explicit target: {app}");
+    }
+}
+
+/// Engine words inside links cannot override prose; visible Markdown labels remain prose.
+#[test]
+fn url_terms_do_not_choose_named_stacks() {
+    for url in ["https://example.com/no/Godot", "https://example.com/in/Rust", "https://example.com/?using=Godot", "www.example.com/no/Godot"] {
+        let request = format!("Crie um jogo inspirado em {url}");
+        assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");
+        assert_eq!(KindRegistry::built_in().named(&request, &TargetRef::None), None, "{request}");
+    }
+    assert_eq!(choose("Crie um jogo no Godot, consulte https://example.com/in/Rust", &TargetRef::None), ("game", "Godot"));
+    assert_eq!(choose("Crie um [site](https://example.com/game) sobre jogos", &TargetRef::None).0, "website");
+    assert_eq!(choose("Crie um jogo no [Godot](https://example.com/site)", &TargetRef::None), ("game", "Godot"));
+    assert_eq!(choose("Crie uma [página web](https://example.com/game)", &TargetRef::None).0, "website");
+}
+
 #[test]
 fn site_dir_prefers_build_output() {
     let d = tempfile::tempdir().unwrap();

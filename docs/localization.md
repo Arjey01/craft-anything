@@ -48,6 +48,9 @@ home suggestions, keep their intended project kind. Game requests also accept *e
 does not change an explicitly requested website into a game. When both kinds appear, their
 first whole-word phrase distinguishes a site about games from a game intended for a web page.
 Existing website targets and saved stacks retain their precedence.
+Kind and named-stack detection ignores URL tokens (schemes such as `https://` and `www.`),
+so a path such as `/site`, `/game` or `/no/Godot` is not read as a project request.
+Visible Markdown link labels still count as prose; original requests and explicit targets are preserved.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 

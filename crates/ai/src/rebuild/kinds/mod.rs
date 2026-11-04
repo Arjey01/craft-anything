@@ -26,9 +26,9 @@ use super::*;
 
 /// What a kind is recognised from: the person's words, the target and the stack (when chosen).
 pub struct DetectCx<'a> {
-    /// Lower-case request padded with spaces (`" clone this website "`), for phrase matching.
+    /// Lower-case request prose padded with spaces, excluding URL tokens, for phrase matching.
     pub request: String,
-    /// The request as whole lower-case words padded with spaces, punctuation removed.
+    /// The same prose as whole lower-case words padded with spaces, punctuation removed.
     pub words: String,
     pub target: &'a TargetRef,
     /// The project's stack, or empty before one is chosen.
@@ -38,9 +38,22 @@ pub struct DetectCx<'a> {
 }
 
 impl<'a> DetectCx<'a> {
+    /// Derive matching text from prose, excluding whitespace-delimited URLs (including `www.`).
+    /// URL hosts, paths, queries and fragments must not select a project kind or named stack.
+    /// This only changes detection text; the original request and explicit target stay intact.
     pub fn new(request: &str, target: &'a TargetRef, stack: &'a str) -> DetectCx<'a> {
-        let words = stacks::words(request);
-        let request = format!(" {} ", request.to_lowercase());
+        let lower = request.to_lowercase();
+        let prose = lower
+            .split_whitespace()
+            .map(|token| {
+                let (label, address) = token.split_once("](").unwrap_or(("", token));
+                if address.contains("://") || address.trim_start_matches(|c: char| !c.is_alphanumeric()).starts_with("www.") { label } else { token }
+            })
+            .collect::<Vec<_>>()
+            .join(" ")
+            .replace(['[', ']'], "");
+        let words = stacks::words(&prose);
+        let request = format!(" {prose} ");
         DetectCx { request, words, target, stack, deep: false }
     }
 
