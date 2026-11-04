@@ -28,7 +28,7 @@ so a translated suggestion keeps its project kind.
 available. The system-language choice follows the same resolution.
 
 `crates/ui-egui/src/i18n/pt-br.tsv` has the same keys as the maintained reference catalogs.
-It is an AI-assisted draft written from the English meaning; complete line-by-line native-speaker
+It translates the English source meaning; complete line-by-line linguistic
 review is still pending. Automated UI checks cover startup, switching between English and
 Portuguese, saved selection, translated-title search, number formatting and translated suggestions.
 Interactive native-window checks across platforms remain pending.
