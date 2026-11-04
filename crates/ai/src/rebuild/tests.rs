@@ -172,6 +172,26 @@ fn url_terms_do_not_choose_project_kind() {
         "https://example.com/game",
         "https://example.com/website",
         "https://example.com/游戏",
+        "example.com/site",
+        "site.example.com",
+        "example.com?kind=site",
+        "example.com#site",
+        "example.com:8080/site",
+        "(example.com/site).",
+        "//example.com/site",
+        "/site",
+        "./site",
+        "../site",
+        "#site",
+        "[referência](/site)",
+        "[referência](../site)",
+        "[referência](#site)",
+        "[referência](example.com/site)",
+        "[referência](/site \"game\")",
+        "[referência](/site_(game))",
+        "127.0.0.1/site",
+        "localhost:8080/site",
+        "user@site.example.com",
     ] {
         let app = format!("Crie um aplicativo de desktop que monitore {url}");
         assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
@@ -190,7 +210,16 @@ fn url_terms_do_not_choose_project_kind() {
 /// Engine words inside links cannot override prose; visible Markdown labels remain prose.
 #[test]
 fn url_terms_do_not_choose_named_stacks() {
-    for url in ["https://example.com/no/Godot", "https://example.com/in/Rust", "https://example.com/?using=Godot", "www.example.com/no/Godot"] {
+    for url in [
+        "https://example.com/no/Godot",
+        "https://example.com/in/Rust",
+        "https://example.com/?using=Godot",
+        "www.example.com/no/Godot",
+        "example.com/no/Godot",
+        "[referência](/no/Godot)",
+        "[referência](/ref \"in Godot\")",
+        "[referência](#in-Godot)",
+    ] {
         let request = format!("Crie um jogo inspirado em {url}");
         assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");
         assert_eq!(KindRegistry::built_in().named(&request, &TargetRef::None), None, "{request}");
@@ -199,6 +228,18 @@ fn url_terms_do_not_choose_named_stacks() {
     assert_eq!(choose("Crie um [site](https://example.com/game) sobre jogos", &TargetRef::None).0, "website");
     assert_eq!(choose("Crie um jogo no [Godot](https://example.com/site)", &TargetRef::None), ("game", "Godot"));
     assert_eq!(choose("Crie uma [página web](https://example.com/game)", &TargetRef::None).0, "website");
+    assert_eq!(choose("Crie um [site](/game) sobre jogos", &TargetRef::None).0, "website");
+    assert_eq!(choose("Crie um jogo no [Godot](../site)", &TargetRef::None), ("game", "Godot"));
+}
+
+/// Address detection keeps ordinary technical prose and version numbers available for matching.
+#[test]
+fn detection_prose_keeps_words_and_versions() {
+    for word in ["site", "jogo", "Godot", "1.0", "0.4.0", "v0.4.0", "Next.js"] {
+        let cx = DetectCx::new(word, &TargetRef::None, "");
+        assert!(cx.request.contains(&word.to_lowercase()), "{word}");
+    }
+    assert_eq!(choose("Crie um site com Next.js", &TargetRef::None), ("website", "Next.js + TypeScript"));
 }
 
 #[test]

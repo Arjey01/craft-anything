@@ -38,20 +38,11 @@ pub struct DetectCx<'a> {
 }
 
 impl<'a> DetectCx<'a> {
-    /// Derive matching text from prose, excluding whitespace-delimited URLs (including `www.`).
+    /// Derive matching text from prose, excluding link destinations and standalone URL tokens.
     /// URL hosts, paths, queries and fragments must not select a project kind or named stack.
     /// This only changes detection text; the original request and explicit target stay intact.
     pub fn new(request: &str, target: &'a TargetRef, stack: &'a str) -> DetectCx<'a> {
-        let lower = request.to_lowercase();
-        let prose = lower
-            .split_whitespace()
-            .map(|token| {
-                let (label, address) = token.split_once("](").unwrap_or(("", token));
-                if address.contains("://") || address.trim_start_matches(|c: char| !c.is_alphanumeric()).starts_with("www.") { label } else { token }
-            })
-            .collect::<Vec<_>>()
-            .join(" ")
-            .replace(['[', ']'], "");
+        let prose = detection_prose(request);
         let words = stacks::words(&prose);
         let request = format!(" {prose} ");
         DetectCx { request, words, target, stack, deep: false }
@@ -61,6 +52,65 @@ impl<'a> DetectCx<'a> {
     pub fn says(&self, phrases: &[&str]) -> bool {
         phrases.iter().any(|p| self.request.contains(p))
     }
+}
+
+/// Keep inline Markdown labels while skipping complete destinations, including relative links,
+/// titles with spaces and balanced parentheses. Each iteration consumes request characters.
+fn detection_prose(request: &str) -> String {
+    let mut text = String::with_capacity(request.len());
+    let mut chars = request.chars().peekable();
+    let (mut brackets, mut destination) = (0usize, 0usize);
+    while let Some(c) = chars.next() {
+        if destination > 0 {
+            match c {
+                '\\' => {
+                    chars.next();
+                }
+                '(' => destination = destination.saturating_add(1),
+                ')' => destination -= 1,
+                _ => {}
+            }
+        } else if c == '[' {
+            brackets = brackets.saturating_add(1);
+        } else if c == ']' && brackets > 0 {
+            brackets -= 1;
+            if chars.peek() == Some(&'(') {
+                chars.next();
+                destination = 1;
+                text.push(' ');
+            }
+        } else {
+            text.push(c);
+        }
+    }
+    let lower = text.to_lowercase();
+    lower.split_whitespace().filter(|token| !url_token(token)).collect::<Vec<_>>().join(" ")
+}
+
+/// Recognize schemes, relative references and bare-domain addresses without interpreting their
+/// host/path/query/fragment as prose. Dotted numeric versions and ordinary words are not domains.
+fn url_token(token: &str) -> bool {
+    let address = token.trim_matches(|c: char| matches!(c, '(' | ')' | '<' | '>' | '"' | '\'' | '`' | ',' | ';' | '.'));
+    if address.contains("://") || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
+        return true;
+    }
+    let authority = address.split(['/', '?', '#']).next().unwrap_or_default();
+    if authority.parse::<std::net::IpAddr>().is_ok() {
+        return true;
+    }
+    let host = authority.rsplit('@').next().unwrap_or_default().split(':').next().unwrap_or_default();
+    if host.parse::<std::net::IpAddr>().is_ok() || (host == "localhost" && address != host) {
+        return true;
+    }
+    if address == host && stacks::catalogue().iter().any(|stack| stack.name.split_whitespace().any(|word| word.eq_ignore_ascii_case(host))) {
+        return false;
+    }
+    let Some((_, suffix)) = host.rsplit_once('.') else { return false };
+    suffix.len() >= 2
+        && suffix.chars().all(char::is_alphabetic)
+        && host
+            .split('.')
+            .all(|label| !label.is_empty() && !label.starts_with('-') && !label.ends_with('-') && label.chars().all(|c| c.is_alphanumeric() || c == '-'))
 }
 
 /// What the brief is written from.
