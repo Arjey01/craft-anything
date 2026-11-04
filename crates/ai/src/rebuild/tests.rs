@@ -192,6 +192,10 @@ fn url_terms_do_not_choose_project_kind() {
         "127.0.0.1/site",
         "localhost:8080/site",
         "user@site.example.com",
+        "site.example.com!",
+        "site.example.com?",
+        "“site.example.com!”",
+        "{site.example.com}",
     ] {
         let app = format!("Crie um aplicativo de desktop que monitore {url}");
         assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
@@ -240,6 +244,21 @@ fn detection_prose_keeps_words_and_versions() {
         assert!(cx.request.contains(&word.to_lowercase()), "{word}");
     }
     assert_eq!(choose("Crie um site com Next.js", &TargetRef::None), ("website", "Next.js + TypeScript"));
+}
+
+/// A URL attached after punctuation must not consume the preceding requested kind or engine.
+#[test]
+fn attached_urls_keep_preceding_prose() {
+    for address in ["https://example.com/game", "example.com/game", "www.example.com/game"] {
+        for separator in [":", "("] {
+            let site = format!("Crie um site{separator}{address}");
+            assert_eq!(choose(&site, &TargetRef::None).0, "website", "{site}");
+            let game = format!("Crie um jogo{separator}{address}");
+            assert_eq!(choose(&game, &TargetRef::None), ("game", "Unity"), "{game}");
+            let engine = format!("Crie um jogo no Godot{separator}{address}");
+            assert_eq!(choose(&engine, &TargetRef::None), ("game", "Godot"), "{engine}");
+        }
+    }
 }
 
 #[test]
