@@ -142,8 +142,9 @@ fn brazilian_portuguese_roundtrip(dir: &Path) {
     h.run_steps(3);
     h.get_by_label("Idioma");
     h.get_by_value("Português (Brasil)");
-    assert_eq!(i18n::trf("Opened {name}", &[("name", "sample.exe")]), "sample.exe aberto");
+    assert_eq!(i18n::trf("Opened {name}", &[("name", "sample.exe")]), "Aberto: sample.exe");
     assert_eq!(craft_anything_ui_egui::usage::cost_words(3.21), "cerca de US$ 3,21");
+    assert_eq!(craft_anything_ui_egui::usage::usd_amount(5.0), "US$ 5,00");
     assert_eq!(craft_anything_ui_egui::usage::asset_cost_words(0.0031), "menos de US$ 0,01");
     let kinds = craft_anything_ai::rebuild::KindRegistry::built_in();
     for (source, expected) in [("A website for my bakery", "website"), ("A simple snake game", "game")] {

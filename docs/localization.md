@@ -28,13 +28,18 @@ so a translated suggestion keeps its project kind.
 available. The system-language choice follows the same resolution.
 
 `crates/ui-egui/src/i18n/pt-br.tsv` has the same keys as the maintained reference catalogs.
-It translates the English source meaning; complete line-by-line linguistic
-review is still pending. Automated UI checks cover startup, switching between English and
+It translates the English source meaning. An editorial pass covered every catalog entry and
+`README.pt.md`, checking meaning, Brazilian usage, grammar, labels and consistent terminology.
+Independent community review remains welcome. Automated UI checks cover startup, switching between English and
 Portuguese, saved selection, translated-title search, number formatting and translated suggestions.
 Interactive native-window checks across platforms remain pending.
 
-Terms include *Sala limpa* (Clean room), *Profundo* (Deep), *evidências* (evidence), *criações*
-(builds) and *agente de programação* (coding agent). Product names, tool identifiers and
+Terms include *Sala limpa* (Clean room), *Profundo* (Deep), *evidências* (evidence), *agente*
+(the builder), *versão fixada* (pinned build) and *cópia independente* (frozen copy). *Criar* names
+the action, while *versão* names its saved result. Technical terms without a clearer everyday
+equivalent, such as *engine*, *stack*, *backend*, *strings*, *disassembly*, *source map* and *dump*,
+keep their established English spelling. Counts use labels such as `Itens: {n}` to avoid
+parenthesized plural suffixes and ambiguous gender when runtime values are inserted. Product names, tool identifiers and
 placeholders keep their spelling. USD usage estimates use a decimal comma without changing stored
 numeric values. Requests containing *jogo*, *jogabilidade* or *página web*, including the translated
 home suggestions, keep their intended project kind. Game requests also accept *em*, *com* and

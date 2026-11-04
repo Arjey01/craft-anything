@@ -661,7 +661,9 @@ Gaps found while using the app for real projects.
 - [x] Port and validate a Brazilian Portuguese (`pt-br`) interface catalog against the current
       locale keys, with locale selection, translated request-routing checks and `README.pt.md` — claimed:
       Arjey01, branch feature/r2.9-pt-br-translation
-- [ ] Review the Brazilian Portuguese catalog and `README.pt.md` line by line with a native speaker.
+- [x] Review every Brazilian Portuguese catalog entry and `README.pt.md` for meaning, grammar,
+      consistent terminology and natural interface wording.
+- [ ] Obtain an independent native-speaker review of the Brazilian Portuguese wording.
 - [x] Agent paragraphs with glossary terms and long file links wrap together without pushing
       their card or later messages under the sidebar (#523); Project and Ask bounds checked at two sizes
       — claimed: carl-dourado, branch hotfix/r2.9-523-message-width

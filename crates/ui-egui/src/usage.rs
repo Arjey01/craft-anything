@@ -42,9 +42,17 @@ impl ProjectClock {
 
 /// "about $3.20".
 pub fn cost_words(usd: f64) -> String {
+    trf("about ${n}", &[("n", &decimal_amount(usd))])
+}
+
+fn decimal_amount(usd: f64) -> String {
     let amount = format!("{usd:.2}");
-    let amount = if crate::i18n::language() == "pt-br" { amount.replace('.', ",") } else { amount };
-    trf("about ${n}", &[("n", &amount)])
+    if crate::i18n::language() == "pt-br" { amount.replace('.', ",") } else { amount }
+}
+
+/// A stated USD amount, without the wording used for an estimate.
+pub fn usd_amount(usd: f64) -> String {
+    if crate::i18n::language() == "pt-br" { format!("US$ {}", decimal_amount(usd)) } else { format!("${usd:.2}") }
 }
 
 /// Below this, a difference between two amounts is rounding, not money.

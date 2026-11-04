@@ -82,7 +82,7 @@
     </td>
     <td width="25%" valign="top">
       <h3>✅ Resultados verificados</h3>
-      Cada versão gerada é comparada com o original e refinada até ficar semelhante: páginas em três larguras de tela, o autoteste do próprio jogo e execuções do aplicativo.
+      Cada versão gerada é comparada com o original e refinada até ficar semelhante. A verificação inclui páginas em três larguras de tela, o autoteste do próprio jogo e execuções do aplicativo.
     </td>
     <td width="25%" valign="top">
       <h3>🤖 Pronto para agentes</h3>
@@ -97,7 +97,7 @@
 
 ## Como funciona
 
-Indique um alvo no Craft Anything, descreva o que você quer e clique em **Iniciar**.
+Indique o que deseja analisar no Craft Anything, descreva o resultado que você quer e clique em **Iniciar**.
 O trabalho segue quatro etapas. Quando uma decisão depende de você, o aplicativo faz a pergunta em linguagem simples:
 
 1. **Estudar:** analisar o original — as páginas em diferentes larguras, o código, os arquivos e o comportamento durante a execução.
@@ -122,7 +122,7 @@ O trabalho segue quatro etapas. Quando uma decisão depende de você, o aplicati
 
 ## Dois modos de uso
 
-- **Simples** (padrão): a tela pergunta "O que você deseja criar?". Escolha um site, aplicativo ou jogo, descreva o que deseja e clique em **Iniciar**. A página do projeto mostra as quatro etapas (Estudar → Criar → Verificar → Pronto), explica o que o agente está fazendo, exibe cartões de perguntas e autorizações, informa a semelhança com o original e oferece botões para abrir o resultado ou a pasta. Peça alterações no campo da parte inferior. **Apenas examinar** abre um alvo para você fazer perguntas, sem criar um projeto, no modo Deep.
+- **Simples** (padrão): a tela pergunta "O que você deseja criar?". Escolha um site, aplicativo ou jogo, descreva o que deseja e clique em **Iniciar**. A página do projeto mostra as quatro etapas (Estudar → Criar → Verificar → Pronto), explica o que o agente está fazendo, exibe cartões com perguntas e pedidos de autorização, informa a semelhança com o original e oferece botões para abrir o resultado ou a pasta. Peça alterações no campo da parte inferior. **Apenas examinar** abre um alvo para você fazer perguntas, sem gerar uma nova versão do software, no modo Deep.
 - **Avançado:** a bancada completa, com todas as ferramentas (Ctrl/Cmd+K), funções, strings, pseudo-C, disassembly, visualização hexadecimal, grafos de chamadas, evidências, questões em aberto, tarefas, logs e o console do agente.
 
 Os dois modos usam a mesma engine.
@@ -135,8 +135,8 @@ Os dois modos usam a mesma engine.
 - **Deep** (**Profundo** na interface): usa todas as ferramentas, para seu uso particular. O código e os arquivos de um programa são lidos pelas engines integradas e pelo Ghidra, quando instalado. O JavaScript do site é analisado e sua página inicial é observada durante a execução. O agente pode usar todo esse material para criar o projeto.
 
 Clean room define o que o Craft Anything oferece e bloqueia. **Não é uma sandbox do sistema operacional:**
-esse modo não isola o computador. O agente de programação continua atuando com o seu usuário, e o que ele
-pode ler, gravar ou executar depende das próprias permissões. As ferramentas do agente que o Craft Anything
+esse modo não isola o computador. O agente de programação continua atuando com o seu usuário do sistema,
+e o que ele pode ler, gravar ou executar depende das permissões que possui. As ferramentas do agente que o Craft Anything
 consegue bloquear variam conforme a integração. Para entender o tratamento das ferramentas do Claude Code
 em conversas e perguntas, consulte [`docs/claude-code.md`](docs/claude-code.md).
 
@@ -181,7 +181,7 @@ craft-anything-cli mcp                                        # disponibiliza as
 craft-anything-cli rebuild https://example.com "Recrie este site"
 ```
 
-Os resultados são registros de evidências que informam o grau de confiança, a cobertura e as limitações.
+Os resultados são registros de evidências que informam o grau de certeza, a cobertura e as limitações.
 Resultados grandes são apresentados primeiro como resumo; os detalhes podem ser consultados em páginas
 com `core_evidence_browse`. O comando `craft-anything-cli setup` conecta o Craft Anything aos aplicativos
 dos agentes de programação.
@@ -197,7 +197,7 @@ sites, firmware, capturas de pacotes, bancos de dados e arquivos de jogos.
 Os decodificadores, o disassembler e o descompilador integrados funcionam sem programas externos.
 O modo Deep usa todos eles e também o Ghidra, quando instalado. Essa engine é a base do aplicativo
 desktop (egui), da CLI e do servidor MCP. Parte dela também funciona no navegador, via WebAssembly.
-A lista completa está em [docs/tools.md](docs/tools.md).
+A lista completa de ferramentas está em [docs/tools.md](docs/tools.md).
 
 <a id="get-started"></a>
 
@@ -243,8 +243,8 @@ Por padrão, os novos projetos ficam em `Documents/Craft Anything`. Você pode m
 Você também pode iniciar um projeto em uma pasta de sua escolha: use **Escolher uma pasta…**, abaixo
 de **Iniciar**, ou a opção `--project-folder`. Se a pasta já tiver arquivos, informe se eles são o
 próprio aplicativo, que será editado no local, ou materiais de referência para criar o aplicativo
-em `app/`, ao lado deles. **Configurações → Geral** pode lembrar essa escolha. Essa tela também
-permite listar projetos de outras pastas; remover uma entrada apenas a retira da lista.
+em `app/`, ao lado deles. **Configurações → Geral** pode salvar essa preferência. Essa tela também
+permite listar projetos de outras pastas. Remover uma entrada apenas a retira da lista, sem excluir o projeto.
 
 <a id="status"></a>
 
@@ -264,7 +264,7 @@ permite listar projetos de outras pastas; remover uma entrada apenas a retira da
 >   e jogos e algumas ferramentas da engine testadas apenas com componentes simulados.
 > - **Versões publicadas:** há releases com instaladores para Windows, macOS, Linux e FreeBSD na
 >   [página de releases](https://github.com/storytold/craft-anything/releases). Elas continuam sendo versões alpha.
-> - **Próximo passo:** o plano gerenciado.
+> - **Próximo passo:** uma modalidade de serviço gerenciado.
 >
 > [docs/STATUS.md](docs/STATUS.md) detalha o funcionamento e as verificações realizadas.
 > [docs/tool-status.md](docs/tool-status.md) traz a situação de cada ferramenta, e
@@ -281,7 +281,7 @@ os comandos rodam no seu computador, e os pacotes podem executar código durante
 Por padrão, o npm executa os scripts de instalação de cada pacote; os scripts de compilação do Rust e os
 pacotes distribuídos como código-fonte em Python também executam sua própria configuração.
 O Craft Anything pede autorização para um tipo de comando que ainda não tenha sido usado naquele
-projeto (`npm`, `cargo`…). Escolher a autorização permanente para `npm` permite que todos os comandos
+projeto (`npm`, `cargo`…). Autorizar permanentemente o `npm` permite que todos os comandos
 npm seguintes sejam executados sem uma nova pergunta. Faça essa escolha apenas em projetos cujas
 dependências você considera confiáveis. Para instalar pacotes npm sem executar os scripts de
 instalação, use `npm install --ignore-scripts`.
@@ -309,7 +309,7 @@ na mesma pasta do aplicativo.
 | Versão | Arquivo | Observações |
 |---|---|---|
 | Aplicativo universal (Apple silicon + Intel) | `craft-anything-<ver>-macos-universal.dmg` | Assinado digitalmente e notarizado pela Apple |
-| CLI universal | `craft-anything-cli-<ver>-macos-universal.zip` | Assinada digitalmente e notarizada; veja abaixo o que fazer se o macOS a bloquear |
+| Ferramenta de linha de comando universal | `craft-anything-cli-<ver>-macos-universal.zip` | Assinada digitalmente e notarizada; veja abaixo o que fazer se o macOS a bloquear |
 
 As versões posteriores à 0.2.0 já incluem a CLI no aplicativo. Para criar projetos, não é necessário
 baixar o ZIP separado. Ele só é necessário para usar a linha de comando sem instalar o aplicativo.
@@ -425,7 +425,7 @@ A AppImage também inclui a CLI. Execute `<AppImage> --cli <comando>` — por ex
 | <img src="https://raw.githubusercontent.com/storytold/figcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.figcraft.png" alt="" width="32" height="32"> | **FigCraft** | Design de interfaces e prototipagem | [GitHub](https://github.com/storytold/figcraft) | [Site](https://getartcraft.com/apps/figcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/wordcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.wordcraft.png" alt="" width="32" height="32"> | **WordCraft** | Edição de textos e documentos | [GitHub](https://github.com/storytold/wordcraft) | [Site](https://getartcraft.com/apps/wordcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/soundcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.soundcraft.png" alt="" width="32" height="32"> | **SoundCraft** | Gravação, edição e mixagem de áudio | [GitHub](https://github.com/storytold/soundcraft) | [Site](https://getartcraft.com/apps/soundcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/deckcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.deckcraft.png" alt="" width="32" height="32"> | **DeckCraft** | Apresentações e conjuntos de slides | [GitHub](https://github.com/storytold/deckcraft) | [Site](https://getartcraft.com/apps/deckcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/deckcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.deckcraft.png" alt="" width="32" height="32"> | **DeckCraft** | Criação de apresentações | [GitHub](https://github.com/storytold/deckcraft) | [Site](https://getartcraft.com/apps/deckcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/cadcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.cadcraft.png" alt="" width="32" height="32"> | **CADCraft** | Projeto assistido por computador (CAD) | [GitHub](https://github.com/storytold/cadcraft) | [Site](https://getartcraft.com/apps/cadcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/gridcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.gridcraft.png" alt="" width="32" height="32"> | **GridCraft** | Planilhas e dados | [GitHub](https://github.com/storytold/gridcraft) | [Site](https://getartcraft.com/apps/gridcraft) |
 | <img src="https://raw.githubusercontent.com/storytold/texturecraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.texturecraft.png" alt="" width="32" height="32"> | **TextureCraft** | Pintura de texturas 3D | [GitHub](https://github.com/storytold/texturecraft) | [Site](https://getartcraft.com/apps/texturecraft) |
@@ -447,7 +447,7 @@ O autor, a origem e a licença de cada um estão registrados em [ATTRIBUTION.md]
 As capturas de tela mostram projetos de exemplo criados para elas: example.com, um jogo da cobrinha
 e um pequeno programa de calculadora.
 
-O nome ArtCraft, o wordmark e os logotipos em [`docs/brand/`](docs/brand/) são marcas comerciais da
+O nome ArtCraft, o wordmark (logotipo tipográfico) e os logotipos em [`docs/brand/`](docs/brand/) são marcas comerciais da
 equipe ArtCraft e não são abrangidos por esta licença. Seu uso é permitido apenas sem modificações
 e como parte deste repositório e do Craft Anything, nos termos de
 [`docs/brand/LICENSE-brand.txt`](docs/brand/LICENSE-brand.txt). Forks e versões modificadas devem removê-los.
