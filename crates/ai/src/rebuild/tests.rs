@@ -177,6 +177,7 @@ fn url_terms_do_not_choose_project_kind() {
         "example.com?kind=site",
         "example.com#site",
         "example.com:8080/site",
+        "example.com:/site",
         "(example.com/site).",
         "//example.com/site",
         "/site",
@@ -270,6 +271,8 @@ fn attached_urls_keep_preceding_prose() {
             assert_eq!(choose(&game, &TargetRef::None), ("game", "Unity"), "{game}");
             let engine = format!("Crie um jogo no Godot{separator}{address}");
             assert_eq!(choose(&engine, &TargetRef::None), ("game", "Godot"), "{engine}");
+            let next = format!("Crie um site com Next.js{separator}{address}");
+            assert_eq!(choose(&next, &TargetRef::None), ("website", "Next.js + TypeScript"), "{next}");
         }
     }
 }
