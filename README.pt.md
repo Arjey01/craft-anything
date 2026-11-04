@@ -1,4 +1,4 @@
-<!-- Tradução do README.md para português brasileiro. Mantenha este arquivo alinhado à versão em inglês. -->
+<!-- Tradução do README.en.md para português brasileiro. Mantenha este arquivo alinhado à versão em inglês. -->
 
 <p align="center">
   <a href="https://getartcraft.com/">
@@ -16,7 +16,7 @@
 <h1 align="center">Craft Anything</h1>
 
 <p align="center">
-  <a href="README.md">English</a> · <a href="README.ja.md">日本語</a> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a> · <b>Português (Brasil)</b>
+  <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a> · <b>Português (Brasil)</b>
 </p>
 
 <p align="center">

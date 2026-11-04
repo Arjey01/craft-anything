@@ -1,3 +1,5 @@
+<!-- Tradução do README.en.md para português brasileiro. Mantenha este arquivo alinhado à versão em inglês. -->
+
 <p align="center">
   <a href="https://getartcraft.com/">
     <picture>
@@ -8,59 +10,60 @@
 </p>
 
 <p align="center">
-  <img src="assets/app-icon/hicolor/256x256/apps/ai.storyteller.craft-anything.png" width="128" height="128" alt="Craft Anything icon: an engraved raven on a blue tile">
+  <img src="assets/app-icon/hicolor/256x256/apps/ai.storyteller.craft-anything.png" width="128" height="128" alt="Ícone do Craft Anything: um corvo gravado em uma placa azul">
 </p>
 
 <h1 align="center">Craft Anything</h1>
 
 <p align="center">
-  <b>English</b> · <a href="README.ja.md">日本語</a> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a>
+  <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a> · <b>Português (Brasil)</b>
 </p>
 
 <p align="center">
-  <b>See how any website, app or game works, then have AI build your own version; an open-source, clean-room engine in pure Rust.</b><br>
-  Point it at a target, say what you want, and it studies the original with real inspection tools,<br>
-  has a coding agent build a new project, checks the result against the original and refines it.
+  <b>Entenda como qualquer site, aplicativo ou jogo funciona e use IA para criar sua própria versão. Uma engine de código aberto em Rust puro, com abordagem clean room.</b><br>
+  Indique o que você quer recriar e descreva o resultado desejado. O Craft Anything analisa o original com ferramentas reais de inspeção,<br>
+  usa um agente de programação para criar um novo projeto, compara o resultado com o original e faz os refinamentos necessários.
 </p>
 
 <p align="center">
   <img alt="100% Rust" src="https://img.shields.io/badge/100%25-Rust-b7410e?style=flat-square&logo=rust">
   <img alt="macOS · Windows · Linux · FreeBSD · Web" src="https://img.shields.io/badge/macOS%20%C2%B7%20Windows%20%C2%B7%20Linux%20%C2%B7%20FreeBSD%20%C2%B7%20Web-native-2d81ff?style=flat-square">
-  <img alt="License: MIT OR Apache-2.0" src="https://img.shields.io/badge/license-MIT%20%2F%20Apache--2.0-3a3a3a?style=flat-square">
-  <img alt="Status: early alpha" src="https://img.shields.io/badge/status-early%20alpha-d69e2e?style=flat-square">
+  <img alt="Licença: MIT OU Apache-2.0" src="https://img.shields.io/badge/licen%C3%A7a-MIT%20%2F%20Apache--2.0-3a3a3a?style=flat-square">
+  <img alt="Estado do projeto: versão alpha inicial" src="https://img.shields.io/badge/fase-alpha%20inicial-d69e2e?style=flat-square">
 </p>
 
 <p align="center">
-  <a href="https://discord.gg/artcraft"><img alt="Join the ArtCraft community on Discord" src="https://img.shields.io/badge/Join%20us%20on%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
+  <a href="https://discord.gg/artcraft"><img alt="Participe da comunidade ArtCraft no Discord" src="https://img.shields.io/badge/Participe%20do%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
 </p>
 
 <p align="center">
-  <a href="#downloads"><b>Download Craft Anything</b></a> ·
+  <a href="#downloads"><b>Baixar o Craft Anything</b></a> ·
   <a href="https://getartcraft.com/">ArtCraft</a> ·
-  <a href="https://getartcraft.com/apps">All Crafting Apps</a>
+  <a href="https://getartcraft.com/apps">Todos os aplicativos</a>
 </p>
 
 <br>
 
 <p align="center">
-  <img src="docs/images/project-website.png" alt="A website project in Craft Anything: the check lists what doesn't match yet and how alike each page is, the builder says its version is ready, an approval card asks before running a command, and the plan shows two of four steps done" width="100%">
+  <img src="docs/images/project-website.png" alt="Um projeto de site no Craft Anything: a verificação mostra o que ainda difere do original e a semelhança de cada página; o agente informa que sua versão está pronta, um cartão pede autorização antes de executar um comando e o plano mostra duas de quatro etapas concluídas" width="100%">
   <br>
-  <sub>A website project: each check says how alike the build is, you approve anything outside the rules, and the plan shows what's left.</sub>
+  <sub>Um projeto de site: cada verificação mostra a semelhança com o original, você autoriza as ações que exigem sua decisão e o plano mostra o que falta.</sub>
 </p>
 
 > [!NOTE]
-> **ArtCraft is a community of artists from all walks of life.** Painters, photographers,
-> filmmakers, illustrators, designers, animators, hobbyists, and people who picked up a pencil
-> last week. If you make things, you're one of us. **[Come say hi on Discord](https://discord.gg/artcraft).**
+> **A ArtCraft é uma comunidade para quem cria, de todos os perfis e níveis de experiência.**
+> Pintores, fotógrafos, cineastas, ilustradores, designers, animadores, quem cria por lazer
+> e quem pegou em um lápis pela primeira vez na semana passada. Se você cria alguma coisa,
+> já faz parte. **[Venha conversar no Discord](https://discord.gg/artcraft).**
 
 <p align="center">
-  <a href="#how-it-works">How it works</a> ·
-  <a href="#two-ways-to-use-it">Two ways to use it</a> ·
-  <a href="#ai">AI</a> ·
-  <a href="#built-for-agents">Agents</a> ·
-  <a href="#under-the-hood">Under the hood</a> ·
-  <a href="#get-started">Get started</a> ·
-  <a href="#status">Status</a> ·
+  <a href="#how-it-works">Como funciona</a> ·
+  <a href="#two-ways-to-use-it">Dois modos de uso</a> ·
+  <a href="#ai">IA</a> ·
+  <a href="#built-for-agents">Agentes</a> ·
+  <a href="#under-the-hood">Por dentro</a> ·
+  <a href="#get-started">Primeiros passos</a> ·
+  <a href="#status">Estado do projeto</a> ·
   <a href="#downloads">Downloads</a> ·
   <a href="https://discord.gg/artcraft">Discord</a>
 </p>
@@ -70,228 +73,254 @@
 <table>
   <tr>
     <td width="25%" valign="top">
-      <h3>🔍 Study anything</h3>
-      Websites, desktop apps, phone apps, games and files: real inspection tools find out how they're built and what they do, with the evidence behind every answer.
+      <h3>🔍 Explore qualquer software</h3>
+      Sites, aplicativos para computador e celular, jogos e arquivos: ferramentas reais de inspeção identificam como foram feitos e o que fazem, com evidências para cada resposta.
     </td>
     <td width="25%" valign="top">
-      <h3>🛠️ Build your own</h3>
-      Say what you want ("Recreate this website", "Recreate this game's gameplay in Rust") and a coding agent builds a new project in the stack you ask for.
+      <h3>🛠️ Crie sua própria versão</h3>
+      Descreva o que você quer ("Recrie este site", "Recrie a jogabilidade deste jogo em Rust") e um agente de programação cria um novo projeto com a stack que você pedir.
     </td>
     <td width="25%" valign="top">
-      <h3>✅ Checked, not guessed</h3>
-      Every build is compared with the original (pages at three screen widths, a game's own self-test, an app's runs) and refined until it's close.
+      <h3>✅ Resultados verificados</h3>
+      Cada versão gerada é comparada com o original e refinada até ficar semelhante. A verificação inclui páginas em três larguras de tela, o autoteste do próprio jogo e execuções do aplicativo.
     </td>
     <td width="25%" valign="top">
-      <h3>🤖 Agent-ready</h3>
-      320 tools, each one a CLI command and an MCP tool, so any agent can drive the same engine the app uses. No AI is needed to inspect.
+      <h3>🤖 Pronto para agentes</h3>
+      São 320 ferramentas, cada uma disponível como comando da CLI e ferramenta MCP. Assim, qualquer agente pode usar a mesma engine do aplicativo. A inspeção funciona sem IA.
     </td>
   </tr>
 </table>
 
 <br>
 
-## How it works
+<a id="how-it-works"></a>
 
-Point Craft Anything at a target, say what you want, and press Start. It works in four steps,
-asking you in plain words when a decision is yours:
+## Como funciona
 
-1. **Study:** inspect the original: its pages at every width, its code, its files, how it runs.
-2. **Build:** a coding agent builds a new project, in the language, framework or engine your
-   request names (or a sensible default).
-3. **Check:** compare the build with the original and list what doesn't match yet.
-4. **Ready:** open, play or preview the result, or ask for changes and it refines it.
+Indique o que deseja analisar no Craft Anything, descreva o resultado que você quer e clique em **Iniciar**.
+O trabalho segue quatro etapas. Quando uma decisão depende de você, o aplicativo faz a pergunta em linguagem simples:
+
+1. **Estudar:** analisar o original — as páginas em diferentes larguras, o código, os arquivos e o comportamento durante a execução.
+2. **Criar:** um agente de programação gera um novo projeto na linguagem, no framework ou na engine que você pedir, ou escolhe uma opção adequada quando você não especifica.
+3. **Verificar:** comparar a versão criada com o original e listar as diferenças que ainda precisam de ajuste.
+4. **Pronto:** abrir, jogar ou visualizar o resultado. Você também pode pedir alterações para continuar o refinamento.
 
 <table>
   <tr>
     <td width="50%" valign="top">
-      <img src="docs/images/make.png" alt="The Make screen: pick a website, an app or a game to recreate, type the address, choose Clean room or Deep, say what you want and press Start" width="100%"><br>
-      <sub><b>Make:</b> pick what to recreate, say what you want, press Start.</sub>
+      <img src="docs/images/make.png" alt="Tela de criação: escolha um site, aplicativo ou jogo para recriar, informe o endereço, selecione Clean room ou Deep, descreva o que você quer e clique em Iniciar" width="100%"><br>
+      <sub><b>Criar:</b> escolha o que recriar, descreva o que você quer e clique em Iniciar.</sub>
     </td>
     <td width="50%" valign="top">
-      <img src="docs/images/project-game.png" alt="A finished snake game project with its steps all done and a Play the game button" width="100%"><br>
-      <sub><b>Ready:</b> play the game, or ask for changes below.</sub>
+      <img src="docs/images/project-game.png" alt="Um projeto concluído do jogo da cobrinha, com todas as etapas finalizadas e o botão Jogar" width="100%"><br>
+      <sub><b>Pronto:</b> jogue ou peça alterações no campo abaixo.</sub>
     </td>
   </tr>
 </table>
 
-## Two ways to use it
+<a id="two-ways-to-use-it"></a>
 
-- **Simple** (default): "What do you want to make?" Pick a website, app or game, describe it,
-  press Start. A project page shows the four steps (Study → Build → Check → Ready), what the
-  agent is doing in plain words, question and approval cards, how alike the result is, and
-  buttons to open the result or its folder. Ask for changes in the box at the bottom.
-  "Just look inside" opens a target for questions without building anything (in Deep mode).
-- **Advanced**: the full workbench: every tool (Ctrl/Cmd+K), functions, strings, pseudo-C,
-  disassembly, hex, call graphs, evidence, unknowns, jobs, logs and the agent console.
+## Dois modos de uso
 
-Both modes drive the same engine.
+- **Simples** (padrão): a tela pergunta "O que você deseja criar?". Escolha um site, aplicativo ou jogo, descreva o que deseja e clique em **Iniciar**. A página do projeto mostra as quatro etapas (Estudar → Criar → Verificar → Pronto), explica o que o agente está fazendo, exibe cartões com perguntas e pedidos de autorização, informa a semelhança com o original e oferece botões para abrir o resultado ou a pasta. Peça alterações no campo da parte inferior. **Apenas examinar** abre um alvo para você fazer perguntas, sem gerar uma nova versão do software, no modo Deep.
+- **Avançado:** a bancada completa, com todas as ferramentas (Ctrl/Cmd+K), funções, strings, pseudo-C, disassembly, visualização hexadecimal, grafos de chamadas, evidências, questões em aberto, tarefas, logs e o console do agente.
 
-## Clean room or Deep
+Os dois modos usam a mesma engine.
 
-- **Clean room** (the default): nothing inside the original is read, not its code, files or page
-  source. Craft Anything works from what you can see: pictures you add, the website as a visitor
-  sees it (screenshots, visible text, measured layout, colours, fonts and spacing, menus opened)
-  and, when you allow it, a picture of the app's window. Tools that would look inside are refused
-  and say how to turn on Deep mode.
-- **Deep**: every tool is used, for your private use. A program's code and files are read with the
-  built-in engines (and Ghidra when it's installed), a website's JavaScript is read and its start
-  page watched, and the builder may use all of them.
+<a id="clean-room-or-deep"></a>
 
-Clean room is a rule about what Craft Anything offers and refuses. It is not an operating-system
-sandbox: it doesn't isolate your computer. A coding agent you run still acts as you, and what it can
-read, write or run depends on its own permissions. Which of an agent's own tools Craft Anything can
-refuse differs by agent; for Claude Code's tools in chats and questions, see
-[`docs/claude-code.md`](docs/claude-code.md).
+## Clean room ou Deep
 
-Switch in the title bar or Settings, with `settings_set deep_mode true`, or for one CLI run with
-`--deep` (or `--clean-room`).
+- **Clean room** (padrão; **Sala limpa** na interface): não lê o código, os arquivos nem o código-fonte das páginas do original. O Craft Anything trabalha com o que é visível: imagens que você adiciona, o site como aparece a um visitante (capturas de tela, texto visível, medidas do layout, cores, fontes, espaçamentos e menus abertos) e, com sua autorização, uma captura da janela do aplicativo. As ferramentas que acessariam o conteúdo interno são bloqueadas e explicam como ativar o modo Deep.
+- **Deep** (**Profundo** na interface): usa todas as ferramentas, para seu uso particular. O código e os arquivos de um programa são lidos pelas engines integradas e pelo Ghidra, quando instalado. O JavaScript do site é analisado e sua página inicial é observada durante a execução. O agente pode usar todo esse material para criar o projeto.
+
+Clean room define o que o Craft Anything oferece e bloqueia. **Não é uma sandbox do sistema operacional:**
+esse modo não isola o computador. O agente de programação continua atuando com o seu usuário do sistema,
+e o que ele pode ler, gravar ou executar depende das permissões que possui. As ferramentas do agente que o Craft Anything
+consegue bloquear variam conforme a integração. Para entender o tratamento das ferramentas do Claude Code
+em conversas e perguntas, consulte [`docs/claude-code.md`](docs/claude-code.md).
+
+Você pode alternar entre os modos na barra de título ou nas Configurações, usar
+`settings_set deep_mode true` ou escolher `--deep` ou `--clean-room` para uma única execução pela CLI.
 
 <p align="center">
-  <img src="docs/images/workbench.png" alt="The Advanced workbench: a function list, pseudo-C of the selected function, the agent answering a question with a tool call, and the evidence ledger" width="100%">
+  <img src="docs/images/workbench.png" alt="Bancada do modo Avançado: lista de funções, pseudo-C da função selecionada, o agente respondendo a uma pergunta com uma chamada de ferramenta e o registro de evidências" width="100%">
   <br>
-  <sub><b>Advanced:</b> functions, pseudo-C, the agent and the evidence behind every answer.</sub>
+  <sub><b>Avançado:</b> funções, pseudo-C, o agente e as evidências de cada resposta.</sub>
 </p>
 
-## AI
+<a id="ai"></a>
 
-Building needs a coding agent on your computer. **Claude Code** is supported first: Craft
-Anything runs your own, unmodified `claude` program, which uses your own sign-in; Craft Anything
-never sees or handles your account. Your use of it falls under your own agreement with
-Anthropic. See [docs/claude-code.md](docs/claude-code.md) for how and why. A Codex adapter
-exists but hasn't been verified on a real install yet. **GitHub Copilot** can use your installed
-Copilot CLI through ACP: sign in separately with `copilot login`. Other agents that speak ACP (Gemini CLI,
-Qwen Code, opencode, goose, Hermes, Maki) can be switched to it per backend; of those, only Maki has
-been run live. Anthropic, OpenAI, OpenRouter and local
-OpenAI-compatible servers are available for questions and analysis (Settings → AI).
+## IA
 
-## Built for agents
+Para criar projetos, é necessário ter um agente de programação instalado no computador.
+A integração principal é com o **Claude Code**: o Craft Anything executa o seu próprio programa `claude`,
+sem modificá-lo, e usa a sessão iniciada nele. O Craft Anything não acessa nem gerencia sua conta.
+O uso continua sujeito ao seu próprio contrato com a Anthropic. Os detalhes e a justificativa estão em
+[docs/claude-code.md](docs/claude-code.md).
 
-Every tool is also a CLI subcommand and an MCP tool, so an agent can study a target or run a
-whole rebuild without the app:
+Existe um adaptador para o Codex, mas ele ainda não foi validado em uma instalação real.
+O **GitHub Copilot** pode usar a Copilot CLI instalada no computador por meio do ACP; faça login
+separadamente com `copilot login`. Outros agentes compatíveis com ACP — Gemini CLI, Qwen Code,
+opencode, goose, Hermes e Maki — podem ser configurados para usar esse protocolo em cada backend.
+Entre eles, apenas o Maki foi testado em uma execução real.
+
+Anthropic, OpenAI, OpenRouter e servidores locais compatíveis com a API da OpenAI estão disponíveis
+para perguntas e análises, em **Configurações → IA**.
+
+<a id="built-for-agents"></a>
+
+## Feito para agentes
+
+Cada ferramenta também está disponível como subcomando da CLI e ferramenta MCP. Assim, um agente
+pode analisar um alvo ou executar uma recriação completa sem abrir o aplicativo:
 
 ```sh
-craft-anything-cli commands                                   # every tool, by toolset
-craft-anything-cli mcp                                        # serve them to any MCP client
-craft-anything-cli rebuild https://example.com "Recreate this website"
+craft-anything-cli commands                                   # lista as ferramentas por conjunto
+craft-anything-cli mcp                                        # disponibiliza as ferramentas para clientes MCP
+craft-anything-cli rebuild https://example.com "Recrie este site"
 ```
 
-Results are evidence records with their confidence, coverage and limitations; big ones come back
-as a summary first and are paged with `core_evidence_browse`. `craft-anything-cli setup`
-connects Craft Anything to coding-agent apps.
+Os resultados são registros de evidências que informam o grau de certeza, a cobertura e as limitações.
+Resultados grandes são apresentados primeiro como resumo; os detalhes podem ser consultados em páginas
+com `core_evidence_browse`. O comando `craft-anything-cli setup` conecta o Craft Anything aos aplicativos
+dos agentes de programação.
 
-## Under the hood
+<a id="under-the-hood"></a>
 
-A pure-Rust reverse-engineering engine with 320 tools (300 in the engine, the rest from the AI and
-setup layers) for native programs, .NET, Java, Android, Apple, Electron/JavaScript, websites,
-firmware, packet captures, databases and game files. Its own decoders, disassembler and
-decompiler work without any outside program; Deep mode uses them all, and Ghidra when it's
-installed. It powers the desktop app (egui), the CLI and the MCP server, and parts of it run in
-the browser as WebAssembly. The full list is in [docs/tools.md](docs/tools.md).
+## Por dentro do Craft Anything
 
-## Get started
+Uma engine de engenharia reversa em Rust puro, com 320 ferramentas: 300 na engine e as demais nas camadas
+de IA e configuração. Ela analisa programas nativos, .NET, Java, Android, Apple, Electron/JavaScript,
+sites, firmware, capturas de pacotes, bancos de dados e arquivos de jogos.
 
-Requires Rust **1.97 or newer** (a dependency needs it; `rustup update`). On Debian or Ubuntu,
-the desktop app also needs:
+Os decodificadores, o disassembler e o descompilador integrados funcionam sem programas externos.
+O modo Deep usa todos eles e também o Ghidra, quando instalado. Essa engine é a base do aplicativo
+desktop (egui), da CLI e do servidor MCP. Parte dela também funciona no navegador, via WebAssembly.
+A lista completa de ferramentas está em [docs/tools.md](docs/tools.md).
+
+<a id="get-started"></a>
+
+## Primeiros passos
+
+É necessário ter **Rust 1.97 ou mais recente**, por exigência de uma dependência. Atualize com
+`rustup update`. No Debian e no Ubuntu, o aplicativo desktop também precisa destes pacotes:
 
 ```sh
 sudo apt-get install libxkbcommon-dev libwayland-dev libx11-dev libxrandr-dev libxi-dev libgl1-mesa-dev libgtk-3-dev
 ```
 
-Then:
+Depois:
 
 ```sh
 git clone https://github.com/storytold/craft-anything && cd craft-anything
-cargo run --release -p craft-anything                # the desktop app
-cargo install --path apps/craft-anything-cli         # the CLI, as `craft-anything-cli`
-craft-anything-cli doctor                            # checks the install, coding agents and engines
+cargo run --release -p craft-anything                # inicia o aplicativo desktop
+cargo install --path apps/craft-anything-cli         # instala a CLI como craft-anything-cli
+craft-anything-cli doctor                            # verifica a instalação, os agentes e as engines
 ```
 
-Building needs a coding agent signed in on your computer (see [AI](#ai)); `doctor` says what's
-missing. Rebuild from the command line (questions are asked in the terminal):
+Para criar projetos, o agente de programação precisa estar autenticado no computador (consulte
+[IA](#ai)). O comando `doctor` informa o que falta. Exemplos de recriação pela linha de comando,
+com as perguntas respondidas no terminal:
 
 ```sh
-craft-anything-cli rebuild https://example.com "Recreate this website"
-craft-anything-cli rebuild - "A snake game in Rust" --rounds 1
-craft-anything-cli rebuild https://example.com "Make the header blue" --continue-in "<project folder>"
-craft-anything-cli rebuild - "Add a contact form" --project-folder "<your folder>" --existing edit
+craft-anything-cli rebuild https://example.com "Recrie este site"
+craft-anything-cli rebuild - "Um jogo da cobrinha em Rust" --rounds 1
+craft-anything-cli rebuild https://example.com "Deixe o cabeçalho azul" --continue-in "<pasta do projeto>"
+craft-anything-cli rebuild - "Adicione um formulário de contato" --project-folder "<sua pasta>" --existing edit
 ```
 
-New projects go in `Documents/Craft Anything` (change it in Settings → General). Each project
-folder holds `craft.json` (the request, target, status and history), `capture/` (what was
-recorded from the target), `app/` (the generated project), `checks/` (each comparison against
-the original), `investigation.cany/` (evidence) and `inbox/` (open questions).
+Por padrão, os novos projetos ficam em `Documents/Craft Anything`. Você pode mudar esse local em
+**Configurações → Geral**. Cada pasta de projeto contém:
 
-A project can also start in a folder you pick (Choose a folder… under Start, or `--project-folder`).
-If it already has files, you say what they are: the app itself, which the builder edits in place,
-or material to start from, with the app built in `app/` beside them (Settings → General can
-remember the answer). Settings → General also lists projects from more folders; removing one
-only takes it off the list.
+- `craft.json`: solicitação, alvo, estado e histórico do projeto;
+- `capture/`: material coletado do original;
+- `app/`: projeto gerado;
+- `checks/`: comparações com o original;
+- `investigation.cany/`: evidências da investigação;
+- `inbox/`: perguntas pendentes.
 
-## Status
+Você também pode iniciar um projeto em uma pasta de sua escolha: use **Escolher uma pasta…**, abaixo
+de **Iniciar**, ou a opção `--project-folder`. Se a pasta já tiver arquivos, informe se eles são o
+próprio aplicativo, que será editado no local, ou materiais de referência para criar o aplicativo
+em `app/`, ao lado deles. **Configurações → Geral** pode salvar essa preferência. Essa tela também
+permite listar projetos de outras pastas. Remover uma entrada apenas a retira da lista, sem excluir o projeto.
+
+<a id="status"></a>
+
+## Estado do projeto
 
 > [!IMPORTANT]
-> **Status:** Craft Anything is in early alpha. What works today, what is partial and what's next:
+> O Craft Anything está em uma **fase alpha inicial**. Veja o que já funciona, o que ainda está incompleto
+> e os próximos passos:
 >
-> - **Works today:** the desktop app (Simple and Advanced), the CLI and the MCP server; the
->   Study → Build → Check → Refine workflow for websites, apps and games with Claude Code as the
->   builder; website checks at three screen widths; game rebuilds in Unity, Unreal or Godot; Deep
->   mode with Ghidra; generated pictures and 3D models (opt-in, your own fal.ai key); plugins (MCP
->   servers, and WASM components in builds with the `wasm-plugins` option).
-> - **Partly there:** building with API keys and other coding agents (built, not yet run live),
->   behaviour checks for apps and games, a few engine tools tested only against stand-ins.
-> - **Released:** public releases with installers for Windows, macOS, Linux and FreeBSD are
->   published on the [Releases page](https://github.com/storytold/craft-anything/releases); they are
->   still alpha.
-> - **Next:** the managed tier.
+> - **Já funciona:** o aplicativo desktop nos modos Simples e Avançado, a CLI e o servidor MCP; o fluxo
+>   Estudar → Criar → Verificar → Refinar para sites, aplicativos e jogos com o Claude Code como agente
+>   de programação; comparação de sites em três larguras de tela; recriação de jogos em Unity, Unreal
+>   ou Godot; modo Deep com Ghidra; geração opcional de imagens e modelos 3D com sua própria chave
+>   do fal.ai; plugins como servidores MCP e, nas versões compiladas com a opção `wasm-plugins`, componentes WASM.
+> - **Ainda está incompleto:** criação de projetos com chaves de API e outros agentes de programação
+>   (implementada, mas ainda sem validação em uso real), verificações de comportamento de aplicativos
+>   e jogos e algumas ferramentas da engine testadas apenas com componentes simulados.
+> - **Versões publicadas:** há releases com instaladores para Windows, macOS, Linux e FreeBSD na
+>   [página de releases](https://github.com/storytold/craft-anything/releases). Elas continuam sendo versões alpha.
+> - **Próximo passo:** uma modalidade de serviço gerenciado.
 >
-> [docs/STATUS.md](docs/STATUS.md) has the detail and how each part was checked,
-> [docs/tool-status.md](docs/tool-status.md) the tool-by-tool checklist, and
-> [docs/ROADMAP.md](docs/ROADMAP.md) the plan, item by item. Please file issues, or tell us what
-> broke on [Discord](https://discord.gg/artcraft).
+> [docs/STATUS.md](docs/STATUS.md) detalha o funcionamento e as verificações realizadas.
+> [docs/tool-status.md](docs/tool-status.md) traz a situação de cada ferramenta, e
+> [docs/ROADMAP.md](docs/ROADMAP.md) apresenta o plano de desenvolvimento, item por item.
+> Abra uma issue ou conte o que deu errado no [Discord](https://discord.gg/artcraft).
 
-**Responsible use.** Use Craft Anything on software you own or are allowed to examine. It never
-bypasses DRM, logins or anti-cheat. Rebuilds recreate layout, style and behaviour from evidence;
-the agent is told not to copy logos, photos or text unless you confirm you own them or have
-permission.
+**Uso responsável.** Use o Craft Anything em softwares que sejam seus ou que você tenha autorização
+para examinar. Ele não contorna DRM, logins nem anti-cheat. A recriação reproduz layout, estilo e
+comportamento com base em evidências. O agente é orientado a não copiar logotipos, fotos ou textos,
+exceto quando você confirma que é o titular ou tem permissão para usá-los.
 
-**Installing dependencies runs code.** When a builder installs a project's dependencies, the commands
-run on your computer, and the packages can run code while they install. npm runs each package's
-install scripts by default, and Rust build scripts and Python source packages run their own setup
-code. Craft Anything asks before a command of a kind it hasn't seen in this project (`npm`, `cargo`…).
-Choosing "always allow" for `npm` lets every later npm command run without asking, so only do that
-for a project whose dependencies you trust. To install npm packages without their install scripts,
-run `npm install --ignore-scripts`.
+**Instalar dependências executa código.** Quando o agente instala as dependências de um projeto,
+os comandos rodam no seu computador, e os pacotes podem executar código durante a instalação.
+Por padrão, o npm executa os scripts de instalação de cada pacote; os scripts de compilação do Rust e os
+pacotes distribuídos como código-fonte em Python também executam sua própria configuração.
+O Craft Anything pede autorização para um tipo de comando que ainda não tenha sido usado naquele
+projeto (`npm`, `cargo`…). Autorizar permanentemente o `npm` permite que todos os comandos
+npm seguintes sejam executados sem uma nova pergunta. Faça essa escolha apenas em projetos cujas
+dependências você considera confiáveis. Para instalar pacotes npm sem executar os scripts de
+instalação, use `npm install --ignore-scripts`.
 
 ## Downloads
 
-On GitHub, the [latest release](https://github.com/storytold/craft-anything/releases/latest) has every build listed below, and [all releases](https://github.com/storytold/craft-anything/releases) has earlier versions and their notes. `<ver>` in the file names is the version number, and `SHA256SUMS.txt` lists a checksum for every file.
+A [versão mais recente](https://github.com/storytold/craft-anything/releases/latest) no GitHub reúne
+todas as builds abaixo. A [lista de releases](https://github.com/storytold/craft-anything/releases)
+contém as versões anteriores e suas notas. Nos nomes dos arquivos, `<ver>` representa a versão.
+O arquivo `SHA256SUMS.txt` lista o hash SHA-256 de cada arquivo.
 
 ### Windows
 
-| Build | Installer | Portable |
+| Arquitetura | Instalador | Versão portátil |
 |---|---|---|
-| x64 (64-bit Intel/AMD) | `craft-anything-<ver>-windows-x64.msi` | `craft-anything-<ver>-windows-x64-portable.zip` |
-| arm64 (Snapdragon and other ARM PCs) | `craft-anything-<ver>-windows-arm64.msi` | `craft-anything-<ver>-windows-arm64-portable.zip` |
-| x86 (32-bit) | `craft-anything-<ver>-windows-x86.msi` | `craft-anything-<ver>-windows-x86-portable.zip` |
+| x64 (Intel/AMD de 64 bits) | `craft-anything-<ver>-windows-x64.msi` | `craft-anything-<ver>-windows-x64-portable.zip` |
+| arm64 (Snapdragon e outros PCs ARM) | `craft-anything-<ver>-windows-arm64.msi` | `craft-anything-<ver>-windows-arm64-portable.zip` |
+| x86 (32 bits) | `craft-anything-<ver>-windows-x86.msi` | `craft-anything-<ver>-windows-x86-portable.zip` |
 
-Installers and executables are code-signed. The portable zip keeps its settings next to the app.
+Os instaladores e executáveis são assinados digitalmente. O ZIP portátil mantém as configurações
+na mesma pasta do aplicativo.
 
 ### macOS
 
-| Build | File | Notes |
+| Versão | Arquivo | Observações |
 |---|---|---|
-| App, universal (Apple silicon + Intel) | `craft-anything-<ver>-macos-universal.dmg` | Signed and notarized |
-| Command-line tool, universal | `craft-anything-cli-<ver>-macos-universal.zip` | Signed and notarized; see below if macOS blocks it |
+| Aplicativo universal (Apple silicon + Intel) | `craft-anything-<ver>-macos-universal.dmg` | Assinado digitalmente e notarizado pela Apple |
+| Ferramenta de linha de comando universal | `craft-anything-cli-<ver>-macos-universal.zip` | Assinada digitalmente e notarizada; veja abaixo o que fazer se o macOS a bloquear |
 
-Versions after 0.2.0 include the command-line tool in the app, so builds don't need the separate
-zip. You only need it to use the command line without the app.
+As versões posteriores à 0.2.0 já incluem a CLI no aplicativo. Para criar projetos, não é necessário
+baixar o ZIP separado. Ele só é necessário para usar a linha de comando sem instalar o aplicativo.
 
-A browser download of the zip can stop with "Apple could not verify craft-anything-cli" (a lone
-program can't carry its notarization with it, so macOS has to look it up online). A download from
-the terminal isn't checked this way, so use this instead:
+Ao baixar o ZIP pelo navegador, o macOS pode exibir a mensagem "Apple could not verify craft-anything-cli".
+Um executável avulso não permite anexar o ticket de notarização; o macOS precisa
+consultá-lo pela internet. Um download feito pelo terminal não passa por essa mesma verificação.
+Nesse caso, use:
 
 ```sh
-ver=0.2.0   # change this to the version you want
+ver=0.2.0   # substitua pela versão desejada
 curl -fLO "https://github.com/storytold/craft-anything/releases/download/v$ver/craft-anything-cli-$ver-macos-universal.zip"
 ditto -x -k "craft-anything-cli-$ver-macos-universal.zip" .
 mkdir -p ~/.local/bin
@@ -299,126 +328,131 @@ mv "craft-anything-cli-$ver-macos-universal/craft-anything-cli" ~/.local/bin/
 ~/.local/bin/craft-anything-cli --version
 ```
 
-To run it as just `craft-anything-cli`, add `~/.local/bin` to your `PATH`.
+Para executar apenas `craft-anything-cli`, adicione `~/.local/bin` ao seu `PATH`.
 
-If you already have the blocked copy, press Done (not Move to Bin), then run
-`xattr -d com.apple.quarantine <path to craft-anything-cli>`, or allow it in System Settings →
-Privacy & Security → Open Anyway.
+Se você já baixou uma cópia bloqueada, clique em **Done** (Concluído), e não em **Move to Bin**
+(Mover para a Lixeira). Depois, execute `xattr -d com.apple.quarantine <caminho do craft-anything-cli>`
+ou autorize a abertura em **Ajustes do Sistema → Privacidade e Segurança → Abrir Mesmo Assim**.
 
-#### Checking that a Mac download is signed and notarized
+#### Conferir a assinatura e a notarização de um download no Mac
 
-Each Mac release is signed with a Developer ID certificate and notarized by Apple. To check a download
-yourself, run these in Terminal (replace `<ver>` with the version and the paths with yours):
+Cada release para Mac é assinada com um certificado Developer ID e notarizada pela Apple.
+Para conferir um download, execute os comandos abaixo no Terminal, substituindo `<ver>` pela
+versão e ajustando os caminhos:
 
 ```sh
-# The disk image: "accepted" and "source=Notarized Developer ID" mean it passed
+# Imagem de disco: "accepted" e "source=Notarized Developer ID" indicam aprovação
 spctl --assess --type open --context context:primary-signature -v "craft-anything-<ver>-macos-universal.dmg"
-# The notarization ticket is attached: prints "The validate action worked!"
+# O ticket de notarização está anexado: a saída esperada é "The validate action worked!"
 xcrun stapler validate "craft-anything-<ver>-macos-universal.dmg"
 
-# The app, after you open the disk image: the signature must verify
-codesign --verify --deep --strict --verbose=2 "/Volumes/<disk image name>/Craft Anything.app"
-spctl --assess --type execute --verbose "/Volumes/<disk image name>/Craft Anything.app"
+# Aplicativo, depois de abrir a imagem de disco: a assinatura deve ser válida
+codesign --verify --deep --strict --verbose=2 "/Volumes/<nome da imagem de disco>/Craft Anything.app"
+spctl --assess --type execute --verbose "/Volumes/<nome da imagem de disco>/Craft Anything.app"
 
-# The command-line tool: a bare program can't carry a ticket, so macOS checks it online
+# CLI: o executável avulso não inclui o ticket; o macOS o consulta pela internet
 codesign --verify --strict --verbose=2 ~/.local/bin/craft-anything-cli
 codesign -dv --verbose=4 ~/.local/bin/craft-anything-cli 2>&1 | grep Authority
 ```
 
-The `Authority` lines should name a "Developer ID Application" certificate. If a check fails, don't
-run the file; report it with the output and the release tag.
+As linhas `Authority` devem indicar um certificado "Developer ID Application". Se alguma
+verificação falhar, não execute o arquivo: relate o problema com a saída do comando e a tag do release.
 
 ### Linux
 
-| Format | x86_64 | aarch64 (ARM64) | Notes |
+| Formato | x86_64 | aarch64 (ARM64) | Observações |
 |---|---|---|---|
-| AppImage | `craft-anything-<ver>-linux-x86_64.AppImage` | `craft-anything-<ver>-linux-aarch64.AppImage` | Runs anywhere; updates itself with [AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate) (`.zsync` files) |
-| Flatpak | `craft-anything-<ver>-linux-x86_64.flatpak` | `craft-anything-<ver>-linux-aarch64.flatpak` | Sandboxed; `flatpak install --user <file>` |
+| AppImage | `craft-anything-<ver>-linux-x86_64.AppImage` | `craft-anything-<ver>-linux-aarch64.AppImage` | Execução portátil; atualização automática com [AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate) e arquivos `.zsync` |
+| Flatpak | `craft-anything-<ver>-linux-x86_64.flatpak` | `craft-anything-<ver>-linux-aarch64.flatpak` | Em sandbox; `flatpak install --user <arquivo>` |
 | Debian/Ubuntu | `craft-anything-<ver>-linux-x86_64.deb` | `craft-anything-<ver>-linux-aarch64.deb` | |
 | Fedora/RHEL/openSUSE | `craft-anything-<ver>-linux-x86_64.rpm` | `craft-anything-<ver>-linux-aarch64.rpm` | |
-| Tarball | `craft-anything-<ver>-linux-x86_64.tar.gz` | `craft-anything-<ver>-linux-aarch64.tar.gz` | Unpack anywhere |
+| Tarball | `craft-anything-<ver>-linux-x86_64.tar.gz` | `craft-anything-<ver>-linux-aarch64.tar.gz` | Extraia na pasta de sua escolha |
 
-RISC-V (riscv64): `craft-anything-<ver>-linux-riscv64.tar.gz`, a tarball only.
+Para RISC-V (`riscv64`), há apenas o tarball `craft-anything-<ver>-linux-riscv64.tar.gz`.
 
-The AppImage carries the CLI too: run `<AppImage> --cli <command>` (for example
-`<AppImage> --cli mcp` for an MCP client), or make a link to the AppImage named
-`craft-anything-cli` and run that.
+A AppImage também inclui a CLI. Execute `<AppImage> --cli <comando>` — por exemplo,
+`<AppImage> --cli mcp` para um cliente MCP — ou crie um link para a AppImage chamado
+`craft-anything-cli` e execute esse link.
 
 ### FreeBSD
 
-| Build | File |
+| Arquitetura | Arquivo |
 |---|---|
 | x86_64 | `craft-anything-<ver>-freebsd-x86_64.tar.gz` |
 
 ### Web (WebAssembly)
 
-| Build | File | Notes |
+| Versão | Arquivo | Observações |
 |---|---|---|
-| Browser viewer | `craft-anything-web-<ver>.zip` | Says what a file is, in the browser (the file never leaves it); host the folder on any static web server ([packaging/web/README.md](packaging/web/README.md)) |
+| Visualizador no navegador | `craft-anything-web-<ver>.zip` | Identifica o tipo de arquivo no navegador, sem enviá-lo para um servidor; hospede a pasta em qualquer servidor de arquivos estáticos ([packaging/web/README.md](packaging/web/README.md)) |
 
 <br>
 
 <p align="center">
-  <a href="https://discord.gg/artcraft"><img alt="Join the ArtCraft community on Discord" src="https://img.shields.io/badge/Join%20us%20on%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
+  <a href="https://discord.gg/artcraft"><img alt="Participe da comunidade ArtCraft no Discord" src="https://img.shields.io/badge/Participe%20do%20Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white" height="40"></a>
 </p>
 
-<h3 align="center">Come make things with us</h3>
+<h3 align="center">Venha criar com a gente</h3>
 
 <p align="center">
-  Our Discord is where artists of every kind hang out: people who paint, shoot, draw, cut film,
-  set type, and people still figuring out what they like to make. Share what you're working on,
-  ask for help, tell us what's broken, or tell us what you wish these tools could do.
-  Whatever your medium and however long you've been at it, you're welcome here.
+  Nosso Discord reúne pessoas das mais diversas áreas: pintura, fotografia, desenho, cinema, tipografia e quem ainda está descobrindo o que gosta de criar.
+  Compartilhe seus projetos, peça ajuda, conte o que deu errado ou diga o que gostaria de fazer com estas ferramentas.
+  Seja qual for sua área ou seu nível de experiência, você é bem-vindo.
 </p>
 
 <p align="center">
   <a href="https://discord.gg/artcraft"><b>discord.gg/artcraft</b></a> ·
   <a href="https://getartcraft.com/">getartcraft.com</a> ·
-  <a href="https://getartcraft.com/apps">The Crafting Apps</a> ·
+  <a href="https://getartcraft.com/apps">Crafting Apps</a> ·
   <a href="https://github.com/storytold/craft-anything">Craft Anything</a>
 </p>
 
 ---
 
-## The Craft App Suite
+<a id="the-craft-app-suite"></a>
 
-| | App | What it's for | Code | Learn more |
+## Suíte de aplicativos Craft
+
+| | Aplicativo | Finalidade | Código | Saiba mais |
 |:-:|---|---|---|---|
-| <img src="https://raw.githubusercontent.com/storytold/photocraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.photocraft.png" alt="" width="32" height="32"> | **PhotoCraft** | Image editing: layers, masks, type and real PSD files | [GitHub](https://github.com/storytold/photocraft) | [Website](https://getartcraft.com/apps/photocraft) |
-| <img src="https://raw.githubusercontent.com/storytold/vectorcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.vectorcraft.png" alt="" width="32" height="32"> | **VectorCraft** | Vector illustration | [GitHub](https://github.com/storytold/vectorcraft) | [Website](https://getartcraft.com/apps/vectorcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/filmcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.filmcraft.png" alt="" width="32" height="32"> | **FilmCraft** | Video editing, color and sound | [GitHub](https://github.com/storytold/filmcraft) | [Website](https://getartcraft.com/apps/filmcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/lightcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.lightcraft.png" alt="" width="32" height="32"> | **LightCraft** | Photo library and raw development | [GitHub](https://github.com/storytold/lightcraft) | [Website](https://getartcraft.com/apps/lightcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/pdfcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.pdfcraft.png" alt="" width="32" height="32"> | **PdfCraft** | Reading, organizing and protecting PDFs | [GitHub](https://github.com/storytold/pdfcraft) | [Website](https://getartcraft.com/apps/pdfcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/effectcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.effectcraft.png" alt="" width="32" height="32"> | **EffectCraft** | Motion graphics and visual effects | [GitHub](https://github.com/storytold/effectcraft) | [Website](https://getartcraft.com/apps/effectcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/designcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.designcraft.png" alt="" width="32" height="32"> | **DesignCraft** | Page layout and publishing | [GitHub](https://github.com/storytold/designcraft) | [Website](https://getartcraft.com/apps/designcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/figcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.figcraft.png" alt="" width="32" height="32"> | **FigCraft** | Interface design and prototyping | [GitHub](https://github.com/storytold/figcraft) | [Website](https://getartcraft.com/apps/figcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/wordcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.wordcraft.png" alt="" width="32" height="32"> | **WordCraft** | Word processing and documents | [GitHub](https://github.com/storytold/wordcraft) | [Website](https://getartcraft.com/apps/wordcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/soundcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.soundcraft.png" alt="" width="32" height="32"> | **SoundCraft** | Audio recording and editing | [GitHub](https://github.com/storytold/soundcraft) | [Website](https://getartcraft.com/apps/soundcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/deckcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.deckcraft.png" alt="" width="32" height="32"> | **DeckCraft** | Presentations and slide decks | [GitHub](https://github.com/storytold/deckcraft) | [Website](https://getartcraft.com/apps/deckcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/cadcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.cadcraft.png" alt="" width="32" height="32"> | **CADCraft** | Computer-aided design | [GitHub](https://github.com/storytold/cadcraft) | [Website](https://getartcraft.com/apps/cadcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/gridcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.gridcraft.png" alt="" width="32" height="32"> | **GridCraft** | Spreadsheets and data | [GitHub](https://github.com/storytold/gridcraft) | [Website](https://getartcraft.com/apps/gridcraft) |
-| <img src="https://raw.githubusercontent.com/storytold/texturecraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.texturecraft.png" alt="" width="32" height="32"> | **TextureCraft** | 3D texture painting | [GitHub](https://github.com/storytold/texturecraft) | [Website](https://getartcraft.com/apps/texturecraft) |
-| <img src="https://raw.githubusercontent.com/storytold/craft-anything/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.craft-anything.png" alt="" width="32" height="32"> | **Craft Anything** | See how any software works, then build your own | [GitHub](https://github.com/storytold/craft-anything) | [Website](https://getartcraft.com/apps/craft-anything) |
-| <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/main/assets/icons/app/linux/exports/hicolor/64x64/apps/io.tangencylabs.solidcraft.png" alt="" width="32" height="32"> | **SolidCraft** | Parametric 3D CAD by Tangency Labs (community app) | [GitHub](https://github.com/tangency-labs/solidcraft) | |
+| <img src="https://raw.githubusercontent.com/storytold/photocraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.photocraft.png" alt="" width="32" height="32"> | **PhotoCraft** | Edição de imagens: camadas, máscaras, texto e arquivos PSD nativos | [GitHub](https://github.com/storytold/photocraft) | [Site](https://getartcraft.com/apps/photocraft) |
+| <img src="https://raw.githubusercontent.com/storytold/vectorcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.vectorcraft.png" alt="" width="32" height="32"> | **VectorCraft** | Ilustração vetorial | [GitHub](https://github.com/storytold/vectorcraft) | [Site](https://getartcraft.com/apps/vectorcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/filmcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.filmcraft.png" alt="" width="32" height="32"> | **FilmCraft** | Edição de vídeo, cor e som | [GitHub](https://github.com/storytold/filmcraft) | [Site](https://getartcraft.com/apps/filmcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/lightcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.lightcraft.png" alt="" width="32" height="32"> | **LightCraft** | Biblioteca de fotos e revelação de arquivos RAW | [GitHub](https://github.com/storytold/lightcraft) | [Site](https://getartcraft.com/apps/lightcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/pdfcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.pdfcraft.png" alt="" width="32" height="32"> | **PdfCraft** | Leitura, organização e proteção de PDFs | [GitHub](https://github.com/storytold/pdfcraft) | [Site](https://getartcraft.com/apps/pdfcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/effectcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.effectcraft.png" alt="" width="32" height="32"> | **EffectCraft** | Motion graphics e efeitos visuais | [GitHub](https://github.com/storytold/effectcraft) | [Site](https://getartcraft.com/apps/effectcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/designcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.designcraft.png" alt="" width="32" height="32"> | **DesignCraft** | Diagramação e publicação | [GitHub](https://github.com/storytold/designcraft) | [Site](https://getartcraft.com/apps/designcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/figcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.figcraft.png" alt="" width="32" height="32"> | **FigCraft** | Design de interfaces e prototipagem | [GitHub](https://github.com/storytold/figcraft) | [Site](https://getartcraft.com/apps/figcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/wordcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.wordcraft.png" alt="" width="32" height="32"> | **WordCraft** | Edição de textos e documentos | [GitHub](https://github.com/storytold/wordcraft) | [Site](https://getartcraft.com/apps/wordcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/soundcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.soundcraft.png" alt="" width="32" height="32"> | **SoundCraft** | Gravação, edição e mixagem de áudio | [GitHub](https://github.com/storytold/soundcraft) | [Site](https://getartcraft.com/apps/soundcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/deckcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.deckcraft.png" alt="" width="32" height="32"> | **DeckCraft** | Criação de apresentações | [GitHub](https://github.com/storytold/deckcraft) | [Site](https://getartcraft.com/apps/deckcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/cadcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.cadcraft.png" alt="" width="32" height="32"> | **CADCraft** | Projeto assistido por computador (CAD) | [GitHub](https://github.com/storytold/cadcraft) | [Site](https://getartcraft.com/apps/cadcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/gridcraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.gridcraft.png" alt="" width="32" height="32"> | **GridCraft** | Planilhas e dados | [GitHub](https://github.com/storytold/gridcraft) | [Site](https://getartcraft.com/apps/gridcraft) |
+| <img src="https://raw.githubusercontent.com/storytold/texturecraft/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.texturecraft.png" alt="" width="32" height="32"> | **TextureCraft** | Pintura de texturas 3D | [GitHub](https://github.com/storytold/texturecraft) | [Site](https://getartcraft.com/apps/texturecraft) |
+| <img src="https://raw.githubusercontent.com/storytold/craft-anything/main/assets/app-icon/hicolor/64x64/apps/ai.storyteller.craft-anything.png" alt="" width="32" height="32"> | **Craft Anything** | Entenda como um software funciona e crie sua própria versão | [GitHub](https://github.com/storytold/craft-anything) | [Site](https://getartcraft.com/apps/craft-anything) |
+| <img src="https://raw.githubusercontent.com/tangency-labs/solidcraft/main/assets/icons/app/linux/exports/hicolor/64x64/apps/io.tangencylabs.solidcraft.png" alt="" width="32" height="32"> | **SolidCraft** | CAD 3D paramétrico da Tangency Labs (aplicativo da comunidade) | [GitHub](https://github.com/tangency-labs/solidcraft) | |
 
+<a id="license-and-credits"></a>
 
-## License and credits
+## Licença e créditos
 
-Craft Anything is dual-licensed under [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at your option.
-Copyright (c) 2026 ArtCraft Team and the Craft Anything contributors. Required notices are in [NOTICE](NOTICE).
+O Craft Anything é disponibilizado sob duas opções de licença: [MIT](LICENSE-MIT) ou
+[Apache-2.0](LICENSE-APACHE), à sua escolha.
+Copyright (c) 2026 ArtCraft Team e colaboradores do Craft Anything. Os avisos obrigatórios estão
+em [NOTICE](NOTICE).
 
-Bundled fonts, icons, images and other assets keep their own open licenses; each one is listed
-with its author, source and license in [ATTRIBUTION.md](ATTRIBUTION.md).
+Fontes, ícones, imagens e outros recursos incluídos mantêm suas respectivas licenças abertas.
+O autor, a origem e a licença de cada um estão registrados em [ATTRIBUTION.md](ATTRIBUTION.md).
 
-The screenshots show sample projects made for them: example.com, a snake game and a small
-calculator program.
+As capturas de tela mostram projetos de exemplo criados para elas: example.com, um jogo da cobrinha
+e um pequeno programa de calculadora.
 
-The ArtCraft name, wordmark and logos in [`docs/brand/`](docs/brand/) are trademarks of the
-ArtCraft Team and are not covered by this license. They may be used only unmodified, and only as
-part of this repository and Craft Anything, under [`docs/brand/LICENSE-brand.txt`](docs/brand/LICENSE-brand.txt).
-Forks and modified versions must remove them.
+O nome ArtCraft, o wordmark (logotipo tipográfico) e os logotipos em [`docs/brand/`](docs/brand/) são marcas comerciais da
+equipe ArtCraft e não são abrangidos por esta licença. Seu uso é permitido apenas sem modificações
+e como parte deste repositório e do Craft Anything, nos termos de
+[`docs/brand/LICENSE-brand.txt`](docs/brand/LICENSE-brand.txt). Forks e versões modificadas devem removê-los.
 
 <p align="center">
   <a href="https://getartcraft.com/"><img alt="ArtCraft" src="docs/brand/artcraft-mark.svg" width="28"></a><br>
-  <sub>Made by the <a href="https://getartcraft.com/">ArtCraft</a> team and community.</sub>
+  <sub>Feito pela equipe <a href="https://getartcraft.com/">ArtCraft</a> e pela comunidade.</sub>
 </p>
