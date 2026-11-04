@@ -153,6 +153,7 @@ mod tests {
         assert_eq!(preferred_language(std::iter::empty::<&str>()), "en");
     }
 
+    /// Maintained catalogs must cover the same keys and preserve runtime placeholders and ellipses.
     #[test]
     fn catalogs_are_valid_and_have_matching_keys() {
         fn placeholders(s: &str) -> Vec<&str> {
@@ -185,6 +186,7 @@ mod tests {
         }
     }
 
+    /// Portuguese regional and POSIX aliases share the Brazilian catalog, including OS preference.
     #[test]
     fn brazilian_portuguese_locale_aliases_and_system_preference() {
         for tag in ["pt", "pt-BR", "PT-br", "pt_BR.UTF-8", "pt-PT", "pt-Latn-BR"] {

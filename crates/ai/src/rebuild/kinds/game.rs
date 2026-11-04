@@ -28,27 +28,16 @@ impl TargetKind for GameKind {
         }
     }
 
+    /// Score game requests while keeping Portuguese game topics subordinate to a website request.
+    /// A saved game-engine stack remains authoritative, regardless of the request's wording.
     fn detect(&self, cx: &DetectCx) -> Option<u32> {
         // Built with a game engine (the person picked a game on Make): a game whatever its words
         // say ("Clone <its title> 1:1" never says "game").
         if game::Builder::from_stack(cx.stack).is_some() {
             Some(200)
-        } else if cx.says(&[
-            "game",
-            "gameplay",
-            "steam",
-            "level",
-            "player",
-            "游戏",
-            "遊戲",
-            "玩法",
-            " spiel",
-            "-spiel",
-            " jogo",
-            "-jogo",
-            "jogabilidade",
-            "cobrinha",
-        ]) {
+        } else if cx.says(&["game", "gameplay", "steam", "level", "player", "游戏", "遊戲", "玩法", " spiel", "-spiel"])
+            || (cx.says(&[" jogo", "-jogo", "jogabilidade", "cobrinha"]) && WebsiteKind.detect(cx).is_none())
+        {
             Some(60)
         } else {
             None
@@ -66,14 +55,15 @@ impl TargetKind for GameKind {
         game::Builder::for_game(made).stack()
     }
 
-    /// An engine named in the request ("…in Rust", "with Godot"), as whole words.
+    /// Match an engine after an English or Portuguese preposition, including `no` and `na`.
+    /// Both the preposition and engine name must be whole words in the normalized request.
     fn named_stack(&self, cx: &DetectCx) -> Option<&'static str> {
         game::Builder::ALL
             .into_iter()
             .find(|b| {
                 let n = b.name().to_lowercase();
                 let short = n.split(' ').next().unwrap_or(&n).to_string();
-                [&n, &short].iter().any(|w| ["in", "with", "using", "em", "com", "usando"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
+                [&n, &short].iter().any(|w| ["in", "with", "using", "em", "com", "usando", "no", "na"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
             })
             .map(game::Builder::stack)
     }

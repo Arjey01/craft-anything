@@ -32,6 +32,7 @@ fn harness(mut settings: Settings, dir: &Path) -> Harness<'static, CraftApp> {
     })
 }
 
+/// Exercise locale startup, switching and persistence in one test because language state is global.
 #[test]
 fn chinese_startup_language_menu_and_saved_selection() {
     let temp = tempfile::tempdir().unwrap();
@@ -136,6 +137,7 @@ fn chinese_startup_language_menu_and_saved_selection() {
     assert_eq!(i18n::tr("Settings"), "Settings");
 }
 
+/// Verify Portuguese labels, formatting and suggestions, saving only under the isolated test folder.
 fn brazilian_portuguese_roundtrip(dir: &Path) {
     let settings = Settings { mode: Mode::Beginner, first_run_done: true, language: "pt-br".into(), ..Default::default() };
     let mut h = harness(settings, dir);

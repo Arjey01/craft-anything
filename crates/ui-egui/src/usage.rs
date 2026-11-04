@@ -40,11 +40,12 @@ impl ProjectClock {
     }
 }
 
-/// "about $3.20".
+/// Label an estimated USD cost in the active UI locale, without converting the currency.
 pub fn cost_words(usd: f64) -> String {
     trf("about ${n}", &[("n", &decimal_amount(usd))])
 }
 
+/// Format two decimal places for display; pt-BR changes the separator, never the stored value.
 fn decimal_amount(usd: f64) -> String {
     let amount = format!("{usd:.2}");
     if crate::i18n::language() == "pt-br" { amount.replace('.', ",") } else { amount }

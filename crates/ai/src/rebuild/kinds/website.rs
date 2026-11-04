@@ -141,6 +141,8 @@ impl TargetKind for WebsiteKind {
         }
     }
 
+    /// Recognize a website from its target, explicit site terms or an existing web stack.
+    /// A website's subject matter does not remove this claim on the project.
     fn detect(&self, cx: &DetectCx) -> Option<u32> {
         if matches!(cx.target, TargetRef::Website { .. }) {
             Some(100)

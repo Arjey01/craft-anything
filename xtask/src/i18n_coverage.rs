@@ -64,6 +64,8 @@ impl<'ast> Visit<'ast> for Lookups {
     }
 }
 
+/// Audit UI literals and registry titles against each maintained catalog.
+/// Return false for unreadable sources, invalid Rust or missing translation keys.
 pub fn check(root: &Path) -> bool {
     let mut lookups = Lookups::default();
     let source = root.join("crates/ui-egui/src");

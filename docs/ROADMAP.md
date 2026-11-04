@@ -663,6 +663,8 @@ Gaps found while using the app for real projects.
       Arjey01, branch feature/r2.9-pt-br-translation
 - [x] Review every Brazilian Portuguese catalog entry and `README.pt.md` for meaning, grammar,
       consistent terminology and natural interface wording.
+- [x] Preserve Portuguese engine choices after contracted prepositions (`no`, `na`) and keep
+      game-related website topics as websites, with whole-word and saved-stack regressions.
 - [ ] Obtain an independent native-speaker review of the Brazilian Portuguese wording.
 - [x] Agent paragraphs with glossary terms and long file links wrap together without pushing
       their card or later messages under the sidebar (#523); Project and Ask bounds checked at two sizes

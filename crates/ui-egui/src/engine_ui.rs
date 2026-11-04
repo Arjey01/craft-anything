@@ -533,6 +533,8 @@ struct AssetPrices {
 }
 
 impl AssetPrices {
+    /// Read prices for the selected asset model and budget, then format them for the UI locale.
+    /// Missing catalog entries retain the zero-cost fallback used by the existing price display.
     fn of(app: &CraftApp) -> AssetPrices {
         use crate::usage::{asset_cost_words, usd_amount};
         use craft_anything_engines::assets::{Catalogue, Shape};

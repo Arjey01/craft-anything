@@ -42,8 +42,10 @@ keep their established English spelling. Counts use labels such as `Itens: {n}` 
 parenthesized plural suffixes and ambiguous gender when runtime values are inserted. Product names, tool identifiers and
 placeholders keep their spelling. USD usage estimates use a decimal comma without changing stored
 numeric values. Requests containing *jogo*, *jogabilidade* or *página web*, including the translated
-home suggestions, keep their intended project kind. Game requests also accept *em*, *com* and
-*usando* before an engine name, including the Rust example in [`README.pt.md`](../README.pt.md).
+home suggestions, keep their intended project kind. Game requests also accept *em*, *com*,
+*usando*, *no* and *na* before an engine name, including the Rust example in
+[`README.pt.md`](../README.pt.md). A Portuguese game-related topic, such as *um site sobre jogos*,
+does not change an explicitly requested website into a game; a saved game-engine stack still wins.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 

@@ -83,6 +83,7 @@ fn chinese_requests_keep_their_project_kind() {
     assert_eq!(choose("制作一个笔记应用", &TargetRef::None).0, "app");
 }
 
+/// Portuguese suggestions retain their project kind and explicit engine selections.
 #[test]
 fn brazilian_portuguese_requests_keep_their_project_kind() {
     for request in ["Um jogo simples da cobrinha", "Recrie a jogabilidade deste jogo", "Um mini-jogo em Rust"] {
@@ -100,6 +101,37 @@ fn brazilian_portuguese_requests_keep_their_project_kind() {
     ] {
         assert_eq!(choose(request, &TargetRef::None), ("game", stack), "{request}");
     }
+}
+
+/// Contracted prepositions select the named engine, without matching partial engine names.
+#[test]
+fn portuguese_engine_prepositions_match_whole_words() {
+    for preposition in ["em", "com", "usando", "no", "na"] {
+        for (engine, stack) in [("Godot", "Godot"), ("Unity", "Unity"), ("Unreal Engine", "Unreal Engine"), ("Rust", "Rust + macroquad")] {
+            let request = format!("Faça um jogo {preposition} {engine}.");
+            assert_eq!(choose(&request, &TargetRef::None), ("game", stack), "{request}");
+        }
+    }
+    for request in ["Faça um jogo normal sobre Godot", "Faça um jogo no Godotinho", "Faça um jogo na UnityPlus"] {
+        assert_eq!(choose(request, &TargetRef::None), ("game", "Unity"), "{request}");
+    }
+    assert_eq!(choose("FAÇA UM JOGO NO GODOT!", &TargetRef::None), ("game", "Godot"));
+}
+
+/// A requested site stays a site when games are its topic; an established game stack still wins.
+#[test]
+fn portuguese_game_topics_do_not_override_website_requests() {
+    for request in [
+        "Um site sobre jogos de tabuleiro",
+        "Uma página web com dicas de jogabilidade",
+        "Uma página da web sobre o jogo da cobrinha",
+        "Um site sobre jogos, com React",
+    ] {
+        assert_eq!(choose(request, &TargetRef::None).0, "website", "{request}");
+        assert_eq!(kind_of(request, &TargetRef::None, "Godot"), "game", "saved stack: {request}");
+    }
+    assert_eq!(choose("Um site sobre jogos de tabuleiro", &TargetRef::None).1, stacks::BUILDERS_CHOICE);
+    assert_eq!(choose("Um jogo de tabuleiro", &TargetRef::None), ("game", "Unity"));
 }
 
 #[test]

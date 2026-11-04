@@ -52,7 +52,7 @@
 
 > [!NOTE]
 > **A ArtCraft é uma comunidade para quem cria, de todos os perfis e níveis de experiência.**
-> Pintores, fotógrafos, cineastas, ilustradores, designers, animadores, quem cria por hobby
+> Pintores, fotógrafos, cineastas, ilustradores, designers, animadores, quem cria por lazer
 > e quem pegou em um lápis pela primeira vez na semana passada. Se você cria alguma coisa,
 > já faz parte. **[Venha conversar no Discord](https://discord.gg/artcraft).**
 
