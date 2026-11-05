@@ -66,7 +66,8 @@ The payloads of `data:` and `mailto:` content URIs are excluded as well. Project
 labels followed by a colon remain prose when another address follows them.
 Named-directory references such as `assets/site` are also excluded, including nested paths,
 queries and fragments; adjacent project-kind and engine labels remain prose.
-Slash-separated names matching a registered stack, such as `Rust/macroquad`, remain available
+Slash-separated names matching a registered stack or explicit alias, such as `Rust/macroquad`
+or `Godot/GDScript` and `Godot/C#`, remain available
 for stack selection rather than being treated as directory references.
 
 USD usage, asset spending, budget increments and question costs use the locale-aware amount
@@ -133,3 +134,8 @@ Check each script, clipping, narrow windows and native file dialogs visually
 on each platform; catalog coverage alone does not verify layout or fonts.
 
 With an explicit Portuguese language setting, build turns and project questions include guidance to answer in Brazilian Portuguese while preserving technical identifiers and the requested software content. An explicit request for another response language takes precedence. This guides future agent output; previously saved agent prose is preserved. Live compliance by every backend and every response is not guaranteed by the prompt tests.
+
+Malformed terminal control sequences stop at a line boundary so later diagnostic/remediation lines remain visible. Placeholder expansion scans the translated template once: inserted paths or error text containing braces remain literal. Regression coverage includes the Portuguese display of such paths.
+
+Explicit engine/language aliases live in the stack catalogue (`prose_aliases`). Query/fragment references and qualified paths stay excluded from request detection.
+The hash in an exact registered `Godot/C#` alias belongs to the language name; nonempty fragments remain references.

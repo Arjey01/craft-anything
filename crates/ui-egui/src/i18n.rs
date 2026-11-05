@@ -110,12 +110,24 @@ pub fn tr(s: &str) -> String {
     }
 }
 
-/// Translate, then fill `{name}` placeholders.
+/// Translate, then fill placeholders once, preserving placeholder-like text in argument values.
 pub fn trf(s: &str, args: &[(&str, &str)]) -> String {
-    let mut out = tr(s);
-    for (k, v) in args {
-        out = out.replace(&format!("{{{k}}}"), v);
+    let template = tr(s);
+    let mut rest = template.as_str();
+    let mut out = String::with_capacity(template.len());
+    while let Some((before, after)) = rest.split_once('{') {
+        out.push_str(before);
+        if let Some((value, tail)) =
+            args.iter().find_map(|(name, value)| after.strip_prefix(*name).and_then(|s| s.strip_prefix('}')).map(|tail| (*value, tail)))
+        {
+            out.push_str(value);
+            rest = tail;
+        } else {
+            out.push('{');
+            rest = after;
+        }
     }
+    out.push_str(rest);
     out
 }
 
@@ -130,6 +142,16 @@ mod tests {
         assert!(!m.contains_key("Empty"));
         assert_eq!(trf("Open {name}", &[("name", "a.exe")]), "Open a.exe");
         assert_eq!(tr("Untranslated"), "Untranslated");
+    }
+
+    #[test]
+    fn formatted_values_are_inserted_verbatim() {
+        let args = [("path", "/tmp/{error}/ação"), ("error", "no access: {path}")];
+        assert_eq!(trf("{path}: {error}; again {path}", &args), "/tmp/{error}/ação: no access: {path}; again /tmp/{error}/ação");
+        assert_eq!(trf("{path}: {error}", &[args[1], args[0]]), "/tmp/{error}/ação: no access: {path}");
+        assert_eq!(trf("Unknown {missing}; unfinished {path", &args), "Unknown {missing}; unfinished {path");
+        assert_eq!(trf("{{path}}", &args), "{/tmp/{error}/ação}");
+        assert_eq!(trf("{{\"path\": \"{path}\"}}", &args), "{{\"path\": \"/tmp/{error}/ação\"}}");
     }
 
     #[test]

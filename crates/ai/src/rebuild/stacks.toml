@@ -100,6 +100,7 @@ steps = "Use Unreal Engine (the editor is {editor}) with C++: Blueprint and leve
 
 [[stack]]
 name = "Godot"
+prose_aliases = ["Godot/GDScript", "Godot/C#"]
 engine = "godot"
 found_by = ["project.godot"]
 steps = "Use Godot (the editor is {editor}) with GDScript. Create the project in app/: project.godot (config_version=5, with run/main_scene set), scenes as .tscn text files and scripts as .gd files; Godot's files are plain text, so write scenes directly. Check it with `\"{editor}\" --headless --path app --import` and then `\"{editor}\" --headless --path app --quit-after 120`, and fix every SCRIPT ERROR or ERROR line."

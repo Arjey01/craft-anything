@@ -281,6 +281,49 @@ fn detection_prose_keeps_words_and_versions() {
     assert_eq!(choose("A desktop app in Rust/egui/eframe", &TargetRef::None), ("app", "Rust + egui (eframe)"));
 }
 
+/// Explicit engine/language aliases remain prose; qualified references remain addresses.
+#[test]
+fn slash_engine_aliases_do_not_change_the_requested_engine() {
+    for request in [
+        "Build a game with Godot/GDScript",
+        "Faça um jogo com Godot/GDScript",
+        "Um jogo no Godot/GDScript!",
+        "BUILD A GAME USING GODOT/GDSCRIPT",
+        "Make a game in Godot/C#",
+        "Faça um jogo no Godot/C#",
+        "A game using GODOT/C#!",
+    ] {
+        assert_eq!(choose(request, &TargetRef::None), ("game", "Godot"), "{request}");
+        assert_eq!(KindRegistry::built_in().named(request, &TargetRef::None), Some("Godot"), "{request}");
+    }
+    for path in [
+        "assets/Godot/GDScript",
+        "./Godot/GDScript",
+        "../Godot/GDScript",
+        "/Godot/GDScript",
+        "Godot/GDScript?site=game",
+        "Godot/GDScript#game",
+        "Godot/GDScript/levels",
+        "Rust/macroquad?game",
+        "Rust/macroquad#game",
+        "https://example.com/Godot/GDScript",
+        "[referência](Godot/GDScript)",
+        "assets/no/Godot",
+        "Godot/C",
+        "Godot/C##",
+        "Godot/C#notes",
+        "Godot/C#?site=game",
+        "./Godot/C#",
+        "assets/Godot/C#",
+        "https://example.com/Godot/C#",
+        "[reference](Godot/C#)",
+    ] {
+        let request = format!("Make a game. Reference: {path}");
+        assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");
+        assert_eq!(KindRegistry::built_in().named(&request, &TargetRef::None), None, "{request}");
+    }
+}
+
 /// A URL attached after punctuation must not consume the preceding requested kind or engine.
 #[test]
 fn attached_urls_keep_preceding_prose() {

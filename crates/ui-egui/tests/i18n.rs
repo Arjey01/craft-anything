@@ -146,6 +146,8 @@ fn brazilian_portuguese_roundtrip(dir: &Path) {
     h.get_by_label("Idioma");
     h.get_by_value("Português (Brasil)");
     use craft_anything_ui_egui::display_text::{diagnostic, progress};
+    assert_eq!(progress("Couldn't photograph /tmp/{error}: no access"), "Não foi possível capturar /tmp/{error}: no access");
+    assert_eq!(progress("Couldn't photograph /tmp/{error}: failed at {path}"), "Não foi possível capturar /tmp/{error}: failed at {path}");
     assert_eq!(progress("Reading its JavaScript and watching what it does…"), "Analisando o JavaScript e observando o comportamento do site…");
     assert_eq!(progress("Getting the builder ready…"), "Preparando o agente de criação…");
     assert_eq!(progress("Building the first version…"), "Criando a primeira versão…");
