@@ -29,24 +29,20 @@ impl TargetKind for AppKind {
     /// Keep an explicit desktop app's web/game topic from changing its kind, while respecting
     /// earlier project-kind phrases and authoritative saved stacks or website targets.
     fn detect(&self, cx: &DetectCx) -> Option<u32> {
-        let app = [
-            " desktop app ",
-            " desktop application ",
-            " aplicativo de desktop ",
-            " aplicativo para desktop ",
-            " aplicação de desktop ",
-            " aplicacao de desktop ",
-            " app de desktop ",
-            " crie um aplicativo ",
-            " crie uma aplicação ",
-            " crie uma aplicacao ",
-            " faça um aplicativo ",
-            " quero um aplicativo ",
-        ]
-        .iter()
-        .filter_map(|phrase| cx.words.find(phrase))
-        .chain([" um aplicativo ", " uma aplicação ", " uma aplicacao "].iter().filter(|phrase| cx.words.starts_with(**phrase)).map(|_| 0))
-        .min();
+        let app = [" desktop app ", " desktop application ", " aplicativo ", " aplicação ", " aplicacao ", " app "]
+            .iter()
+            .flat_map(|phrase| cx.words.match_indices(phrase))
+            .filter_map(|(at, _)| {
+                let before = cx.words.get(..at)?;
+                let verb = before.split_whitespace().rev().find(|word| !matches!(*word, "um" | "uma" | "o" | "a" | "an" | "the" | "novo" | "nova" | "new"));
+                // A noun after "use"/"compare" is a reference, not the requested project.
+                (verb.is_none()
+                    || verb.is_some_and(|word| {
+                        matches!(word, "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "desenvolva" | "create" | "build" | "make")
+                    }))
+                .then_some(at)
+            })
+            .min();
         if let Some(before) = app.and_then(|at| cx.words.get(..at)) {
             let prefix = DetectCx::new(before, cx.target, cx.stack);
             if WebsiteKind.detect(&prefix).is_none() && GameKind.detect(&prefix).is_none() {
