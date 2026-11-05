@@ -1,4 +1,4 @@
-<!-- Tradução do README.en.md para português brasileiro. Mantenha este arquivo alinhado à versão em inglês. -->
+<!-- Apresentação do Craft Anything em português brasileiro. Conteúdo alinhado ao README.pt.md. -->
 
 <p align="center">
   <a href="https://getartcraft.com/">
