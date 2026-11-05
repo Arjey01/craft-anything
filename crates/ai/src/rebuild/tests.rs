@@ -212,6 +212,10 @@ fn url_terms_do_not_choose_project_kind() {
         "//example.com/site?next=https://example.org",
         "https://example.com/site?next=https://example.org",
         "[referência](/site?next=https://example.org)",
+        "data:text/plain,game",
+        "data:text/plain,site",
+        "mailto:game",
+        "mailto:site@example.com",
     ] {
         let app = format!("Crie um aplicativo de desktop que monitore {url}");
         assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
@@ -241,6 +245,8 @@ fn url_terms_do_not_choose_named_stacks() {
         "[referência](#in-Godot)",
         "example.com/no/Godot?next=https://example.org",
         "/no/Godot?next=https://example.org",
+        "data:text/plain,in/Godot",
+        "mailto:in/Godot",
     ] {
         let request = format!("Crie um jogo inspirado em {url}");
         assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");

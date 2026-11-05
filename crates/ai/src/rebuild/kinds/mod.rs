@@ -110,7 +110,9 @@ fn url_token(token: &str) -> bool {
     let absolute = address.split_once("://").is_some_and(|(scheme, _)| {
         scheme.starts_with(|c: char| c.is_ascii_alphabetic()) && scheme.chars().all(|c| c.is_ascii_alphanumeric() || matches!(c, '+' | '-' | '.'))
     });
-    if absolute || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
+    // A general `word:` rule would consume prose such as `site:https://…` and `Next.js:/…`.
+    let content_uri = address.split_once(':').is_some_and(|(scheme, rest)| !rest.is_empty() && matches!(scheme, "data" | "mailto"));
+    if absolute || content_uri || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
         return true;
     }
     let authority = address.split(['/', '?', '#']).next().unwrap_or_default();
