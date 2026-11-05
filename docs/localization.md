@@ -67,7 +67,9 @@ labels followed by a colon remain prose when another address follows them.
 
 USD usage, asset spending, budget increments and question costs use the locale-aware amount
 helpers. Small positive stated amounts retain the localized “under $0.01” label instead of
-appearing as zero. This changes display text only, without converting currency or stored values.
+appearing as zero, including both spent and budget values in the project's asset row. Its shared
+catalog key takes complete formatted amounts; every reference catalog is updated together.
+This changes display text only, without converting currency or stored values.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 
