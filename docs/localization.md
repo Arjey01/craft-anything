@@ -50,6 +50,8 @@ first whole-word phrase distinguishes a site about games from a game intended fo
 Existing website targets and saved stacks retain their precedence.
 An explicit desktop-app phrase before a website/game topic likewise preserves the desktop
 project kind; earlier project-kind phrases and existing targets/stacks still take precedence.
+Request verbs are recognized through modifiers/prepositions (`preciso de um app`, `build a simple
+desktop app`, `rebuild this desktop application`); reference verbs/clauses do not claim app intent.
 Kind and named-stack detection ignores URL tokens (schemes such as `https://`, bare domains,
 relative references and local server addresses),
 so a path such as `/site`, `/game` or `/no/Godot` is not read as a project request.
