@@ -1380,7 +1380,7 @@ your files there are the app, edited in place	os arquivos dessa pasta são o apl
 {n} step(s) didn't work and were retried or skipped.	Etapas que falharam e foram repetidas ou ignoradas: {n}.
 {n} tokens	{n} tokens
 {n} · ${spent:.2} of ${budget:.2}	{n} · US$ {spent:.2} de US$ {budget:.2}
-{n} · ${spent} of ${budget}	{n} · US$ {spent} de US$ {budget}
+{n} · {spent} of {budget}	{n} · {spent} de {budget}
 {scenes} {}	{scenes} {}
 {text}, {}	{text}, {}
 {title} hit a bug and stopped safely. ({what})	{title} encontrou um erro e foi interrompido de forma controlada. ({what})

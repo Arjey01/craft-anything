@@ -46,7 +46,7 @@ pub fn cost_words(usd: f64) -> String {
 }
 
 /// Format two decimal places for display; pt-BR changes the separator, never the stored value.
-pub(crate) fn decimal_amount(usd: f64) -> String {
+fn decimal_amount(usd: f64) -> String {
     let amount = format!("{usd:.2}");
     if crate::i18n::language() == "pt-br" { amount.replace('.', ",") } else { amount }
 }

@@ -201,9 +201,9 @@ fn brazilian_portuguese_roundtrip(dir: &Path) {
 fn asset_spending_roundtrip(dir: &Path) {
     use craft_anything_engine::workspace::{TargetRef, Workspace};
     use craft_anything_ui_egui::state::Screen;
-    for (lang, amount, increase, small) in [
-        ("en", "2 · $1.23 of $5.00", "Raise the budget by $5.00", "under $0.01"),
-        ("pt-br", "2 · US$ 1,23 de US$ 5,00", "Aumentar o orçamento em US$ 5,00", "menos de US$ 0,01"),
+    for (lang, amount, increase, small, small_row) in [
+        ("en", "2 · $1.23 of $5.00", "Raise the budget by $5.00", "under $0.01", "2 · under $0.01 of under $0.01"),
+        ("pt-br", "2 · US$ 1,23 de US$ 5,00", "Aumentar o orçamento em US$ 5,00", "menos de US$ 0,01", "2 · menos de US$ 0,01 de menos de US$ 0,01"),
     ] {
         let root = dir.join(lang);
         let settings = Settings { mode: Mode::Beginner, first_run_done: true, language: lang.into(), ..Default::default() };
@@ -222,5 +222,10 @@ fn asset_spending_roundtrip(dir: &Path) {
         h.get_by_label(amount);
         h.get_by_label(increase);
         assert_eq!(craft_anything_ui_egui::usage::usd_amount(0.0031), small);
+        let a = h.state_mut();
+        a.facts.assets.1 = 0.0031;
+        a.workspace.as_mut().unwrap().manifest.asset_budget_usd = 0.0031;
+        h.run_steps(3);
+        h.get_by_label(small_row);
     }
 }
