@@ -10,6 +10,21 @@ pub const RUNS_BRIEF: &str = "The original is a console program, so it's compare
 
 impl AppKind {
     pub const ID: &'static str = "app";
+
+    /// Look through descriptive modifiers for the governing request/reference verb.
+    /// Reference verbs and relational clauses prevent an earlier creation verb from leaking in.
+    fn requested(before: &str) -> bool {
+        for word in before.split_whitespace().rev() {
+            match word {
+                "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "preciso" | "gostaria" | "desenvolva" | "recrie" | "recriar" | "create"
+                | "build" | "rebuild" | "make" | "want" | "need" => return true,
+                "use" | "usar" | "usando" | "utilize" | "compare" | "comparar" | "using" | "uses" | "reference" | "referência" | "referencia" | "como"
+                | "like" | "que" | "that" | "which" | "do" | "da" | "of" | "sobre" | "about" | "for" | "para" | "from" | "against" => return false,
+                _ => {}
+            }
+        }
+        true
+    }
 }
 
 impl TargetKind for AppKind {
@@ -38,16 +53,7 @@ impl TargetKind for AppKind {
                 if ["as reference ", "as a reference ", "como referência ", "como referencia "].iter().any(|phrase| after.starts_with(phrase)) {
                     return None;
                 }
-                let verb = before.split_whitespace().rev().find(|word| !matches!(*word, "um" | "uma" | "o" | "a" | "an" | "the" | "novo" | "nova" | "new"));
-                // A noun after "use"/"compare" is a reference, not the requested project.
-                (verb.is_none()
-                    || verb.is_some_and(|word| {
-                        matches!(
-                            word,
-                            "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "desenvolva" | "create" | "build" | "make" | "want" | "need"
-                        )
-                    }))
-                .then_some(at)
+                Self::requested(before).then_some(at)
             })
             .min();
         if let Some(before) = app.and_then(|at| cx.words.get(..at)) {
