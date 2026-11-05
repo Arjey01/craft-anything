@@ -60,6 +60,8 @@ The outer address is recognized before inspecting punctuation, so an absolute UR
 bare or relative URL's query cannot expose its host/path as prose.
 Bare-domain ports must be numeric and in range; a scheme after `Next.js:` is therefore an
 attached address, not a port that consumes the requested stack name.
+The stack-name exception excludes authorities with userinfo, and trailing sentence colons
+are removed before validating a numeric port.
 That README translates the English documentation and preserves executable names, flags, API/tool
 identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
 

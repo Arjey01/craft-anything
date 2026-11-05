@@ -119,7 +119,8 @@ fn url_token(token: &str) -> bool {
     }
     let host_port = authority.rsplit('@').next().unwrap_or_default();
     let host = if let Some((host, port)) = host_port.split_once(':') {
-        if port.is_empty() && catalog_stack_word(host) {
+        let port = port.trim_end_matches(':');
+        if port.is_empty() && !authority.contains('@') && catalog_stack_word(host) {
             return false;
         }
         if !port.is_empty() && (!port.bytes().all(|c| c.is_ascii_digit()) || port.parse::<u16>().is_err()) {
