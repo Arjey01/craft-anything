@@ -181,7 +181,7 @@ connects Craft Anything to coding-agent apps.
 
 ## Under the hood
 
-A pure-Rust reverse-engineering engine with 320 tools (300 in the engine, the rest from the AI and
+A pure-Rust reverse-engineering engine with 320 tools (301 in the engine, the rest from the AI and
 setup layers) for native programs, .NET, Java, Android, Apple, Electron/JavaScript, websites,
 firmware, packet captures, databases and game files. Its own decoders, disassembler and
 decompiler work without any outside program; Deep mode uses them all, and Ghidra when it's

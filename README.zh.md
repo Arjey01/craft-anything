@@ -1,4 +1,4 @@
-<!-- 本文件是 README.md 的简体中文翻译；英文版有改动时请一并更新本文件。 -->
+<!-- 本文件是 README.en.md 的简体中文翻译；英文版有改动时请一并更新本文件。 -->
 
 <p align="center">
   <a href="https://getartcraft.com/">
@@ -16,7 +16,7 @@
 <h1 align="center">Craft Anything</h1>
 
 <p align="center">
-  <a href="README.md">English</a> · <a href="README.ja.md">日本語</a> · <b>简体中文</b> · <a href="README.ko.md">한국어</a>
+  <a href="README.en.md">English</a> · <a href="README.ja.md">日本語</a> · <b>简体中文</b> · <a href="README.ko.md">한국어</a>
 </p>
 
 <p align="center">
@@ -330,4 +330,4 @@ Copyright (c) 2026 ArtCraft Team and the Craft Anything contributors。必需的
 
 ---
 
-<sub>本页是 [README.md](README.md) 的简体中文翻译。如有出入，以英文版为准。</sub>
+<sub>本页是 [README.en.md](README.en.md) 的简体中文翻译。如有出入，以英文版为准。</sub>

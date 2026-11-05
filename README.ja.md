@@ -14,7 +14,7 @@
 <h1 align="center">Craft Anything</h1>
 
 <p align="center">
-  <a href="README.md">English</a> · <b>日本語</b> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a>
+  <a href="README.en.md">English</a> · <b>日本語</b> · <a href="README.zh.md">简体中文</a> · <a href="README.ko.md">한국어</a>
 </p>
 
 <p align="center">
@@ -351,4 +351,4 @@ Craft Anything は [MIT](LICENSE-MIT) または [Apache-2.0](LICENSE-APACHE) の
 
 ---
 
-<sub>このページは [README.md](README.md) の日本語訳です。内容に食い違いがある場合は英語版が優先されます。</sub>
+<sub>このページは [README.en.md](README.en.md) の日本語訳です。内容に食い違いがある場合は英語版が優先されます。</sub>
