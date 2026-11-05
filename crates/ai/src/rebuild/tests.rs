@@ -237,6 +237,37 @@ fn url_terms_do_not_choose_project_kind() {
     }
 }
 
+/// A desktop app's subject is not the kind to create; explicit and saved targets still win.
+#[test]
+fn desktop_app_topics_do_not_change_the_requested_kind() {
+    for (request, existing_web_kind) in [
+        ("Crie um aplicativo de desktop que monitore um site", "website"),
+        ("Um aplicativo de desktop para organizar jogos", "website"),
+        ("Crie uma aplicação de desktop para acessar uma página web", "website"),
+        ("Build a desktop app that monitors a website", "website"),
+        ("Create a desktop application to organize games", "game"),
+        ("Crie um aplicativo que monitore um site", "website"),
+        ("Um aplicativo para acessar uma página web", "website"),
+        ("Quero um aplicativo para organizar jogos", "website"),
+    ] {
+        assert_eq!(choose(request, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{request}");
+        assert_eq!(kind_of(request, &TargetRef::None, "Rust + egui (eframe)"), "app", "saved app: {request}");
+        assert_eq!(kind_of(request, &TargetRef::None, "Godot"), "game", "saved game: {request}");
+        assert_eq!(kind_of(request, &TargetRef::None, "React + TypeScript (Vite)"), existing_web_kind, "existing web stack: {request}");
+        let target = TargetRef::Website { url: "https://example.com".into() };
+        assert_eq!(choose(request, &target).0, "website", "explicit target: {request}");
+    }
+    for (request, expected) in [
+        ("Crie um site sobre aplicativos de desktop", "website"),
+        ("Create a website with desktop app downloads", "website"),
+        ("Crie um jogo que tenha um aplicativo de desktop de exemplo", "game"),
+        ("Make a game with a desktop app for configuration", "game"),
+        ("Crie uma página do aplicativo para o site", "website"),
+    ] {
+        assert_eq!(choose(request, &TargetRef::None).0, expected, "{request}");
+    }
+}
+
 /// Engine words inside links cannot override prose; visible Markdown labels remain prose.
 #[test]
 fn url_terms_do_not_choose_named_stacks() {

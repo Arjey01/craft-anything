@@ -48,6 +48,8 @@ home suggestions, keep their intended project kind. Game requests also accept *e
 does not change an explicitly requested website into a game. When both kinds appear, their
 first whole-word phrase distinguishes a site about games from a game intended for a web page.
 Existing website targets and saved stacks retain their precedence.
+An explicit desktop-app phrase before a website/game topic likewise preserves the desktop
+project kind; earlier project-kind phrases and existing targets/stacks still take precedence.
 Kind and named-stack detection ignores URL tokens (schemes such as `https://`, bare domains,
 relative references and local server addresses),
 so a path such as `/site`, `/game` or `/no/Godot` is not read as a project request.

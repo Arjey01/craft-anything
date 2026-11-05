@@ -26,7 +26,33 @@ impl TargetKind for AppKind {
         }
     }
 
-    fn detect(&self, _cx: &DetectCx) -> Option<u32> {
+    /// Keep an explicit desktop app's web/game topic from changing its kind, while respecting
+    /// earlier project-kind phrases and authoritative saved stacks or website targets.
+    fn detect(&self, cx: &DetectCx) -> Option<u32> {
+        let app = [
+            " desktop app ",
+            " desktop application ",
+            " aplicativo de desktop ",
+            " aplicativo para desktop ",
+            " aplicação de desktop ",
+            " aplicacao de desktop ",
+            " app de desktop ",
+            " crie um aplicativo ",
+            " crie uma aplicação ",
+            " crie uma aplicacao ",
+            " faça um aplicativo ",
+            " quero um aplicativo ",
+        ]
+        .iter()
+        .filter_map(|phrase| cx.words.find(phrase))
+        .chain([" um aplicativo ", " uma aplicação ", " uma aplicacao "].iter().filter(|phrase| cx.words.starts_with(**phrase)).map(|_| 0))
+        .min();
+        if let Some(before) = app.and_then(|at| cx.words.get(..at)) {
+            let prefix = DetectCx::new(before, cx.target, cx.stack);
+            if WebsiteKind.detect(&prefix).is_none() && GameKind.detect(&prefix).is_none() {
+                return Some(70);
+            }
+        }
         // Whatever isn't recognised as something else is an app.
         Some(1)
     }
