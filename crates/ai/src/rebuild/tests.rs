@@ -216,6 +216,12 @@ fn url_terms_do_not_choose_project_kind() {
         "data:text/plain,site",
         "mailto:game",
         "mailto:site@example.com",
+        "assets/site",
+        "assets/game",
+        "assets/nested/site?version=1",
+        "assets/site#section",
+        "assets/site?next=https://example.org",
+        "(assets/site)",
     ] {
         let app = format!("Crie um aplicativo de desktop que monitore {url}");
         assert_eq!(choose(&app, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{app}");
@@ -247,6 +253,8 @@ fn url_terms_do_not_choose_named_stacks() {
         "/no/Godot?next=https://example.org",
         "data:text/plain,in/Godot",
         "mailto:in/Godot",
+        "assets/in/Godot",
+        "assets/no/Godot",
     ] {
         let request = format!("Crie um jogo inspirado em {url}");
         assert_eq!(choose(&request, &TargetRef::None), ("game", "Unity"), "{request}");
@@ -268,14 +276,22 @@ fn detection_prose_keeps_words_and_versions() {
         assert!(cx.request.contains(&word.to_lowercase()), "{word}");
     }
     assert_eq!(choose("Crie um site com Next.js", &TargetRef::None), ("website", "Next.js + TypeScript"));
+    assert_eq!(choose("A game in Rust/macroquad", &TargetRef::None), ("game", "Rust + macroquad"));
+    assert_eq!(choose("Um jogo em Rust/macroquad", &TargetRef::None), ("game", "Rust + macroquad"));
+    assert_eq!(choose("A desktop app in Rust/egui/eframe", &TargetRef::None), ("app", "Rust + egui (eframe)"));
 }
 
 /// A URL attached after punctuation must not consume the preceding requested kind or engine.
 #[test]
 fn attached_urls_keep_preceding_prose() {
-    for address in
-        ["https://example.com/game", "example.com/game", "www.example.com/game", "example.com/game?next=https://example.org", "/game?next=https://example.org"]
-    {
+    for address in [
+        "https://example.com/game",
+        "example.com/game",
+        "www.example.com/game",
+        "example.com/game?next=https://example.org",
+        "/game?next=https://example.org",
+        "assets/game",
+    ] {
         for separator in [":", "(", "：", ";"] {
             let site = format!("Crie um site{separator}{address}");
             assert_eq!(choose(&site, &TargetRef::None).0, "website", "{site}");

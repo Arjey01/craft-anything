@@ -115,6 +115,16 @@ fn url_token(token: &str) -> bool {
     if absolute || content_uri || address.starts_with(['/', '#', '?']) || address.starts_with("./") || address.starts_with("../") {
         return true;
     }
+    let path = address.split(['?', '#']).next().unwrap_or_default();
+    if let Some((directory, rest)) = path.split_once('/')
+        && !directory.is_empty()
+        && !rest.is_empty()
+        && !directory.contains(':')
+        && path.split('/').all(|part| !part.is_empty() && part.chars().all(|c| c.is_alphanumeric() || matches!(c, '-' | '_' | '.' | '%' | '~')))
+    {
+        let words = stacks::words(path);
+        return !stacks::catalogue().iter().any(|stack| stacks::words(&stack.name) == words);
+    }
     let authority = address.split(['/', '?', '#']).next().unwrap_or_default();
     if authority.parse::<std::net::IpAddr>().is_ok() {
         return true;
