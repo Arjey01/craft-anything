@@ -64,6 +64,10 @@ The stack-name exception excludes authorities with userinfo, and trailing senten
 are removed before validating a numeric port.
 The payloads of `data:` and `mailto:` content URIs are excluded as well. Project and stack
 labels followed by a colon remain prose when another address follows them.
+Named-directory references such as `assets/site` are also excluded, including nested paths,
+queries and fragments; adjacent project-kind and engine labels remain prose.
+Slash-separated names matching a registered stack, such as `Rust/macroquad`, remain available
+for stack selection rather than being treated as directory references.
 
 USD usage, asset spending, budget increments and question costs use the locale-aware amount
 helpers. Small positive stated amounts retain the localized “under $0.01” label instead of

@@ -190,7 +190,7 @@ dos agentes de programação.
 
 ## Por dentro do Craft Anything
 
-Uma engine de engenharia reversa em Rust puro, com 320 ferramentas: 300 na engine e as demais nas camadas
+Uma engine de engenharia reversa em Rust puro, com 320 ferramentas: 301 na engine e as demais nas camadas
 de IA e configuração. Ela analisa programas nativos, .NET, Java, Android, Apple, Electron/JavaScript,
 sites, firmware, capturas de pacotes, bancos de dados e arquivos de jogos.
 
