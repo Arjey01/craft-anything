@@ -253,6 +253,8 @@ fn desktop_app_topics_do_not_change_the_requested_kind() {
         ("Um app para monitorar um site", "website"),
         ("Faça um app para organizar jogos", "website"),
         ("Por favor, crie um app para acessar uma página web", "website"),
+        ("I want a desktop app to organize games", "game"),
+        ("I need a desktop application to monitor a website", "website"),
     ] {
         assert_eq!(choose(request, &TargetRef::None), ("app", "Rust + egui (eframe)"), "{request}");
         assert_eq!(kind_of(request, &TargetRef::None, "Rust + egui (eframe)"), "app", "saved app: {request}");
@@ -272,6 +274,10 @@ fn desktop_app_topics_do_not_change_the_requested_kind() {
         ("Compare um aplicativo de desktop e crie um site", "website"),
         ("Use a desktop app as reference and create a website", "website"),
         ("Use um aplicativo de desktop como referência e crie um jogo", "game"),
+        ("App as a reference: create a website", "website"),
+        ("Desktop app as reference: create a website", "website"),
+        ("Um aplicativo como referência: crie um site", "website"),
+        ("App como referencia: crie um jogo", "game"),
     ] {
         assert_eq!(choose(request, &TargetRef::None).0, expected, "{request}");
     }

@@ -32,13 +32,20 @@ impl TargetKind for AppKind {
         let app = [" desktop app ", " desktop application ", " aplicativo ", " aplicação ", " aplicacao ", " app "]
             .iter()
             .flat_map(|phrase| cx.words.match_indices(phrase))
-            .filter_map(|(at, _)| {
+            .filter_map(|(at, phrase)| {
                 let before = cx.words.get(..at)?;
+                let after = cx.words.get(at + phrase.len()..)?.trim_start();
+                if ["as reference ", "as a reference ", "como referência ", "como referencia "].iter().any(|phrase| after.starts_with(phrase)) {
+                    return None;
+                }
                 let verb = before.split_whitespace().rev().find(|word| !matches!(*word, "um" | "uma" | "o" | "a" | "an" | "the" | "novo" | "nova" | "new"));
                 // A noun after "use"/"compare" is a reference, not the requested project.
                 (verb.is_none()
                     || verb.is_some_and(|word| {
-                        matches!(word, "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "desenvolva" | "create" | "build" | "make")
+                        matches!(
+                            word,
+                            "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "desenvolva" | "create" | "build" | "make" | "want" | "need"
+                        )
                     }))
                 .then_some(at)
             })
