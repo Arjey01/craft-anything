@@ -27,7 +27,7 @@ so a translated suggestion keeps its project kind.
 `pt_BR.UTF-8` and other Portuguese regions select this catalog until another Portuguese locale is
 available. The system-language choice follows the same resolution.
 
-`crates/ui-egui/src/i18n/pt-br.tsv` has the same keys as the maintained reference catalogs.
+`crates/ui-egui/src/i18n/pt-br.tsv` contains every maintained reference key, plus translations for workflow events and known process diagnostics that previously appeared as runtime English text.
 It translates the English source meaning. An editorial pass covered every catalog entry and
 `README.pt.md`, checking meaning, Brazilian usage, grammar, labels and consistent terminology.
 Independent community review remains welcome. Automated UI checks cover startup, switching between English and
@@ -91,12 +91,12 @@ well as English titles and stable tool IDs. Missing translations fall back to
 the original English text. Product and technology names retain their spelling.
 
 User text, AI responses, evidence and raw tool results, tool summaries and schema
-descriptions, logs and exported reports retain their original text. The CLI,
+descriptions, raw log files and exported reports retain their original text. Known workflow stages and process-error wrappers are localized when displayed, including in saved conversations and the activity panel. Terminal color/control sequences are removed from those labels; executable command text remains unchanged. The CLI,
 MCP, tool IDs, stored project data and the separate browser viewer are unchanged.
 
 Keep placeholders such as `{name}` and `{n}` intact, along with command IDs,
 shortcuts, escapes and trailing `…`. Update every catalog (`cs`, `de`, `ko`, `pt-br`, `ru`, `zh-hans`, `zh-hant`)
-when English source keys change; the tests require matching key sets. Common terms include 净室 / 淨室 (Clean room), 深度 (Deep),
+when English source keys change; the tests require matching shared key sets. Portuguese may additionally translate existing runtime workflow messages; those entries are validated for placeholders and ellipses as well. Common terms include 净室 / 淨室 (Clean room), 深度 (Deep),
 构建 / 建置 (Build), 证据 / 證據 (Evidence), and 项目 / 專案 (Project).
 The Korean catalog `ko.tsv` uses 클린룸 (Clean room), 심층 (Deep), 분석 / 만들기 / 검사 / 완성
 (Study / Build / Check / Ready), 근거 (Evidence) and 프로젝트 (Project); short labels are nouns and
@@ -113,7 +113,7 @@ cargo clippy -p craft-anything-ui-egui -p xtask --all-targets -- -D warnings
 cargo xtask i18n-coverage
 ```
 
-Catalog tests check duplicate and empty entries, matching key sets, placeholders
+Catalog tests check duplicate and empty entries, shared key coverage, placeholders
 and ellipses. The coverage command checks literal translation calls, common
 widget labels and registered engine tool titles and groups; it also runs in
 `cargo xtask ci`. It does not prove coverage of arbitrary runtime text or labels
@@ -131,3 +131,5 @@ already include. Local builds must set `CRAFT_FONTS_DIR` to a craft-fonts checko
 before compiling to get the same glyph coverage. The catalogs add no font assets.
 Check each script, clipping, narrow windows and native file dialogs visually
 on each platform; catalog coverage alone does not verify layout or fonts.
+
+With an explicit Portuguese language setting, build turns and project questions include guidance to answer in Brazilian Portuguese while preserving technical identifiers and the requested software content. An explicit request for another response language takes precedence. This guides future agent output; previously saved agent prose is preserved. Live compliance by every backend and every response is not guaranteed by the prompt tests.

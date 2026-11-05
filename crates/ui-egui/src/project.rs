@@ -1308,8 +1308,12 @@ fn run_details(app: &mut CraftApp, ui: &mut Ui, status_row: bool) {
                                 ui.set_height(LINE);
                                 ui.label(RichText::new(crate::usage::duration_words(line.at)).font(theme::mono(theme::CAPTION)).color(t.text_faint));
                                 ui.label(RichText::new(line.kind.tag()).font(theme::mono(theme::CAPTION)).color(colour));
-                                ui.add(egui::Label::new(RichText::new(&line.text).font(theme::mono(theme::CAPTION)).color(words)).truncate())
-                                    .on_hover_text(&line.text);
+                                let shown = match line.kind {
+                                    LineKind::Stage => crate::display_text::progress(&line.text),
+                                    LineKind::Failed | LineKind::Problem => crate::display_text::diagnostic(&line.text),
+                                    _ => crate::display_text::plain(&line.text),
+                                };
+                                ui.add(egui::Label::new(RichText::new(&shown).font(theme::mono(theme::CAPTION)).color(words)).truncate()).on_hover_text(&shown);
                             });
                         }
                     },
@@ -1353,7 +1357,7 @@ fn draw_items(
         questions_up_to(app, ui, i);
         ui.push_id(i, |ui| match item {
             FeedItem::User(text) => chat::user_bubble(ui, text.text(), false),
-            FeedItem::Step { text, .. } => chat::activity_row(ui, RichText::new(text).color(t.text_dim).size(theme::SMALL)),
+            FeedItem::Step { text, .. } => chat::activity_row(ui, RichText::new(crate::display_text::progress(text)).color(t.text_dim).size(theme::SMALL)),
             FeedItem::Paused => chat::activity_row(ui, RichText::new(tr("Paused.")).color(t.text_dim).size(theme::SMALL)),
             FeedItem::Agent { text, streaming } => {
                 chat::answer_bubble(ui, false, text.trim(), |ui| {
@@ -1384,10 +1388,10 @@ fn draw_items(
                         ui.set_width(ui.available_width());
                         ui.horizontal(|ui| {
                             icons::show(ui, "triangle-alert", 16.0, t.danger);
-                            ui.add(egui::Label::new(RichText::new(message).color(t.text)).wrap());
+                            ui.add(egui::Label::new(RichText::new(crate::display_text::diagnostic(message)).color(t.text)).wrap());
                         });
                         if let Some(r) = remediation {
-                            ui.add(egui::Label::new(RichText::new(r).color(t.text_dim)).wrap());
+                            ui.add(egui::Label::new(RichText::new(crate::display_text::diagnostic(r)).color(t.text_dim)).wrap());
                         }
                         if let Some(l) = log
                             && widgets::open_log_button(ui, l)

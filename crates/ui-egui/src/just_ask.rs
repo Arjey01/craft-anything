@@ -169,7 +169,7 @@ pub fn card(ui: &mut Ui, a: &mut Asked, glossary: bool) {
                 );
             }
             Some(Err(why)) => {
-                ui.add(egui::Label::new(RichText::new(format!("{} {why}", tr("Couldn't answer:"))).color(t.danger)).wrap());
+                ui.add(egui::Label::new(RichText::new(format!("{} {}", tr("Couldn't answer:"), crate::display_text::diagnostic(why))).color(t.danger)).wrap());
             }
         }
     });

@@ -42,6 +42,7 @@ mod brief;
 mod check;
 pub mod feed;
 pub mod kinds;
+mod language;
 mod locate;
 pub mod notes;
 mod output;
@@ -1055,10 +1056,12 @@ impl Worker {
     }
 
     fn converse_turn(&mut self, ws: &mut Workspace, agent: &mut dyn Conversation, text: &str, retry: bool) -> Result<String, ToolError> {
+        let language = self.engine.session().settings.language.clone();
+        let text = language::localized_prompt(text, &language);
         if retry {
-            agent.retry(text);
+            agent.retry(&text);
         } else {
-            agent.send(text);
+            agent.send(&text);
         }
         let mut reply = String::new();
         let mut failed = None;

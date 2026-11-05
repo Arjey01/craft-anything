@@ -178,11 +178,17 @@ mod tests {
             let parsed = parse(lang.source);
             assert_eq!(parsed.len(), keys.len());
             assert!(keys.len() > 500, "{}: incomplete catalog", lang.code);
-            catalogs.push(keys);
+            catalogs.push((lang.code, keys));
         }
         assert!(catalogs.len() >= 2);
-        for c in catalogs.iter().skip(1) {
-            assert_eq!(catalogs.first(), Some(c));
+        let reference = &catalogs.first().unwrap().1;
+        for (code, keys) in &catalogs {
+            if *code == "pt-br" {
+                // Workflow events predate localization and remain optional in other locales.
+                assert!(reference.is_subset(keys), "Portuguese must retain every shared key");
+            } else {
+                assert_eq!(reference, keys, "{code}");
+            }
         }
     }
 
