@@ -10,6 +10,9 @@ use std::sync::OnceLock;
 pub struct Stack {
     /// Shown to the person and stored in the project.
     pub name: String,
+    /// Alternate technical names that remain prose when written with slashes, not file paths.
+    #[serde(default)]
+    pub prose_aliases: Vec<String>,
     /// The game engine it builds with (`unity`, `unreal`, `godot`, `rust`), if any.
     #[serde(default)]
     pub engine: Option<String>,

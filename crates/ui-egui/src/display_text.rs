@@ -18,7 +18,14 @@ pub fn plain(text: &str) -> String {
         };
         match control {
             Some('[') => {
-                for c in chars.by_ref() {
+                while let Some(c) = chars.next() {
+                    if matches!(c, '\n' | '\r') {
+                        out.push('\n');
+                        if c == '\r' && chars.peek() == Some(&'\n') {
+                            chars.next();
+                        }
+                        break;
+                    }
                     if ('\u{40}'..='\u{7e}').contains(&c) {
                         break;
                     }
@@ -26,6 +33,13 @@ pub fn plain(text: &str) -> String {
             }
             Some(']') => {
                 while let Some(c) = chars.next() {
+                    if matches!(c, '\n' | '\r') {
+                        out.push('\n');
+                        if c == '\r' && chars.peek() == Some(&'\n') {
+                            chars.next();
+                        }
+                        break;
+                    }
                     if c == '\u{7}' || c == '\u{9c}' {
                         break;
                     }
@@ -145,6 +159,16 @@ mod tests {
         assert_eq!(plain("\x1b]8;;https://example.com\x07link\x1b]8;;\x1b\\\nnext"), "link\nnext");
         assert_eq!(plain("text\x1b[91"), "text");
         assert_eq!(plain("\u{9b}31mtest\u{9b}0m"), "test");
+    }
+
+    #[test]
+    fn malformed_terminal_sequences_preserve_later_lines() {
+        for control in ["\x1b]8;;broken", "\u{9d}8;;broken", "\x1b[91", "\u{9b}91"] {
+            for newline in ["\n", "\r\n", "\r"] {
+                assert_eq!(plain(&format!("Error: {control}{newline}Run foo to fix")), "Error: \nRun foo to fix");
+            }
+        }
+        assert_eq!(diagnostic("Error: \x1b]8;;broken\nRun foo to fix"), "Error: \nRun foo to fix");
     }
 
     #[test]
