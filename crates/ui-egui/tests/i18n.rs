@@ -145,6 +145,47 @@ fn brazilian_portuguese_roundtrip(dir: &Path) {
     h.run_steps(3);
     h.get_by_label("Idioma");
     h.get_by_value("Português (Brasil)");
+    use craft_anything_ui_egui::display_text::{diagnostic, progress};
+    assert_eq!(progress("Reading its JavaScript and watching what it does…"), "Analisando o JavaScript e observando o comportamento do site…");
+    assert_eq!(progress("Getting the builder ready…"), "Preparando o agente de criação…");
+    assert_eq!(progress("Building the first version…"), "Criando a primeira versão…");
+    assert_eq!(progress("Opening https://example.com in a private browser…"), "Abrindo https://example.com em uma sessão privada do navegador…");
+    assert_eq!(progress("Photographing more pages (2 of 3): /about…"), "Capturando mais páginas (2 de 3): /about…");
+    assert_eq!(progress("The builder is checking its work against the original…"), "O agente está comparando a criação com o original…");
+    assert_eq!(
+        progress("The builder checked its work: about 100% like the original, 24 of 24 claims hold."),
+        "O agente verificou a criação: aproximadamente 100% de semelhança com o original. Critérios atendidos: 24 de 24."
+    );
+    assert_eq!(progress("The builder checked its work: all 3 checks pass."), "O agente verificou a criação: todas as verificações passaram (3).");
+    assert_eq!(
+        progress("The builder checked its work: 2 of 3 checks pass, 1 of 4 claims hold."),
+        "O agente verificou a criação: 2 de 3 verificações passaram. Critérios atendidos: 1 de 4."
+    );
+    assert_eq!(
+        diagnostic("OpenCode stopped with exit code 1: Error: VipsImage: memory area too small --- should be 5184000 bytes, you passed 3888000"),
+        "OpenCode foi encerrado com o código de saída 1: Erro no VipsImage: memória insuficiente para a imagem. Eram necessários 5184000 bytes, mas foram fornecidos 3888000."
+    );
+    assert!(
+        diagnostic("Error: VipsImage: memory area too small -- should be 5184000 bytes, you passed 3888000")
+            .contains("Eram necessários 5184000 bytes, mas foram fornecidos 3888000.")
+    );
+    let raw = "OpenCode stopped with exit code 1: \x1b[91m\x1b[1mError: \x1b[0mFree usage limit reached. Connect a provider or subscribe to OpenCode Go to keep going, or switch models.";
+    let shown = diagnostic(raw);
+    assert_eq!(
+        shown,
+        "OpenCode foi encerrado com o código de saída 1: O limite de uso gratuito foi atingido. Para continuar, configure um provedor, assine o OpenCode Go ou escolha outro modelo."
+    );
+    assert_eq!(
+        diagnostic("What OpenCode printed last:\nunknown vendor output\n\nTo try it yourself, run:\nopencode run 'What OpenCode printed last:'"),
+        "Última saída de OpenCode:\nunknown vendor output\n\nPara executar manualmente, use este comando:\nopencode run 'What OpenCode printed last:'"
+    );
+    let mut labels = Harness::new_ui(|ui| {
+        ui.label(progress("Building the first version…"));
+        ui.label(diagnostic(raw));
+    });
+    labels.run();
+    labels.get_by_label("Criando a primeira versão…");
+    labels.get_by_label(&shown);
     assert_eq!(i18n::trf("Opened {name}", &[("name", "sample.exe")]), "Aberto: sample.exe");
     assert_eq!(craft_anything_ui_egui::usage::cost_words(3.21), "cerca de US$ 3,21");
     assert_eq!(craft_anything_ui_egui::usage::usd_amount(5.0), "US$ 5,00");

@@ -1444,3 +1444,8 @@ Zoom	확대/축소
 Bring all to front	모두 앞으로 가져오기
 Drag to give the plan more or less room; double-click to reset	끌어서 계획이 차지하는 공간을 조절하고, 두 번 클릭하면 원래대로 돌아갑니다
 Copy the message	메시지 복사
+
+{name} stopped with exit code {code}: {reason}	{name}이(가) 종료 코드 {code}로 종료되었습니다: {reason}
+{name} stopped with exit code {code}.	{name}이(가) 종료 코드 {code}로 종료되었습니다.
+What {name} printed last:	{name}의 마지막 출력:
+{name} printed nothing.	{name}의 출력이 없습니다.

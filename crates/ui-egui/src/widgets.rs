@@ -503,7 +503,7 @@ pub fn working_since(ui: &mut Ui, title: &str, detail: Option<&str>, began: Opti
             ui.painter().add(egui::Shape::line(arc, Stroke::new(2.5, t.accent)));
             ui.add_space(4.0);
             ui.vertical(|ui| {
-                ui.label(RichText::new(tr(title)).font(theme::semibold(theme::BODY)).color(t.text));
+                ui.label(RichText::new(crate::display_text::progress(title)).font(theme::semibold(theme::BODY)).color(t.text));
                 if !sub.is_empty() {
                     ui.add(egui::Label::new(RichText::new(sub).color(t.text_dim).size(theme::SMALL)).wrap());
                 }

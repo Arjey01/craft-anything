@@ -11,6 +11,7 @@ pub mod builders;
 pub mod chat;
 pub mod demo;
 pub mod detect_tabs;
+pub mod display_text;
 pub mod engine_ui;
 pub mod evidence_ui;
 pub mod first_run;

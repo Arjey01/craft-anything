@@ -1444,3 +1444,8 @@ Zoom	Изменить масштаб
 Bring all to front	Все окна — на передний план
 Drag to give the plan more or less room; double-click to reset	Перетащите, чтобы дать плану больше или меньше места; двойной щелчок возвращает как было
 Copy the message	Скопировать сообщение
+
+{name} stopped with exit code {code}: {reason}	{name} завершился с кодом {code}: {reason}
+{name} stopped with exit code {code}.	{name} завершился с кодом {code}.
+What {name} printed last:	Последний вывод {name}:
+{name} printed nothing.	{name} ничего не вывел.
