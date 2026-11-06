@@ -58,11 +58,21 @@ pub struct Browser {
 
 struct BrowserProfile(std::path::PathBuf);
 
+fn remove_profile_with(mut remove: impl FnMut() -> std::io::Result<()>) -> std::io::Result<()> {
+    let started = std::time::Instant::now();
+    loop {
+        match remove() {
+            Ok(()) => return Ok(()),
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+            Err(e) if started.elapsed() >= Duration::from_secs(5) => return Err(e),
+            Err(_) => std::thread::sleep(Duration::from_millis(50)),
+        }
+    }
+}
+
 impl Drop for BrowserProfile {
     fn drop(&mut self) {
-        if let Err(e) = std::fs::remove_dir_all(&self.0)
-            && e.kind() != std::io::ErrorKind::NotFound
-        {
+        if let Err(e) = remove_profile_with(|| std::fs::remove_dir_all(&self.0)) {
             log::warn!("couldn't remove the private browser profile {}: {e}", self.0.display());
         }
     }
@@ -86,7 +96,7 @@ pub fn runtime_of(product: &str, user_agent: &str) -> &'static str {
 /// The error returned when no browser is available and none was asked to launch.
 pub fn engine_missing(detail: impl std::fmt::Display) -> ToolError {
     ToolError::new(ErrorCode::EngineMissing, format!("no browser is available: {detail}")).with_remediation(
-        "Give a loopback CDP endpoint (start a browser with --remote-debugging-port), or install a browser from Settings → Engines so one can be launched.",
+        "Give a loopback CDP endpoint (start a browser with --remote-debugging-port), or install a Chromium-based browser so one can be launched (set its path in Settings → Engines if it isn't found).",
     )
 }
 
@@ -145,8 +155,13 @@ impl Browser {
     }
 
     pub(crate) fn launch(ctx: &Ctx<'_>, opts: &LaunchOptions, dl: &Deadline) -> Result<Browser, ToolError> {
-        let exe = craft_anything_engines::locate("chromium", &ctx.session.settings.engines.tools, &ctx.session.settings.engine_store_dir())
-            .ok_or_else(|| engine_missing("no Chromium-based browser was found"))?;
+        let exe =
+            craft_anything_engines::locate("chromium", &ctx.session.settings.engines.tools, &ctx.session.settings.engine_store_dir()).ok_or_else(|| {
+                // Browser tools that take an endpoint come here without `Requires::Engine`'s check.
+                let (reason, fix) = ctx.session.settings.engine_not_found("chromium");
+                ToolError::new(ErrorCode::EngineMissing, reason)
+                    .with_remediation(format!("{fix} Or give a loopback CDP endpoint (start a browser with --remote-debugging-port)."))
+            })?;
         let profile = BrowserProfile(super::artifact_tools::fresh_dir_in(&profile_base(&exe, dirs::home_dir()), "craft-browser")?);
         let mut args: Vec<String> = vec![
             format!("--user-data-dir={}", profile.0.display()),
@@ -1079,6 +1094,21 @@ mod tests {
         };
         drop(browser);
         assert!(!profile.exists(), "the private browser profile survived its owner");
+    }
+
+    #[test]
+    fn profile_cleanup_retries_while_the_browser_releases_files() {
+        let root = tempfile::tempdir().unwrap();
+        let profile = root.path().join("private-profile");
+        std::fs::create_dir(&profile).unwrap();
+        let mut attempts = 0;
+        super::remove_profile_with(|| {
+            attempts += 1;
+            if attempts < 3 { Err(std::io::Error::new(std::io::ErrorKind::PermissionDenied, "still locked")) } else { std::fs::remove_dir_all(&profile) }
+        })
+        .unwrap();
+        assert_eq!(attempts, 3);
+        assert!(!profile.exists());
     }
 
     /// #747: a Flatpak or Snap browser keeps its profile where its sandbox can reach it and we can

@@ -77,7 +77,7 @@ impl BackendKind {
             BackendKind::Openrouter => openai::OPENROUTER_MODELS,
             BackendKind::Gemini => openai::GEMINI_MODELS,
             BackendKind::OpenaiCompatible => &[],
-            BackendKind::AgentCli => &["claude-code", "codex", "copilot", "gemini-cli", "opencode", "antigravity", "hermes", "maki"],
+            BackendKind::AgentCli => &["claude-code", "codex", "copilot", "gemini-cli", "opencode", "antigravity", "hermes", "maki", "dsh"],
         }
     }
 
@@ -266,6 +266,7 @@ pub enum AgentEvent {
     /// One assistant turn finished.
     TurnDone {
         backend: String,
+        /// Every prompt token, cached ones included, as agent apps report them.
         input_tokens: u64,
         output_tokens: u64,
         cost_usd: Option<f64>,
@@ -698,11 +699,16 @@ impl AiHub {
 
     /// Remove a backend and its stored key. Returns false when there was no such backend.
     pub fn remove_backend(&self, name: &str) -> Result<bool, ToolError> {
+        if self.config_to_change()?.get(name).is_none() {
+            return Ok(false);
+        }
+        // The key first: if it can't be removed the backend stays, so this can be tried again. The
+        // settings are read after it, because the keychain can take seconds and they may change.
+        self.keys.delete(name)?;
         let mut cfg = self.config_to_change()?;
         let removed = cfg.remove(name);
         if removed {
             self.save_config(&cfg)?;
-            self.keys.delete(name)?;
         }
         Ok(removed)
     }
@@ -720,6 +726,12 @@ impl AiHub {
 
     pub fn remove_asset_key(&self, provider: &str) -> Result<(), ToolError> {
         self.keys.delete(&keys::asset_key_name(provider))
+    }
+
+    /// See [`keys::refresh_loaded`]: for callers that don't hold the session. It can wait for a
+    /// running tool, so never call it from the UI thread or a tool.
+    pub fn refresh_loaded_asset_keys(&self) {
+        keys::refresh_loaded(&mut self.engine.session(), &self.keys);
     }
 
     /// The provider's key is stored or in its environment variable.
@@ -828,7 +840,7 @@ impl AiHub {
         })
     }
 
-    /// Start a conversation with the lead backend (or the named one).
+    /// Start a conversation with the lead backend (or the named one, while it is enabled).
     pub fn start(&self, backend: Option<&str>, beginner: bool) -> Result<Box<dyn Conversation>, ToolError> {
         let cfg = self.config();
         let first = match backend {
@@ -838,6 +850,10 @@ impl AiHub {
                 .cloned()
                 .ok_or_else(|| ToolError::unavailable("No AI is set up yet.").with_remediation("Add one in Settings → AI."))?,
         };
+        if !first.config.enabled {
+            return Err(ToolError::new(ErrorCode::BadSettings, format!("{} is turned off.", first.config.name))
+                .with_remediation("Turn it on in Settings → AI, or choose another backend for this conversation."));
+        }
         if first.config.kind == BackendKind::AgentCli {
             return Ok(Box::new(cli_agents::SharedConversation::new(self.engine.clone(), first, beginner)?));
         }

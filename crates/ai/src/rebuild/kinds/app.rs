@@ -10,21 +10,6 @@ pub const RUNS_BRIEF: &str = "The original is a console program, so it's compare
 
 impl AppKind {
     pub const ID: &'static str = "app";
-
-    /// Look through descriptive modifiers for the governing request/reference verb.
-    /// Reference verbs and relational clauses prevent an earlier creation verb from leaking in.
-    fn requested(before: &str) -> bool {
-        for word in before.split_whitespace().rev() {
-            match word {
-                "crie" | "criar" | "cria" | "faça" | "faca" | "fazer" | "quero" | "preciso" | "gostaria" | "desenvolva" | "recrie" | "recriar" | "create"
-                | "build" | "rebuild" | "make" | "want" | "need" => return true,
-                "use" | "usar" | "usando" | "utilize" | "compare" | "comparar" | "using" | "uses" | "reference" | "referência" | "referencia" | "como"
-                | "like" | "que" | "that" | "which" | "do" | "da" | "of" | "sobre" | "about" | "for" | "para" | "from" | "against" => return false,
-                _ => {}
-            }
-        }
-        true
-    }
 }
 
 impl TargetKind for AppKind {
@@ -41,27 +26,7 @@ impl TargetKind for AppKind {
         }
     }
 
-    /// Keep an explicit desktop app's web/game topic from changing its kind, while respecting
-    /// earlier project-kind phrases and authoritative saved stacks or website targets.
-    fn detect(&self, cx: &DetectCx) -> Option<u32> {
-        let app = [" desktop app ", " desktop application ", " aplicativo ", " aplicação ", " aplicacao ", " app "]
-            .iter()
-            .flat_map(|phrase| cx.words.match_indices(phrase))
-            .filter_map(|(at, phrase)| {
-                let before = cx.words.get(..at)?;
-                let after = cx.words.get(at + phrase.len()..)?.trim_start();
-                if ["as reference ", "as a reference ", "como referência ", "como referencia "].iter().any(|phrase| after.starts_with(phrase)) {
-                    return None;
-                }
-                Self::requested(before).then_some(at)
-            })
-            .min();
-        if let Some(before) = app.and_then(|at| cx.words.get(..at)) {
-            let prefix = DetectCx::new(before, cx.target, cx.stack);
-            if WebsiteKind.detect(&prefix).is_none() && GameKind.detect(&prefix).is_none() {
-                return Some(70);
-            }
-        }
+    fn detect(&self, _cx: &DetectCx) -> Option<u32> {
         // Whatever isn't recognised as something else is an app.
         Some(1)
     }
@@ -79,6 +44,8 @@ impl TargetKind for AppKind {
         "a desktop app with the same core features"
     }
 
+    /// Describe the checks for a new app: screenshots or recorded console runs, plus Deep-mode
+    /// requirements when studying a program. Existing projects keep their own build/test contract.
     fn brief_sections(&self, cx: &BriefCx) -> Vec<String> {
         let mut s = Vec::new();
         if cx.ws.manifest.own_project() {
@@ -90,7 +57,7 @@ impl TargetKind for AppKind {
         }
         // A console program is compared by its runs, not pictured.
         if runs::captured(cx.ws).is_empty() {
-            s.push(screenshot::SCREENSHOT_CONTRACT.to_string());
+            s.push(screenshot::contract());
         } else {
             s.push(RUNS_BRIEF.to_string());
         }

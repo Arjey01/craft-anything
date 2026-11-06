@@ -100,6 +100,7 @@ impl CraftApp {
         // network drive must not freeze the window); `created` starts the build.
         self.creating = Some(self.jobs.spawn(tr("Create the project"), false, move |_| {
             let created = match &draft.folder {
+                Some(folder) if folder.join(craft_anything_engine::workspace::MANIFEST).is_file() => Workspace::open(folder),
                 Some(folder) => Workspace::create_at(folder, &name, &request, target, draft.existing),
                 None => Workspace::create(&projects_dir, &name, &request, target),
             };
@@ -128,6 +129,8 @@ impl CraftApp {
         }
         // A project in a folder of its own stays in the list.
         self.remember_project(&ws.root);
+        self.projects.retain(|p| p.root != ws.root);
+        self.projects.insert(0, ws.clone());
         // Make is cleared for the next one, unless the person has started on it meanwhile (a
         // project that waited for Ghidra).
         if self.state.make.request.trim() == request {
@@ -203,7 +206,11 @@ impl CraftApp {
             };
             self.load_asked(&ws);
         }
-        self.workspace = Some(ws);
+        self.workspace = Some(ws.clone());
+        if !self.projects.iter().any(|p| p.root == ws.root) {
+            self.projects.insert(0, ws);
+        }
+        self.remember_project(&root);
         self.refresh_side_panel();
         self.state.screen = Screen::Project;
         // A Send pressed before its picture checks finished, on a project they left: send now.
@@ -693,14 +700,27 @@ fn checklist(ui: &mut Ui, steps: &[PlanStep], t: &Tokens, began: Option<std::tim
                             PlanStatus::Todo => {
                                 ui.painter().circle_stroke(r.center(), 6.5, egui::Stroke::new(1.0, t.field_border));
                             }
+                            // #504: a run ended with this step open.
+                            PlanStatus::Stopped => {
+                                ui.painter().circle_stroke(r.center(), 6.5, egui::Stroke::new(1.5, t.warning));
+                                ui.painter().circle_filled(r.center(), 3.0, t.warning);
+                            }
                         }
                         let text = RichText::new(&s.text).size(theme::BODY);
                         let text = match s.status {
                             PlanStatus::Done => text.color(t.text_faint).strikethrough(),
                             PlanStatus::Doing => text.color(t.text).strong(),
                             PlanStatus::Todo => text.color(t.text_dim),
+                            PlanStatus::Stopped => text.color(t.text_dim),
                         };
-                        ui.add(egui::Label::new(text).wrap());
+                        let resp = ui.add(egui::Label::new(text).wrap());
+                        if s.status == PlanStatus::Stopped {
+                            // Sighted users get the warning marker above; screen readers
+                            // get the status through the accessible label and the text.
+                            let name = format!("{}: {}", s.text, tr("Stopped here"));
+                            resp.widget_info(|| egui::WidgetInfo::labeled(egui::WidgetType::Label, true, &name));
+                            ui.label(RichText::new(tr("Stopped here")).size(theme::SMALL).color(t.warning));
+                        }
                     });
                 }
             });
@@ -823,10 +843,9 @@ fn asset_line(app: &mut CraftApp, ui: &mut Ui, ws: &Workspace) {
     }
     ui.add_space(6.0);
     let budget = ws.manifest.asset_budget_usd;
-    let amount =
-        trf("{n} · {spent} of {budget}", &[("n", &n.to_string()), ("spent", &crate::usage::usd_amount(spent)), ("budget", &crate::usage::usd_amount(budget))]);
+    let amount = trf("{n} · ${spent} of ${budget}", &[("n", &n.to_string()), ("spent", &format!("{spent:.2}")), ("budget", &format!("{budget:.2}"))]);
     ui.label(RichText::new(amount).font(theme::mono(12.5)).color(if spent >= budget { t.warning } else { t.text_dim }));
-    let step = crate::usage::usd_amount(app.asset_budget_step());
+    let step = craft_anything_engines::assets::usd(app.asset_budget_step());
     if widgets::link(ui, &trf("Raise the budget by {amount}", &[("amount", &step)])).clicked() {
         app.raise_asset_budget();
     }
@@ -1308,12 +1327,8 @@ fn run_details(app: &mut CraftApp, ui: &mut Ui, status_row: bool) {
                                 ui.set_height(LINE);
                                 ui.label(RichText::new(crate::usage::duration_words(line.at)).font(theme::mono(theme::CAPTION)).color(t.text_faint));
                                 ui.label(RichText::new(line.kind.tag()).font(theme::mono(theme::CAPTION)).color(colour));
-                                let shown = match line.kind {
-                                    LineKind::Stage => crate::display_text::progress(&line.text),
-                                    LineKind::Failed | LineKind::Problem => crate::display_text::diagnostic(&line.text),
-                                    _ => crate::display_text::plain(&line.text),
-                                };
-                                ui.add(egui::Label::new(RichText::new(&shown).font(theme::mono(theme::CAPTION)).color(words)).truncate()).on_hover_text(&shown);
+                                ui.add(egui::Label::new(RichText::new(&line.text).font(theme::mono(theme::CAPTION)).color(words)).truncate())
+                                    .on_hover_text(&line.text);
                             });
                         }
                     },
@@ -1357,7 +1372,7 @@ fn draw_items(
         questions_up_to(app, ui, i);
         ui.push_id(i, |ui| match item {
             FeedItem::User(text) => chat::user_bubble(ui, text.text(), false),
-            FeedItem::Step { text, .. } => chat::activity_row(ui, RichText::new(crate::display_text::progress(text)).color(t.text_dim).size(theme::SMALL)),
+            FeedItem::Step { text, .. } => chat::activity_row(ui, RichText::new(text).color(t.text_dim).size(theme::SMALL)),
             FeedItem::Paused => chat::activity_row(ui, RichText::new(tr("Paused.")).color(t.text_dim).size(theme::SMALL)),
             FeedItem::Agent { text, streaming } => {
                 chat::answer_bubble(ui, false, text.trim(), |ui| {
@@ -1388,10 +1403,10 @@ fn draw_items(
                         ui.set_width(ui.available_width());
                         ui.horizontal(|ui| {
                             icons::show(ui, "triangle-alert", 16.0, t.danger);
-                            ui.add(egui::Label::new(RichText::new(crate::display_text::diagnostic(message)).color(t.text)).wrap());
+                            ui.add(egui::Label::new(RichText::new(message).color(t.text)).wrap());
                         });
                         if let Some(r) = remediation {
-                            ui.add(egui::Label::new(RichText::new(crate::display_text::diagnostic(r)).color(t.text_dim)).wrap());
+                            ui.add(egui::Label::new(RichText::new(r).color(t.text_dim)).wrap());
                         }
                         if let Some(l) = log
                             && widgets::open_log_button(ui, l)
@@ -1866,15 +1881,36 @@ fn questions_switch(app: &mut CraftApp, ui: &mut Ui) {
     let root = ws.root.clone();
     let t = Tokens::get(ui.ctx());
     ui.add_space(4.0);
+    let (sending, asking) = (["Change it", "Just ask"], ["Ask me", "Decide yourself"]);
+    let title = widgets::label_galley(ui, &tr(QUESTIONS_TITLE), theme::SMALL, t.text_dim).size().x;
+    let gaps = ui.spacing().item_spacing.x * 3.0;
+    // Side by side when both switches fit, else one under the other (a longer language, a narrow window).
+    let fits = widgets::segmented_width(ui, &sending) + widgets::segmented_width(ui, &asking) + title + gaps <= ui.available_width();
+    let hint = |ui: &mut Ui| {
+        ui.add(egui::Label::new(RichText::new(tr("or start with /btw to just ask")).color(t.text_faint).size(theme::SMALL)).truncate());
+    };
+    let right = egui::Layout::right_to_left(egui::Align::Center);
     ui.horizontal(|ui| {
         // What sending does: ask for a change, or just ask about the build.
-        if let Some(i) = widgets::segmented(ui, &["Change it", "Just ask"], usize::from(app.state.just_ask), 24.0) {
+        if let Some(i) = widgets::segmented(ui, &sending, usize::from(app.state.just_ask), 24.0) {
             app.state.just_ask = i == 1;
         }
-        ui.label(RichText::new(tr("or start with /btw to just ask")).color(t.text_faint).size(theme::SMALL));
-        ui.with_layout(egui::Layout::right_to_left(egui::Align::Center), |ui| questions_controls(app, ui, now, &root, &t));
+        if fits {
+            ui.with_layout(right, |ui| {
+                questions_controls(app, ui, now, &root, &t);
+                ui.with_layout(egui::Layout::left_to_right(egui::Align::Center), hint);
+            });
+        } else {
+            hint(ui);
+        }
     });
+    if !fits {
+        ui.add_space(4.0);
+        ui.horizontal(|ui| ui.with_layout(right, |ui| questions_controls(app, ui, now, &root, &t)));
+    }
 }
+
+const QUESTIONS_TITLE: &str = "Builder's questions:";
 
 fn questions_controls(app: &mut CraftApp, ui: &mut Ui, now: craft_anything_engine::workspace::Questions, root: &Path, t: &Tokens) {
     use craft_anything_engine::workspace::Questions;
@@ -1889,7 +1925,7 @@ fn questions_controls(app: &mut CraftApp, ui: &mut Ui, now: craft_anything_engin
         } else {
             tr("The builder answers its own questions and says what it chose (\"I decided: …\"), so you can change it.")
         };
-        ui.label(RichText::new(tr("Builder's questions:")).color(t.text_dim).size(theme::SMALL)).on_hover_text(tip);
+        ui.label(RichText::new(tr(QUESTIONS_TITLE)).color(t.text_dim).size(theme::SMALL)).on_hover_text(tip);
     }
 }
 
@@ -2456,6 +2492,30 @@ mod tests {
         apply(&mut feed, &RunEvent::Finished { ok: false, message: "Paused.".into(), paused: true });
         assert!(matches!(feed.last(), Some(FeedItem::Paused)));
         assert_eq!(feed.iter().filter(|f| matches!(f, FeedItem::Error { .. })).count(), 1, "a pause adds no error");
+    }
+
+    /// #966: a newly created project appears in app.projects immediately so the sidebar lists it.
+    #[test]
+    fn created_project_appears_in_projects_list_immediately() {
+        let d = tempfile::tempdir().unwrap();
+        let ws = Workspace::create(d.path(), "Notes", "A notes app", TargetRef::None).unwrap();
+        let mut app = crate::demo::app(crate::demo::engine(craft_anything_engine::Mode::Beginner, true));
+        assert!(app.projects.is_empty());
+        app.created(ws.clone(), "A notes app".into(), "test-backend".into(), None);
+        assert!(!app.projects.is_empty(), "project is added to app.projects immediately");
+        assert_eq!(app.projects[0].root, ws.root);
+    }
+
+    /// #966: opening a project ensures it is listed in app.projects immediately.
+    #[test]
+    fn opening_project_adds_to_projects_list() {
+        let d = tempfile::tempdir().unwrap();
+        let ws = Workspace::create(d.path(), "Timer", "A timer app", TargetRef::None).unwrap();
+        let mut app = crate::demo::app(crate::demo::engine(craft_anything_engine::Mode::Beginner, true));
+        assert!(app.projects.is_empty());
+        app.open_workspace(ws.clone());
+        assert!(!app.projects.is_empty(), "open project is listed in app.projects");
+        assert_eq!(app.projects[0].root, ws.root);
     }
 }
 

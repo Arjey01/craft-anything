@@ -1380,7 +1380,7 @@ your files there are the app, edited in place	該位置的檔案就是應用程�
 {n} step(s) didn't work and were retried or skipped.	{n} 個步驟未成功，已重試或略過。
 {n} tokens	{n} 個 token
 {n} · ${spent:.2} of ${budget:.2}	{n} · 已用 ${spent:.2} / ${budget:.2}
-{n} · {spent} of {budget}	{n} · 已用 {spent}，預算 {budget}
+{n} · ${spent} of ${budget}	{n} · 已用 ${spent}，預算 ${budget}
 {scenes} {}	{scenes} {}
 {text}, {}	{text}，{}
 {title} hit a bug and stopped safely. ({what})	{title} 遇到錯誤，已安全停止。({what})
@@ -1444,8 +1444,3 @@ Zoom	縮放
 Bring all to front	將全部視窗移至最前
 Drag to give the plan more or less room; double-click to reset	拖曳以調整計畫佔用的空間；按兩下恢復預設
 Copy the message	複製這則訊息
-
-{name} stopped with exit code {code}: {reason}	{name} 已結束，結束代碼為 {code}：{reason}
-{name} stopped with exit code {code}.	{name} 已結束，結束代碼為 {code}。
-What {name} printed last:	{name} 的最後輸出：
-{name} printed nothing.	{name} 沒有輸出任何內容。

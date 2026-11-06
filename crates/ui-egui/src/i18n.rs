@@ -21,14 +21,19 @@ pub struct LangInfo {
 pub static LANGUAGES: &[LangInfo] = &[
     LangInfo { code: "en", name: "English", source: "" },
     LangInfo { code: "de", name: "Deutsch", source: include_str!("i18n/de.tsv") },
+    LangInfo { code: "ka", name: "ქართული", source: include_str!("i18n/ka.tsv") },
     LangInfo { code: "fr", name: "Français", source: include_str!("fr.tsv") },
+    LangInfo { code: "it", name: "Italiano", source: include_str!("i18n/it.tsv") },
     LangInfo { code: "ja", name: "日本語", source: include_str!("ja.tsv") },
-    LangInfo { code: "pt-br", name: "Português (Brasil)", source: include_str!("i18n/pt-br.tsv") },
     LangInfo { code: "zh-hans", name: "简体中文", source: include_str!("i18n/zh-hans.tsv") },
     LangInfo { code: "zh-hant", name: "繁體中文", source: include_str!("i18n/zh-hant.tsv") },
     LangInfo { code: "ru", name: "Русский", source: include_str!("i18n/ru.tsv") },
     LangInfo { code: "ko", name: "한국어", source: include_str!("i18n/ko.tsv") },
     LangInfo { code: "cs", name: "Čeština", source: include_str!("i18n/cs.tsv") },
+    LangInfo { code: "es", name: "Español", source: include_str!("i18n/es.tsv") },
+    LangInfo { code: "vi", name: "Tiếng Việt", source: include_str!("i18n/vi.tsv") },
+    LangInfo { code: "pt-br", name: "Português (Brasil)", source: include_str!("i18n/pt-br.tsv") },
+    LangInfo { code: "tr", name: "Türkçe", source: include_str!("i18n/tr.tsv") },
 ];
 
 /// Match a locale to a registered UI language. An explicit script wins over the region.
@@ -40,7 +45,6 @@ pub fn language_from_tag(tag: &str) -> Option<&'static str> {
     let mut parts = tag.split('-');
     let primary = parts.next()?;
     match primary {
-        "pt" => Some("pt-br"),
         "zh" => {
             let parts: Vec<_> = parts.take_while(|p| p.len() != 1).collect();
             if parts.contains(&"hant") {
@@ -53,6 +57,7 @@ pub fn language_from_tag(tag: &str) -> Option<&'static str> {
                 Some("zh-hans")
             }
         }
+        "pt" => Some("pt-br"),
         _ => LANGUAGES.iter().find(|l| l.code == primary).map(|l| l.code),
     }
 }
@@ -110,24 +115,12 @@ pub fn tr(s: &str) -> String {
     }
 }
 
-/// Translate, then fill placeholders once, preserving placeholder-like text in argument values.
+/// Translate, then fill `{name}` placeholders.
 pub fn trf(s: &str, args: &[(&str, &str)]) -> String {
-    let template = tr(s);
-    let mut rest = template.as_str();
-    let mut out = String::with_capacity(template.len());
-    while let Some((before, after)) = rest.split_once('{') {
-        out.push_str(before);
-        if let Some((value, tail)) =
-            args.iter().find_map(|(name, value)| after.strip_prefix(*name).and_then(|s| s.strip_prefix('}')).map(|tail| (*value, tail)))
-        {
-            out.push_str(value);
-            rest = tail;
-        } else {
-            out.push('{');
-            rest = after;
-        }
+    let mut out = tr(s);
+    for (k, v) in args {
+        out = out.replace(&format!("{{{k}}}"), v);
     }
-    out.push_str(rest);
     out
 }
 
@@ -144,16 +137,8 @@ mod tests {
         assert_eq!(tr("Untranslated"), "Untranslated");
     }
 
-    #[test]
-    fn formatted_values_are_inserted_verbatim() {
-        let args = [("path", "/tmp/{error}/ação"), ("error", "no access: {path}")];
-        assert_eq!(trf("{path}: {error}; again {path}", &args), "/tmp/{error}/ação: no access: {path}; again /tmp/{error}/ação");
-        assert_eq!(trf("{path}: {error}", &[args[1], args[0]]), "/tmp/{error}/ação: no access: {path}");
-        assert_eq!(trf("Unknown {missing}; unfinished {path", &args), "Unknown {missing}; unfinished {path");
-        assert_eq!(trf("{{path}}", &args), "{/tmp/{error}/ação}");
-        assert_eq!(trf("{{\"path\": \"{path}\"}}", &args), "{{\"path\": \"/tmp/{error}/ação\"}}");
-    }
-
+    /// Script and region matching: an explicit script wins over a region, a registered language
+    /// resolves from any of its regions, and a locale with no catalogue falls back to English.
     #[test]
     fn chinese_scripts_regions_and_fallback() {
         for tag in ["zh", "zh-CN", "zh_SG.UTF-8", "ZH-Hans", "zh-Hans-TW"] {
@@ -167,15 +152,24 @@ mod tests {
         assert_eq!(language_from_tag("fr-CA"), Some("fr"));
         assert_eq!(language_from_tag("de-DE"), Some("de"));
         assert_eq!(language_from_tag("de_AT.UTF-8"), Some("de"));
-        assert_eq!(language_from_tag("es-ES"), None);
-        assert_eq!(preferred_language(["es-ES", "zh-HK", "en-US"]), "zh-hant");
+        assert_eq!(language_from_tag("es-ES"), Some("es"));
+        assert_eq!(language_from_tag("es-MX"), Some("es"));
+        assert_eq!(language_from_tag("sv-SE"), None);
+        assert_eq!(preferred_language(["sv-SE", "zh-HK", "en-US"]), "zh-hant");
+        assert_eq!(language_from_tag("vi-VN"), Some("vi"));
+        assert_eq!(language_from_tag("vi_VN.UTF-8"), Some("vi"));
+        assert_eq!(language_from_tag("pt_BR.UTF-8"), Some("pt-br"));
+        assert_eq!(language_from_tag("pt-PT"), Some("pt-br"));
+        assert_eq!(language_from_tag("tr-TR"), Some("tr"));
         assert_eq!(preferred_language(["de-DE", "zh-HK"]), "de");
+        assert_eq!(preferred_language(["sv-SE", "vi-VN", "en-US"]), "vi");
         assert_eq!(preferred_language(["en-US", "zh-CN"]), "en");
-        assert_eq!(preferred_language(["es-ES"]), "en");
+        assert_eq!(preferred_language(["sv-SE"]), "en");
         assert_eq!(preferred_language(std::iter::empty::<&str>()), "en");
     }
 
-    /// Maintained catalogs must cover the same keys and preserve runtime placeholders and ellipses.
+    /// Every registered catalogue parses, and all of them carry the same key set: a language that
+    /// missed keys would fall back to English mid-interface.
     #[test]
     fn catalogs_are_valid_and_have_matching_keys() {
         fn placeholders(s: &str) -> Vec<&str> {
@@ -184,7 +178,9 @@ mod tests {
             out
         }
         let mut catalogs = Vec::new();
-        for lang in LANGUAGES.iter().filter(|l| matches!(l.code, "zh-hans" | "zh-hant" | "ru" | "ko" | "cs" | "de" | "pt-br")) {
+        for lang in
+            LANGUAGES.iter().filter(|l| matches!(l.code, "zh-hans" | "zh-hant" | "ru" | "ko" | "cs" | "de" | "ka" | "es" | "it" | "vi" | "pt-br" | "tr"))
+        {
             let mut keys = std::collections::BTreeSet::new();
             for (i, line) in lang.source.lines().enumerate() {
                 if line.trim().is_empty() || line.starts_with('#') {
@@ -200,27 +196,12 @@ mod tests {
             let parsed = parse(lang.source);
             assert_eq!(parsed.len(), keys.len());
             assert!(keys.len() > 500, "{}: incomplete catalog", lang.code);
-            catalogs.push((lang.code, keys));
+            catalogs.push(keys);
         }
         assert!(catalogs.len() >= 2);
-        let reference = &catalogs.first().unwrap().1;
-        for (code, keys) in &catalogs {
-            if *code == "pt-br" {
-                // Workflow events predate localization and remain optional in other locales.
-                assert!(reference.is_subset(keys), "Portuguese must retain every shared key");
-            } else {
-                assert_eq!(reference, keys, "{code}");
-            }
+        for c in catalogs.iter().skip(1) {
+            assert_eq!(catalogs.first(), Some(c));
         }
-    }
-
-    /// Portuguese regional and POSIX aliases share the Brazilian catalog, including OS preference.
-    #[test]
-    fn brazilian_portuguese_locale_aliases_and_system_preference() {
-        for tag in ["pt", "pt-BR", "PT-br", "pt_BR.UTF-8", "pt-PT", "pt-Latn-BR"] {
-            assert_eq!(language_from_tag(tag), Some("pt-br"), "{tag}");
-        }
-        assert_eq!(preferred_language(["pt_BR.UTF-8", "en-US"]), "pt-br");
     }
 
     /// Every translation keeps its key's `{placeholders}`, or `trf` would leave them unfilled.

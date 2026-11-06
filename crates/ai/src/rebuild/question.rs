@@ -116,14 +116,9 @@ pub fn ask(
             (Box::new(conv), AnsweredFrom::TheFiles)
         }
     };
-    let prompt = |from| {
-        language::localized_prompt(
-            &match from {
-                AnsweredFrom::BuildersSession => format!("{}\n\nQuestion: {question}", context(ws)),
-                AnsweredFrom::TheFiles => format!("{PREAMBLE}{}\n\nQuestion: {question}", context(ws)),
-            },
-            &settings.language,
-        )
+    let prompt = |from| match from {
+        AnsweredFrom::BuildersSession => format!("{}\n\nQuestion: {question}", context(ws)),
+        AnsweredFrom::TheFiles => format!("{PREAMBLE}{}\n\nQuestion: {question}", context(ws)),
     };
     conv.send(&prompt(from));
     let mut answered = collect(conv.as_mut(), cancel, WAIT);

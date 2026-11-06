@@ -1,7 +1,8 @@
 # UI localisation
 
-The desktop app offers **Čeština** (`cs`), **Deutsch** (`de`), **한국어** (`ko`), **Русский** (`ru`), **简体中文** (`zh-hans`)
-and **繁體中文** (`zh-hant`), alongside English, French, Japanese and **Português (Brasil)** (`pt-br`), in **Settings → General → Language**. The choice is saved in the
+The desktop app offers **Čeština** (`cs`), **Deutsch** (`de`), **Español** (`es`), **Italiano** (`it`), **ქართული** (`ka`),
+**한국어** (`ko`), **Русский** (`ru`), **Tiếng Việt** (`vi`), **Português (Brasil)** (`pt-br`), **Türkçe** (`tr`), **简体中文** (`zh-hans`) and **繁體中文** (`zh-hant`), alongside
+English, French and Japanese, in **Settings → General → Language**. The choice is saved in the
 existing `language` setting. **System** uses the operating system's preferred
 supported language; if none matches, it uses English. An explicit choice takes
 precedence over the system language.
@@ -21,70 +22,46 @@ Product and technology names, tool ids and shortcuts keep their spelling. The ki
 a request ("a game", "a website") also knows the German words *Spiel*, *Webseite* and *Internetseite*,
 so a translated suggestion keeps its project kind.
 
-## Brazilian Portuguese
+## Georgian
 
-**Português (Brasil)** (`pt-br`) uses plain Brazilian Portuguese. `pt`, `pt-BR`, POSIX tags such as
-`pt_BR.UTF-8` and other Portuguese regions select this catalog until another Portuguese locale is
-available. The system-language choice follows the same resolution.
+**ქართული** (`ka`) is selected by `ka` and `ka-GE`, and by the system language when it is Georgian.
+`crates/ui-egui/src/i18n/ka.tsv` has the same keys as the other catalogs. Written with Claude Code from the
+meaning of each English string; terminology and doubtful strings decided by a native Georgian speaker (@devius).
+Glyphs come from Noto Sans Georgian in craft-fonts, which the pinned craft-fonts already has; a test checks it.
+## Italian
 
-`crates/ui-egui/src/i18n/pt-br.tsv` contains every maintained reference key, plus translations for workflow events and known process diagnostics that previously appeared as runtime English text.
-It translates the English source meaning. An editorial pass covered every catalog entry and
-`README.pt.md`, checking meaning, Brazilian usage, grammar, labels and consistent terminology.
-Independent community review remains welcome. Automated UI checks cover startup, switching between English and
-Portuguese, saved selection, translated-title search, number formatting and translated suggestions.
-Interactive native-window checks across platforms remain pending.
+**Italiano** (`it`) uses the informal "tu". `it` and `it-IT` select it, as does the system language when it is
+Italian. `crates/ui-egui/src/i18n/it.tsv` has the same keys as the other catalogs, written from the English
+source strings. It was drafted with an AI and not yet reviewed by a native speaker; corrections are welcome.
+Product and technology names, tool ids and shortcuts keep their spelling. The kind detection that reads a
+request also knows *gioco* and *sito*, so a translated suggestion keeps its project kind. Clean room is
+*Camera bianca* and Deep mode is *modalità Approfondita*.
 
-Terms include *Sala limpa* (Clean room), *Profundo* (Deep), *evidências* (evidence), *agente*
-(the builder), *versão fixada* (pinned build) and *cópia independente* (frozen copy). *Criar* names
-the action, while *versão* names its saved result. Technical terms without a clearer everyday
-equivalent, such as *engine*, *stack*, *backend*, *strings*, *disassembly*, *source map* and *dump*,
-keep their established English spelling. Counts use labels such as `Itens: {n}` to avoid
-parenthesized plural suffixes and ambiguous gender when runtime values are inserted. Product names, tool identifiers and
-placeholders keep their spelling. USD usage estimates use a decimal comma without changing stored
-numeric values. Requests containing *jogo*, *jogabilidade* or *página web*, including the translated
-home suggestions, keep their intended project kind. Game requests also accept *em*, *com*,
-*usando*, *no* and *na* before an engine name, including the Rust example in
-[`README.pt.md`](../README.pt.md). A Portuguese game-related topic, such as *um site sobre jogos*,
-does not change an explicitly requested website into a game. When both kinds appear, their
-first whole-word phrase distinguishes a site about games from a game intended for a web page.
-Existing website targets and saved stacks retain their precedence.
-An explicit desktop-app phrase before a website/game topic likewise preserves the desktop
-project kind; earlier project-kind phrases and existing targets/stacks still take precedence.
-Request verbs are recognized through modifiers/prepositions (`preciso de um app`, `build a simple
-desktop app`, `rebuild this desktop application`); reference verbs/clauses do not claim app intent.
-Kind and named-stack detection ignores URL tokens (schemes such as `https://`, bare domains,
-relative references and local server addresses),
-so a path such as `/site`, `/game` or `/no/Godot` is not read as a project request.
-Visible Markdown link labels still count as prose, while their complete destinations and titles
-are excluded regardless of scheme. Known dotted stack names such as `Next.js` remain prose.
-Original requests and explicit targets are preserved.
-Prose before an attached URL (such as `site:https://…`) remains available, and sentence
-punctuation after a bare domain does not turn its host into a project-kind phrase.
-The outer address is recognized before inspecting punctuation, so an absolute URL inside a
-bare or relative URL's query cannot expose its host/path as prose.
-Bare-domain ports must be numeric and in range; a scheme after `Next.js:` is therefore an
-attached address, not a port that consumes the requested stack name.
-The stack-name exception excludes authorities with userinfo, and trailing sentence colons
-are removed before validating a numeric port.
-The payloads of `data:` and `mailto:` content URIs are excluded as well. Project and stack
-labels followed by a colon remain prose when another address follows them.
-Named-directory references such as `assets/site` are also excluded, including nested paths,
-queries and fragments; adjacent project-kind and engine labels remain prose.
-Slash-separated names matching a registered stack or explicit alias, such as `Rust/macroquad`
-or `Godot/GDScript` and `Godot/C#`, remain available
-for stack selection rather than being treated as directory references.
+## Vietnamese
 
-USD usage, asset spending, budget increments and question costs use the locale-aware amount
-helpers. Small positive stated amounts retain the localized “under $0.01” label instead of
-appearing as zero, including both spent and budget values in the project's asset row. Its shared
-catalog key takes complete formatted amounts; every reference catalog is updated together.
-This changes display text only, without converting currency or stored values.
-That README translates the English documentation and preserves executable names, flags, API/tool
-identifiers and file names; technical terms such as *stack*, *backend* and *sandbox* remain in English.
+**Tiếng Việt** (`vi`) addresses the person as *bạn*. `vi` and `vi-VN` select it, as does the system
+language when it is Vietnamese. `crates/ui-egui/src/i18n/vi.tsv` has the same keys as the other
+catalogs, written from the English source strings in NFC (precomposed) Unicode. It was drafted with
+an AI and not yet reviewed by a native speaker; corrections are welcome. Product, technology and
+engine names, tool ids and shortcuts keep their spelling. The glossary: *Phòng sạch* (Clean room),
+*Chuyên sâu* (Deep), *Tìm hiểu / Xây dựng / Kiểm tra / Tinh chỉnh / Sẵn sàng*
+(Study / Build / Check / Refine / Ready), *Bằng chứng* (Evidence), *Phát hiện* (finding),
+*Dự án* (Project), *Mục tiêu* (target), *Công cụ* (tool), *Bàn làm việc* (workbench),
+*Cài đặt* (Settings) and *Dựng lại* (rebuild).
+
+The kind detection that reads a request also knows *trò chơi* for a game and *trang web* for a
+website, so a translated suggestion keeps its project kind.
+
+## Brazilian Portuguese and Turkish
+
+**Português (Brasil)** (`pt-br`) is selected by any `pt` tag, and **Türkçe** (`tr`) by `tr` and `tr-TR`. Both have the
+same keys as the other catalogs. A request's project kind also knows *jogo*, and *oyun* with its endings as whole
+words (so *oyuncak*, a toy, stays an app), and *web sitesi* and *internet sitesi*.
 
 ## Scope and format
 
-`crates/ui-egui/src/i18n/cs.tsv`, `de.tsv`, `ko.tsv`, `pt-br.tsv`, `ru.tsv`, `zh-hans.tsv` and `zh-hant.tsv` contain original
+`crates/ui-egui/src/i18n/cs.tsv`, `de.tsv`, `es.tsv`, `it.tsv`, `ka.tsv`, `ko.tsv`, `pt-br.tsv`, `ru.tsv`, `tr.tsv`, `vi.tsv`, `zh-hans.tsv` and
+`zh-hant.tsv` contain original
 translations under the repository's MIT OR Apache-2.0 licence. Each UTF-8 line
 has two columns: `English source<TAB>translation`. Comments begin with `#`;
 `\n` represents a newline. The language registry in `i18n.rs` embeds the catalogs.
@@ -96,16 +73,38 @@ well as English titles and stable tool IDs. Missing translations fall back to
 the original English text. Product and technology names retain their spelling.
 
 User text, AI responses, evidence and raw tool results, tool summaries and schema
-descriptions, raw log files and exported reports retain their original text. Known workflow stages and process-error wrappers are localized when displayed, including in saved conversations and the activity panel. Terminal color/control sequences are removed from those labels; executable command text remains unchanged. The CLI,
+descriptions, logs and exported reports retain their original text. The CLI,
 MCP, tool IDs, stored project data and the separate browser viewer are unchanged.
 
 Keep placeholders such as `{name}` and `{n}` intact, along with command IDs,
-shortcuts, escapes and trailing `…`. Update every catalog (`cs`, `de`, `ko`, `pt-br`, `ru`, `zh-hans`, `zh-hant`)
-when English source keys change; the tests require matching shared key sets. Portuguese may additionally translate existing runtime workflow messages; those entries are validated for placeholders and ellipses as well. Common terms include 净室 / 淨室 (Clean room), 深度 (Deep),
+shortcuts, escapes and trailing `…`. Update every catalog (`cs`, `de`, `es`, `it`, `ka`, `ko`, `pt-br`, `ru`, `tr`, `vi`, `zh-hans`, `zh-hant`)
+when English source keys change; the tests require matching key sets. Common terms include 净室 / 淨室 (Clean room), 深度 (Deep),
 构建 / 建置 (Build), 证据 / 證據 (Evidence), and 项目 / 專案 (Project).
 The Korean catalog `ko.tsv` uses 클린룸 (Clean room), 심층 (Deep), 분석 / 만들기 / 검사 / 완성
 (Study / Build / Check / Ready), 근거 (Evidence) and 프로젝트 (Project); short labels are nouns and
 sentences use the formal 합니다 style.
+
+## Spanish
+
+**Español** (`es`) uses informal "tú", Mexican vocabulary (*agregar*, *computadora*, *presiona*) and
+`es`, `es-MX`, `es-419` and the other `es-` regions select it. The register, the Mexican vocabulary
+and the glossary below were chosen by a native speaker; the catalog itself was drafted with AI
+assistance from the English source, so corrections from other speakers are welcome.
+
+Product, technology and mode names keep their spelling: **Clean room** and **Deep** stay in English
+because they name the two modes in the title bar, as do tool and engine names (Ghidra, Unity, Unreal,
+Godot, Claude Code). The terms the app itself translates follow one glossary: *construir* /
+*construcción* (Build), *evidencia* (Evidence), *proyecto* (Project), *hallazgo* (finding),
+*objetivo* (target), *herramienta* (tool), *banco de trabajo* (workbench), *constructor* (builder),
+*Configuración* (Settings) and *Estudiar / Construir / Verificar / Listo* for
+Study / Build / Check / Ready. *Plugin* stays as it is, in all 16 strings that use it, rather than the
+suite's *complemento*: it is the word the people using the interface say in Mexican Spanish, and a
+catalogue that changes term halfway reads worse than one that keeps a loanword.
+
+The kind detection that reads a request also knows the Spanish words *juego*, *juegos*, *jugabilidad*
+and *videojuego* for a game, and *sitio web* and *página web* for a website, so a translated
+suggestion keeps its project kind. The bare word *web* is deliberately not a signal: *una aplicación
+web* is an app, not a website.
 
 ## Validation
 
@@ -118,7 +117,7 @@ cargo clippy -p craft-anything-ui-egui -p xtask --all-targets -- -D warnings
 cargo xtask i18n-coverage
 ```
 
-Catalog tests check duplicate and empty entries, shared key coverage, placeholders
+Catalog tests check duplicate and empty entries, matching key sets, placeholders
 and ellipses. The coverage command checks literal translation calls, common
 widget labels and registered engine tool titles and groups; it also runs in
 `cargo xtask ci`. It does not prove coverage of arbitrary runtime text or labels
@@ -131,15 +130,13 @@ The existing snapshot example accepts any catalog code with `--lang`, such as
 cargo run -p craft-anything-ui-egui --example snapshot -- --lang zh-hant --only settings --out-dir target/snapshots/zh-hant
 ```
 
-Chinese and Korean glyphs use the existing craft-fonts fallback, which release and CI builds
+Chinese, Korean and Georgian glyphs use the existing craft-fonts fallback, which release and CI builds
+Spanish is Latin script and needs no extra glyphs. Chinese and Korean glyphs use the existing craft-fonts fallback, which release and CI builds
+Vietnamese needs craft-fonts too: the bundled DM Sans and egui's default fonts lack the letters with
+stacked marks (ạ, ả, ấ, ế, ơ, ư, ữ…), so a build without craft-fonts shows them as boxes. With
+craft-fonts, Noto Sans CJK SC supplies those letters (a different face from the DM Sans around them);
+the script test in `theme.rs` checks every one of them. Chinese and Korean glyphs use the existing craft-fonts fallback, which release and CI builds
 already include. Local builds must set `CRAFT_FONTS_DIR` to a craft-fonts checkout
 before compiling to get the same glyph coverage. The catalogs add no font assets.
 Check each script, clipping, narrow windows and native file dialogs visually
 on each platform; catalog coverage alone does not verify layout or fonts.
-
-With an explicit Portuguese language setting, build turns and project questions include guidance to answer in Brazilian Portuguese while preserving technical identifiers and the requested software content. An explicit request for another response language takes precedence. This guides future agent output; previously saved agent prose is preserved. Live compliance by every backend and every response is not guaranteed by the prompt tests.
-
-Malformed terminal control sequences stop at a line boundary so later diagnostic/remediation lines remain visible. Placeholder expansion scans the translated template once: inserted paths or error text containing braces remain literal. Regression coverage includes the Portuguese display of such paths.
-
-Explicit engine/language aliases live in the stack catalogue (`prose_aliases`). Query/fragment references and qualified paths stay excluded from request detection.
-The hash in an exact registered `Godot/C#` alias belongs to the language name; nonempty fragments remain references.

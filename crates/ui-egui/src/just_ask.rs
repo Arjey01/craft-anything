@@ -161,7 +161,7 @@ pub fn card(ui: &mut Ui, a: &mut Asked, glossary: bool) {
                 chat::rich_text(ui, &ans.text, glossary);
                 ui.add_space(4.0);
                 let from = if ans.from_session { tr("from the builder's own memory of the build") } else { tr("from the project's files") };
-                let cost = ans.cost_usd.map(|c| format!(" · {}", crate::usage::usd_amount(c))).unwrap_or_default();
+                let cost = ans.cost_usd.map(|c| format!(" · ${c:.2}")).unwrap_or_default();
                 ui.label(
                     RichText::new(format!("{} {} · {}{cost}", tr("Just a question: nothing was changed. Answered by"), ans.backend, from))
                         .color(t.text_faint)
@@ -169,7 +169,7 @@ pub fn card(ui: &mut Ui, a: &mut Asked, glossary: bool) {
                 );
             }
             Some(Err(why)) => {
-                ui.add(egui::Label::new(RichText::new(format!("{} {}", tr("Couldn't answer:"), crate::display_text::diagnostic(why))).color(t.danger)).wrap());
+                ui.add(egui::Label::new(RichText::new(format!("{} {why}", tr("Couldn't answer:"))).color(t.danger)).wrap());
             }
         }
     });

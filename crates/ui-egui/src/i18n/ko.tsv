@@ -1380,7 +1380,7 @@ your files there are the app, edited in place	그 파일이 곧 앱이며 그 �
 {n} step(s) didn't work and were retried or skipped.	{n}단계가 실패해 다시 시도하거나 건너뛰었습니다.
 {n} tokens	토큰 {n}개
 {n} · ${spent:.2} of ${budget:.2}	{n} · ${budget:.2} 중 ${spent:.2}
-{n} · {spent} of {budget}	{n} · {budget} 중 {spent}
+{n} · ${spent} of ${budget}	{n} · ${budget} 중 ${spent}
 {scenes} {}	{scenes} {}
 {text}, {}	{text}, {}
 {title} hit a bug and stopped safely. ({what})	{title}에서 버그가 나서 안전하게 멈췄습니다. ({what})
@@ -1444,8 +1444,3 @@ Zoom	확대/축소
 Bring all to front	모두 앞으로 가져오기
 Drag to give the plan more or less room; double-click to reset	끌어서 계획이 차지하는 공간을 조절하고, 두 번 클릭하면 원래대로 돌아갑니다
 Copy the message	메시지 복사
-
-{name} stopped with exit code {code}: {reason}	{name}이(가) 종료 코드 {code}로 종료되었습니다: {reason}
-{name} stopped with exit code {code}.	{name}이(가) 종료 코드 {code}로 종료되었습니다.
-What {name} printed last:	{name}의 마지막 출력:
-{name} printed nothing.	{name}의 출력이 없습니다.

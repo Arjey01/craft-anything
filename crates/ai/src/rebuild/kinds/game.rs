@@ -8,20 +8,30 @@ use craft_anything_engines::game;
 const ASSETS_NOW_OFF: &str =
     "Generated assets are now off for this project: don't make more with assets_image_generate or assets_model_generate. Keep the ones already in app/.";
 
+/// Whether `at` starts a word, where a hyphen joins it to the word before: "(level editor)", but
+/// not "low-level" or "multilevel".
+fn starts_word(request: &str, at: usize) -> bool {
+    request.get(..at).and_then(|s| s.chars().next_back()).is_none_or(|c| !c.is_alphanumeric() && c != '-')
+}
+
+/// A number of players as its own words: "2-player", "(four players)", but not "MPEG-2 player",
+/// "mp2 player", "12 player" or "two playerctl".
+fn says_player_count(request: &str) -> bool {
+    // Any run of spaces or line breaks counts as one space: "2  player".
+    let request = request.split_whitespace().collect::<Vec<_>>().join(" ");
+    let ends_word = |rest: &str| rest.strip_prefix('s').unwrap_or(rest).chars().next().is_none_or(|c| !c.is_alphanumeric());
+    ["2", "3", "4", "two", "three", "four"].iter().any(|n| {
+        ["-player", " player"].iter().any(|player| {
+            let phrase = format!("{n}{player}");
+            request.match_indices(&phrase).any(|(at, _)| starts_word(&request, at) && request.get(at + phrase.len()..).is_some_and(ends_word))
+        })
+    })
+}
+
 pub struct GameKind;
 
 impl GameKind {
     pub const ID: &'static str = "game";
-
-    /// Use the first project-kind phrase to distinguish a Portuguese game for a web page
-    /// from a website about games. An existing website target or stack still takes precedence.
-    fn portuguese_request(cx: &DetectCx) -> bool {
-        let Some(at) = [" jogo ", " jogos ", " jogabilidade ", " cobrinha "].iter().filter_map(|word| cx.words.find(word)).min() else {
-            return false;
-        };
-        let Some(before) = cx.words.get(..at) else { return false };
-        WebsiteKind.detect(&DetectCx::new(before, cx.target, cx.stack)).is_none()
-    }
 }
 
 impl TargetKind for GameKind {
@@ -38,14 +48,41 @@ impl TargetKind for GameKind {
         }
     }
 
-    /// Score game requests while distinguishing Portuguese game topics from the requested kind.
-    /// A saved game-engine stack remains authoritative, regardless of the request's wording.
+    /// A game wins when the stack is a game engine, or when the request says game, gameplay,
+    /// player, or the matching word in another language the catalogues translate.
     fn detect(&self, cx: &DetectCx) -> Option<u32> {
         // Built with a game engine (the person picked a game on Make): a game whatever its words
         // say ("Clone <its title> 1:1" never says "game").
         if game::Builder::from_stack(cx.stack).is_some() {
             Some(200)
-        } else if cx.says(&["game", "gameplay", "steam", "level", "player", "游戏", "遊戲", "玩法", " spiel", "-spiel"]) || Self::portuguese_request(cx) {
+        // Not plain "player": a video or music player is an app (#953).
+        } else if says_player_count(&cx.request)
+            || cx.request.match_indices("level").any(|(at, _)| starts_word(&cx.request, at))
+            || cx.says(&[
+                "game",
+                "gameplay",
+                "steam",
+                "multiplayer",
+                "multi-player",
+                "multi player",
+                "singleplayer",
+                "single-player",
+                "single player",
+                "游戏",
+                "遊戲",
+                "玩法",
+                " spiel",
+                "-spiel",
+                "gioco",
+                " trò chơi",
+                " jogo",
+                " oyun ",
+                " oyunu ",
+                " oyunun ",
+                " oyunlar",
+            ])
+            || says_game_in_spanish(cx)
+        {
             Some(60)
         } else {
             None
@@ -63,15 +100,14 @@ impl TargetKind for GameKind {
         game::Builder::for_game(made).stack()
     }
 
-    /// Match an engine after an English or Portuguese preposition, including `no` and `na`.
-    /// Both the preposition and engine name must be whole words in the normalized request.
+    /// An engine named in the request ("…in Rust", "with Godot"), as whole words.
     fn named_stack(&self, cx: &DetectCx) -> Option<&'static str> {
         game::Builder::ALL
             .into_iter()
             .find(|b| {
                 let n = b.name().to_lowercase();
                 let short = n.split(' ').next().unwrap_or(&n).to_string();
-                [&n, &short].iter().any(|w| ["in", "with", "using", "em", "com", "usando", "no", "na"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
+                [&n, &short].iter().any(|w| ["in", "with", "using"].iter().any(|p| cx.words.contains(&format!(" {p} {w} "))))
             })
             .map(game::Builder::stack)
     }
@@ -84,10 +120,12 @@ impl TargetKind for GameKind {
         "a playable game that plays like the original: the same rules, controls, numbers and feel"
     }
 
+    /// Assemble the game's study, screenshot, self-test and optional generated-asset instructions.
+    /// Existing projects keep their own checks; website targets omit native-code study requirements.
     fn brief_sections(&self, cx: &BriefCx) -> Vec<String> {
         let target = &cx.ws.manifest.target;
         if matches!(target, TargetRef::Website { .. }) {
-            return vec![screenshot::SCREENSHOT_CONTRACT.to_string(), self_test::SELF_TEST_CONTRACT.to_string()];
+            return vec![screenshot::contract(), self_test::SELF_TEST_CONTRACT.to_string()];
         }
         // Paid, so only when the person turned it on for this project and a key is set up.
         let generated = cx.assets && cx.ws.manifest.generate_assets;
@@ -98,7 +136,7 @@ impl TargetKind for GameKind {
         if generated {
             s.push(assets_note(cx.ws, cx.image_model));
         }
-        s.push(screenshot::SCREENSHOT_CONTRACT.to_string());
+        s.push(screenshot::contract());
         s.push(self_test::SELF_TEST_CONTRACT.to_string());
         s
     }
@@ -146,6 +184,13 @@ impl Check for CreditsCheck {
 }
 
 /// Whether `app/` credits the original's files and says they're private, with the note.
+/// Spanish for "game" is *juego*, which also names a set: *un juego de herramientas* is a tool set,
+/// not a game. Only the game sense counts, so that phrase is excluded and the rest of *juego* is kept.
+fn says_game_in_spanish(cx: &DetectCx) -> bool {
+    let tool_set = cx.says(&["juego de herramienta"]);
+    (cx.says(&[" juego", " juegos"]) && !tool_set) || cx.says(&["jugabilidad", "videojuego"])
+}
+
 fn credits(app: &Path) -> (bool, String) {
     // Whitespace collapsed, so a wrapped line still counts.
     let read = |name: &str| std::fs::read_to_string(app.join(name)).unwrap_or_default().split_whitespace().collect::<Vec<_>>().join(" ");
